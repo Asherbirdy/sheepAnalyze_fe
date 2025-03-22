@@ -37,6 +37,7 @@ export default defineNuxtConfig({
     preference: 'light', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
   },
+
   alias: {
     '@': './app',
   },

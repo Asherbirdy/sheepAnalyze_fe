@@ -6,7 +6,7 @@ definePageMeta({
 
 <template>
   <div>
-    <UButton>
+    <UButton color="primary">
       Click me
     </UButton>
   </div>
