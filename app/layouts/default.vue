@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import type { DropdownMenuItem } from '@nuxt/ui'
 import { PublicRoutes } from '~/enum'
 
 // 定義導航路由
@@ -12,6 +13,42 @@ const routes = [
     to: PublicRoutes.Login,
   },
 ]
+
+const items = ref<DropdownMenuItem[][]>([
+  [
+    {
+      label: 'Benjamin',
+      avatar: {
+        src: 'https://github.com/benjamincanac.png',
+      },
+      type: 'label',
+    },
+  ],
+  [
+    {
+      label: 'Profile',
+      icon: 'i-lucide-user',
+      to: PublicRoutes.Login,
+    },
+    {
+      label: 'Billing',
+      icon: 'i-lucide-credit-card',
+      to: PublicRoutes.Login,
+    },
+    {
+      label: 'Settings',
+      icon: 'i-lucide-cog',
+      kbds: [','],
+      to: PublicRoutes.Login,
+    },
+    {
+      label: 'Keyboard shortcuts',
+      icon: 'i-lucide-monitor',
+      to: PublicRoutes.Login,
+    },
+  ],
+
+])
 </script>
 
 <template>
@@ -31,12 +68,17 @@ const routes = [
         </nav>
       </div>
       <div class="md:hidden">
-        <UButton
-          icon="i-heroicons-bars-3"
-          size="md"
-          color="primary"
-          variant="ghost"
-        />
+        <UDropdownMenu
+          :items="items"
+          :ui="{
+            content: 'w-48',
+          }"
+        >
+          <UButton
+            icon="i-lucide-menu"
+            variant="ghost"
+          />
+        </UDropdownMenu>
       </div>
     </header>
     <main class="flex-grow mx-2">
