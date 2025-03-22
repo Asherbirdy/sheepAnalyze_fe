@@ -33,6 +33,10 @@ export default defineNuxtConfig({
     },
   },
   css: ['./app/assets/css/main.css'],
+  colorMode: {
+    preference: 'light', // default value of $colorMode.preference
+    fallback: 'light', // fallback value if not system preference found
+  },
   alias: {
     '@': './app',
   },
@@ -70,7 +74,6 @@ export default defineNuxtConfig({
       },
     },
   },
-
   pwa,
   vueuse: { ssrHandlers: true },
 })
