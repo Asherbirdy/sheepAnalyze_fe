@@ -1,14 +1,13 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'home',
+  layout: 'default',
 })
 </script>
 
 <template>
   <div>
-    <UButton>
+    <UButton color="primary">
       Click me
     </UButton>
-    <Logos class="h-10 w-10" />
   </div>
 </template>
