@@ -31,7 +31,12 @@ const routes = [
         </nav>
       </div>
       <div class="md:hidden">
-        <UButton icon="i-heroicons-bars-3" size="md" color="primary" variant="ghost" />
+        <UButton
+          icon="i-heroicons-bars-3"
+          size="md"
+          color="primary"
+          variant="ghost"
+        />
       </div>
     </header>
     <main class="flex-grow mx-2">

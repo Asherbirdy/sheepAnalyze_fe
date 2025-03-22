@@ -7,5 +7,16 @@ export default nuxt(
     {
       formatters: true,
     },
+    {
+      rules: {
+        'vue/max-attributes-per-line': [
+          'error',
+          {
+            singleline: 1,
+            multiline: 1,
+          },
+        ],
+      },
+    },
   ),
 )
