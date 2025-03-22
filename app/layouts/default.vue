@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { PublicRoutes } from '~/enum';
+import { PublicRoutes } from '~/enum'
 
 // 定義導航路由
 const routes = [
@@ -29,6 +29,9 @@ const routes = [
             {{ route.label }}
           </NuxtLink>
         </nav>
+      </div>
+      <div class="md:hidden">
+        <UButton icon="i-heroicons-bars-3" size="md" color="primary" variant="ghost" />
       </div>
     </header>
     <main class="flex-grow mx-2">
