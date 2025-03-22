@@ -33,9 +33,11 @@ export default defineNuxtConfig({
     },
   },
   css: ['./app/assets/css/main.css'],
-
   colorMode: {
     classSuffix: '',
+  },
+  alias: {
+    '@': './app',
   },
 
   future: {

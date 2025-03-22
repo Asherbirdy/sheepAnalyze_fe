@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'home',
+  layout: 'default',
 })
 </script>
 
@@ -9,6 +9,5 @@ definePageMeta({
     <UButton>
       Click me
     </UButton>
-    <Logos class="h-10 w-10" />
   </div>
 </template>
