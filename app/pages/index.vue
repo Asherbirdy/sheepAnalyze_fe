@@ -9,5 +9,8 @@ definePageMeta({
     <UButton color="primary">
       Click me
     </UButton>
+    <p>
+      {{ $config.public.env }}
+    </p>
   </div>
 </template>
