@@ -38,8 +38,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      ENVIRONMENT: import.meta.env.NUXT_PUBLIC_ENVIRONMENT,
-      API_URL: import.meta.env.NUXT_PUBLIC_API_URL,
+      ENVIRONMENT: process.env.NUXT_PUBLIC_ENVIRONMENT,
+      API_URL: process.env.NUXT_PUBLIC_API_URL,
     },
   },
 

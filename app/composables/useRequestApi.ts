@@ -5,10 +5,9 @@ export function useRequestApi<DataT, ErrorT = any>(
   options?: UseFetchOptions<DataT>,
 ) {
   const config = useRuntimeConfig()
-  const baseUrl = import.meta.env.DEV ? config.public.apiUrl : `${window.location.origin}/api/v1`
-  const fetch = useNuxtApp().$Fetch
+  const baseUrl = config.public.API_URL
   return useFetch<DataT, ErrorT>(`${baseUrl}${url}`, {
     ...options,
-    $fetch: fetch,
+    $fetch: useNuxtApp().$Fetch,
   } as any)
 }

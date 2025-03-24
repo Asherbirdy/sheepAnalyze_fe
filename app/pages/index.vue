@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import { useDevApi } from '~/apis'
+
 definePageMeta({
   layout: 'default',
 })
+
+const { data } = await useDevApi.get()
 </script>
 
 <template>
@@ -10,7 +14,10 @@ definePageMeta({
       Click me
     </UButton>
     <p>
-      {{ $config.public.ENVIRONMENT }}
+      ENV:  {{ $config.public.ENVIRONMENT }}
+    </p>
+    <p>
+      {{ data }}
     </p>
   </div>
 </template>
