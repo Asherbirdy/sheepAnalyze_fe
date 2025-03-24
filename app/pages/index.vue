@@ -10,12 +10,6 @@ const { data } = await useDevApi.get()
 
 <template>
   <div>
-    <UButton color="primary">
-      Click me
-    </UButton>
-    <p>
-      ENV:  {{ $config.public.ENVIRONMENT }}
-    </p>
     <p>
       {{ data }}
     </p>
