@@ -10,7 +10,7 @@ definePageMeta({
       Click me
     </UButton>
     <p>
-      {{ $config.public.env }}
+      {{ $config.public.ENVIRONMENT }}
     </p>
   </div>
 </template>

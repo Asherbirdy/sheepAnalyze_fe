@@ -38,7 +38,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      env: import.meta.env.VITE_ENV,
+      ENVIRONMENT: import.meta.env.NUXT_PUBLIC_ENVIRONMENT,
+      API_URL: import.meta.env.NUXT_PUBLIC_API_URL,
     },
   },
 
