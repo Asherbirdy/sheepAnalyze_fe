@@ -1,8 +1,9 @@
 node_modules
 *.log
 dist
-.output
 .nuxt
 .env
 .idea/
 public/assets/fonts
+.env.development
+.env.production
