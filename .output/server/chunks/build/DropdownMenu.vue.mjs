@@ -2,7 +2,7 @@ import { shallowRef, defineComponent, computed, reactive, unref, mergeProps, wit
 import { ssrRenderComponent, ssrRenderSlot, ssrInterpolate, ssrRenderClass, ssrRenderList, ssrRenderVNode } from 'vue/server-renderer';
 import { l as defu } from '../nitro/nitro.mjs';
 import { Primitive, useForwardPropsEmits, DropdownMenuRoot, DropdownMenuTrigger, DropdownMenuArrow } from 'reka-ui';
-import { q as makeDestructurable, s as camelize, v as createSharedComposable, t as tv, j as _appConfig, k as useAppConfig, w as reactiveOmit, x as omit, U as UIcon, i as UAvatar, l as get, m as ULink, p as pickLinkProps, n as ULinkBase, r as reactivePick } from './server.mjs';
+import { q as makeDestructurable, s as camelize, v as createSharedComposable, t as tv, k as _appConfig, l as useAppConfig, w as reactiveOmit, x as omit, U as UIcon, j as UAvatar, m as get, n as ULink, p as pickLinkProps, o as ULinkBase, r as reactivePick } from './server.mjs';
 import { DropdownMenu } from 'reka-ui/namespaced';
 
 function createReusableTemplate(options = {}) {

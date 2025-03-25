@@ -1,4 +1,4 @@
-import { _ as __nuxt_component_0, o as __nuxt_component_2 } from './server.mjs';
+import { _ as __nuxt_component_0, e as __nuxt_component_2 } from './server.mjs';
 import { _ as __nuxt_component_1 } from './DropdownMenu.vue.mjs';
 import { defineComponent, ref, mergeProps, withCtx, createTextVNode, toDisplayString, unref, createVNode, useSSRContext } from 'vue';
 import { ssrRenderAttrs, ssrRenderList, ssrRenderComponent, ssrInterpolate, ssrRenderSlot } from 'vue/server-renderer';

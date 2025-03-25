@@ -1,6 +1,6 @@
-import { computed, toValue, reactive, defineComponent, withAsyncContext, unref, useSSRContext } from 'vue';
-import { ssrRenderAttrs, ssrInterpolate } from 'vue/server-renderer';
-import { f as fetchDefaults, a as useAsyncData, b as useRequestFetch, c as useRuntimeConfig, d as useNuxtApp } from './server.mjs';
+import { f as fetchDefaults, a as useAsyncData, b as useRequestFetch, c as useRuntimeConfig, d as useNuxtApp, e as __nuxt_component_2 } from './server.mjs';
+import { computed, toValue, reactive, defineComponent, withAsyncContext, withCtx, createTextVNode, unref, useSSRContext } from 'vue';
+import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate } from 'vue/server-renderer';
 import { I as hash } from '../nitro/nitro.mjs';
 import 'pinia';
 import 'vue-router';
@@ -137,7 +137,21 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     let __temp, __restore;
     const { data } = ([__temp, __restore] = withAsyncContext(() => useDevApi.get()), __temp = await __temp, __restore(), __temp);
     return (_ctx, _push, _parent, _attrs) => {
-      _push(`<div${ssrRenderAttrs(_attrs)}><p>${ssrInterpolate(unref(data))}</p></div>`);
+      const _component_UButton = __nuxt_component_2;
+      _push(`<div${ssrRenderAttrs(_attrs)}>`);
+      _push(ssrRenderComponent(_component_UButton, null, {
+        default: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(` Click me `);
+          } else {
+            return [
+              createTextVNode(" Click me ")
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<p>${ssrInterpolate(unref(data))}</p></div>`);
     };
   }
 });

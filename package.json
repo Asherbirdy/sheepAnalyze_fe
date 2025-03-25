@@ -17,6 +17,9 @@
     "type-check": "vue-tsc --noEmit --skipLibCheck",
     "test": "vitest"
   },
+  "dependencies": {
+    "@nuxt/ui": "^3.0.1"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^4.5.1",
     "@nuxt/devtools": "^2.2.0",
