@@ -1,5 +1,5 @@
 import { c as createReusableTemplate, _ as __nuxt_component_1 } from './DropdownMenu.vue.mjs';
-import { g as useButtonGroup, h as useComponentIcons, t as tv, U as UIcon, i as UAvatar, j as _appConfig, r as reactivePick, k as useAppConfig, l as get, m as ULink, p as pickLinkProps, n as ULinkBase, o as __nuxt_component_2$1 } from './server.mjs';
+import { h as useButtonGroup, i as useComponentIcons, t as tv, U as UIcon, j as UAvatar, k as _appConfig, r as reactivePick, l as useAppConfig, m as get, n as ULink, p as pickLinkProps, o as ULinkBase, e as __nuxt_component_2$1 } from './server.mjs';
 import { defineComponent, computed, unref, mergeProps, withCtx, renderSlot, createBlock, createCommentVNode, openBlock, toDisplayString, useSSRContext, useSlots, createVNode, toRef, createTextVNode, resolveDynamicComponent, createSlots, Fragment, renderList, ref } from 'vue';
 import { ssrRenderComponent, ssrRenderSlot, ssrRenderClass, ssrInterpolate, ssrRenderVNode, ssrRenderList, ssrRenderAttrs } from 'vue/server-renderer';
 import { Primitive, useForwardPropsEmits, CollapsibleRoot, CollapsibleTrigger, CollapsibleContent, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuLink, NavigationMenuContent, NavigationMenuRoot, NavigationMenuList, NavigationMenuIndicator, NavigationMenuViewport } from 'reka-ui';

@@ -10,6 +10,9 @@ const { data } = await useDevApi.get()
 
 <template>
   <div>
+    <UButton>
+      Click me
+    </UButton>
     <p>
       {{ data }}
     </p>
