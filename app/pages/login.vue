@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useAuthApi } from '~/apis'
+import { CookieEnums } from '~/enum'
+
 const state = reactive({
   name: 'Benjamin Canac',
   username: 'benjamincanac',
@@ -8,14 +11,14 @@ const state = reactive({
 })
 
 enum LoginFormKey {
-  username = 'username',
+  email = 'email',
   password = 'password',
 }
 
 const state2 = ref({
   data: {
     login: {
-      [LoginFormKey.username]: '',
+      [LoginFormKey.email]: '',
       [LoginFormKey.password]: '',
     },
     register: {
@@ -26,7 +29,28 @@ const state2 = ref({
   },
 })
 
-const items = [
+const {
+  data: LoginResponse,
+  execute: LoginRequest,
+  error: LoginError,
+  // status: loginStatus,
+} = await useAuthApi.login(state2.value.data.login)
+
+const onLogin = async () => {
+  await LoginRequest()
+
+  if (LoginError.value) {
+    // eslint-disable-next-line no-alert
+    alert('錯誤帳號或密碼')
+    console.error(LoginError.value)
+    return
+  }
+
+  useCookie(CookieEnums.AccessToken).value = LoginResponse.value?.token.accessTokenJWT
+  useCookie(CookieEnums.RefreshToken).value = LoginResponse.value?.token.refreshTokenJWT
+}
+
+const tabs = [
   {
     label: 'Login',
     description: 'Make changes to your account here. Click save when you\'re done.',
@@ -44,7 +68,7 @@ const items = [
 
 <template>
   <UTabs
-    :items="items"
+    :items="tabs"
     class="gap-4 w-full"
     :ui="{ trigger: 'flex-1' }"
   >
@@ -62,7 +86,7 @@ const items = [
           name="name"
         >
           <UInput
-            v-model="state2.data.login.username"
+            v-model="state2.data.login.email"
             class="w-full"
           />
         </UFormField>
@@ -81,6 +105,7 @@ const items = [
           type="submit"
           variant="soft"
           class="self-end"
+          @click="onLogin"
         />
       </UForm>
     </template>
