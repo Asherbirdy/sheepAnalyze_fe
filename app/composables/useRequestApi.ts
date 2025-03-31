@@ -1,6 +1,6 @@
 import type { UseFetchOptions } from '#app'
 
-export function useRequestApi<DataT, ErrorT = any>(
+export function useRequestApi<DataT, ErrorT>(
   url: string,
   options?: UseFetchOptions<DataT>,
 ) {
