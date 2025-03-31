@@ -3,8 +3,14 @@ import { CookieEnums } from '~/enum'
 export default defineNuxtPlugin(() => {
   const $Fetch = $fetch.create({
     async onRequest({ options }) {
-      const headers = await getAuthHeaders()
-      options.headers = { ...options.headers, ...headers }
+      // 如果 headers 中有 Auth 為 Y，則需要 jwt token
+      if (options.headers.get('Auth') === 'Y') {
+        const headers = await getAuthHeaders()
+        options.headers = { ...options.headers, ...headers }
+        return
+      }
+
+      options.headers = { ...options.headers }
     },
     onResponseError({ response }) {
       let errorMessage
