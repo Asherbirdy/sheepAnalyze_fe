@@ -2,6 +2,7 @@ import type { LoginError, LoginPayload, LoginResponse } from '~/type'
 import { useRequestApi } from '~/composables/useRequestApi'
 
 export const useAuthApi = {
+  // 登入
   login: async (payload: LoginPayload) =>
     await useRequestApi<LoginResponse, LoginError>('/auth/login', {
       method: 'POST',
@@ -11,6 +12,7 @@ export const useAuthApi = {
       immediate: false,
       watch: false,
     }),
+  // 註冊
   register: async (state: any) =>
     await useRequestApi('/auth/userRegister', {
       method: 'POST',
@@ -18,14 +20,6 @@ export const useAuthApi = {
       server: false,
       lazy: true,
       immediate: false,
-      watch: false,
-    }),
-  // 存會員登入狀態
-  showMe: async () =>
-    await useRequestApi('/users/showMe', {
-      method: 'GET',
-      server: false,
-      lazy: true,
       watch: false,
     }),
 }
