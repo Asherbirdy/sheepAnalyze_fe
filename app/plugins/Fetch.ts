@@ -62,7 +62,7 @@ async function refreshAccessToken(refreshToken: string): Promise<string | null> 
         accessTokenJWT: string
         refreshTokenJWT: string
       }
-    }>(`${config.public.apiUrl}/auth/refreshToken`, {
+    }>(`${config.public.API_URL}/auth/refreshToken`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${refreshToken}`,
