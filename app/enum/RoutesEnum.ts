@@ -1,14 +1,12 @@
+/* eslint-disable ts/prefer-literal-enum-member */
 export enum PublicRoutes {
   Home = '/',
   Login = '/login',
 }
 
-export enum AdminRoutes {
-  Home = '/admin',
-  // 會員管理
-  MemberList = '/admin/member/list',
-  MemberSerial = '/admin/member/serial',
-  MemberDistrict = '/admin/member/district',
-  LifeBibleBlog = '/admin/lifeBibleBlog',
-  Activity = '/admin/activity',
+export const ClientBase = '/C'
+
+export enum ClientRoutes {
+  Home = `${ClientBase}/`,
+  LandingPage = `${ClientBase}/landingPage`,
 }

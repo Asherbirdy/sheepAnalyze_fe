@@ -2,6 +2,7 @@ import process from 'node:process'
 import { defineNuxtConfig } from 'nuxt/config'
 import { pwa } from './app/config/pwa'
 import { appDescription } from './app/constants/index'
+import { ClientBase } from './app/enum'
 
 export default defineNuxtConfig({
   modules: [
@@ -38,6 +39,7 @@ export default defineNuxtConfig({
     preference: 'light', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
   },
+
   runtimeConfig: {
     public: {
       ENVIRONMENT: process.env.NUXT_PUBLIC_ENVIRONMENT,
@@ -47,6 +49,10 @@ export default defineNuxtConfig({
 
   alias: {
     '@': './app',
+  },
+
+  routeRules: {
+    [`${ClientBase}/**`]: { ssr: false },
   },
 
   future: {
