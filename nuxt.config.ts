@@ -51,9 +51,9 @@ export default defineNuxtConfig({
     '@': './app',
   },
 
-  // routeRules: {
-  //   // [`${ClientBase}/**`]: { ssr: false },
-  // },
+  routeRules: {
+    [`${ClientBase}/**`]: { ssr: false },
+  },
 
   future: {
     compatibilityVersion: 4,
