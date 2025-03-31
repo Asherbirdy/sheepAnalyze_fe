@@ -1,29 +1,8 @@
+import type { LoginError, LoginPayload, LoginResponse } from '~/type'
 import { useRequestApi } from '~/composables/useRequestApi'
 
-interface LoginPayload {
-  email: string
-  password: string
-}
-
-export interface LoginResponse {
-  user: User
-  token: {
-    accessTokenJWT: string
-    refreshTokenJWT: string
-  }
-}
-
-export interface User {
-  name: string
-  userId: string
-  role: string
-  districtId: string
-  emailVerified: boolean
-  landingPageAccess: string[]
-}
-
 export const useAuthApi = {
-  login: async (payload: LoginPayload) => await useRequestApi<LoginResponse, any>('/auth/login', {
+  login: async (payload: LoginPayload) => await useRequestApi<LoginResponse, LoginError>('/auth/login', {
     method: 'POST',
     body: payload,
     server: false,

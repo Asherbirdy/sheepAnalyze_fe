@@ -40,6 +40,7 @@ const onLogin = async () => {
   await LoginRequest()
 
   if (LoginError.value) {
+    // console.log(LoginError.value.data.error === 'WRONG_EMAIL_OR_PASSWORD')
     // eslint-disable-next-line no-alert
     alert('錯誤帳號或密碼')
     console.error(LoginError.value)
