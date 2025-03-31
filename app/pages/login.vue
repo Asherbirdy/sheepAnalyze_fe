@@ -7,6 +7,25 @@ const state = reactive({
   confirmPassword: '',
 })
 
+enum LoginFormKey {
+  username = 'username',
+  password = 'password',
+}
+
+const state2 = ref({
+  data: {
+    login: {
+      [LoginFormKey.username]: '',
+      [LoginFormKey.password]: '',
+    },
+    register: {
+      username: '',
+      password: '',
+      confirmPassword: '',
+    },
+  },
+})
+
 const items = [
   {
     label: 'Login',
@@ -35,7 +54,7 @@ const items = [
       </p>
 
       <UForm
-        :state="state"
+        :state="state2.data.login"
         class="flex flex-col gap-4"
       >
         <UFormField
@@ -43,7 +62,7 @@ const items = [
           name="name"
         >
           <UInput
-            v-model="state.name"
+            v-model="state2.data.login.username"
             class="w-full"
           />
         </UFormField>
@@ -52,7 +71,7 @@ const items = [
           name="username"
         >
           <UInput
-            v-model="state.username"
+            v-model="state2.data.login.password"
             class="w-full"
           />
         </UFormField>
