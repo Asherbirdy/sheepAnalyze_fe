@@ -3,13 +3,15 @@ import { CookieEnums, PrivateApiUrl } from '~/enum'
 export default defineNuxtPlugin(() => {
   const $Fetch = $fetch.create({
     async onRequest({ options, request }) {
-      // 取得 apiUrl 如 /dev , /user/showMe...
-      const api = new URL(request as string).pathname.split('/').pop()
-      const apiUrl = `/${api}`
+      const config = useRuntimeConfig()
+
+      // ['http://localhost:1207/api/v1/dev', 'http://localhost:1207/api/v1/users/showMe']等...
+      const PrivateApiUrls: string[] = Object.values(PrivateApiUrl).map(
+        url => `${config.public.API_URL}${url}`,
+      )
 
       // 如果 apiUrl 是 PrivateApiUrl, headers 需要有 Authorization Token
-      const PrivateApiUrls: string[] = Object.values(PrivateApiUrl)
-      if (PrivateApiUrls.includes(apiUrl)) {
+      if (PrivateApiUrls.includes(request as string)) {
         const headers = await getAuthHeaders()
         options.headers = { ...options.headers, ...headers }
         return

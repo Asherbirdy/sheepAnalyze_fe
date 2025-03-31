@@ -15,5 +15,5 @@ export enum PublicApiUrl {
 export enum PrivateApiUrl {
   Dev = '/dev',
   // USER
-  UserShowMe = '/user/showMe',
+  UserShowMe = '/users/showMe',
 }

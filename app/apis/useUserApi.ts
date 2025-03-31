@@ -6,6 +6,7 @@ export const useUserApi = {
     return useRequestApi(PrivateApiUrl.UserShowMe, {
       method: 'GET',
       server: false,
+      lazy: true,
     })
   },
 }
