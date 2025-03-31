@@ -1,7 +1,8 @@
 import type { UseFetchOptions } from '#app'
+import type { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
 export function useRequestApi<DataT, ErrorT>(
-  url: string,
+  url: PublicApiUrl | PrivateApiUrl,
   options?: UseFetchOptions<DataT>,
 ) {
   const config = useRuntimeConfig()

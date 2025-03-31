@@ -1,15 +1,21 @@
-import { CookieEnums } from '~/enum'
+import { CookieEnums, PrivateApiUrl } from '~/enum'
 
 export default defineNuxtPlugin(() => {
   const $Fetch = $fetch.create({
-    async onRequest({ options }) {
-      // 如果 headers 中有 Auth 為 Y，則需要 jwt token
-      if (options.headers.get('Auth') === 'Y') {
+    async onRequest({ options, request }) {
+      // 取得 apiUrl 如 /dev , /user/showMe...
+      const api = new URL(request as string).pathname.split('/').pop()
+      const apiUrl = `/${api}`
+
+      // 如果 apiUrl 是 PrivateApiUrl, headers 需要有 Authorization Token
+      const PrivateApiUrls: string[] = Object.values(PrivateApiUrl)
+      if (PrivateApiUrls.includes(apiUrl)) {
         const headers = await getAuthHeaders()
         options.headers = { ...options.headers, ...headers }
         return
       }
 
+      // 如果 apiUrl 是 PublicApiUrl, headers 不需要有 Authorization Token
       options.headers = { ...options.headers }
     },
     onResponseError({ response }) {
@@ -64,10 +70,8 @@ async function refreshAccessToken(refreshToken: string): Promise<string | null> 
     })
 
     if (data && data.jwtAccessToken) {
-      const accessTokenCookie = useCookie(CookieEnums.AccessToken)
-      const refreshTokenJWTCookie = useCookie(CookieEnums.RefreshToken)
-      accessTokenCookie.value = data.jwtAccessToken.accessTokenJWT
-      refreshTokenJWTCookie.value = data.jwtAccessToken.refreshTokenJWT
+      useCookie(CookieEnums.AccessToken).value = data.jwtAccessToken.accessTokenJWT
+      useCookie(CookieEnums.RefreshToken).value = data.jwtAccessToken.refreshTokenJWT
       return data.jwtAccessToken.accessTokenJWT
     }
   }

@@ -1,10 +1,11 @@
 import type { LoginError, LoginPayload, LoginResponse } from '~/type'
 import { useRequestApi } from '~/composables/useRequestApi'
+import { PublicApiUrl } from '~/enum'
 
 export const useAuthApi = {
   // 登入
   login: async (payload: LoginPayload) =>
-    await useRequestApi<LoginResponse, LoginError>('/auth/login', {
+    await useRequestApi<LoginResponse, LoginError>(PublicApiUrl.Login, {
       method: 'POST',
       body: payload,
       server: false,
@@ -14,7 +15,7 @@ export const useAuthApi = {
     }),
   // 註冊
   register: async (state: any) =>
-    await useRequestApi('/auth/userRegister', {
+    await useRequestApi(PublicApiUrl.UserRegister, {
       method: 'POST',
       body: state,
       server: false,
