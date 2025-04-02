@@ -1,17 +1,20 @@
+// * Payload
 export interface LoginPayload {
   email: string
   password: string
 }
 
+// * Response
+
 export interface LoginResponse {
-  user: User
+  user: LoginUser
   token: {
     accessTokenJWT: string
     refreshTokenJWT: string
   }
 }
 
-export interface User {
+export interface LoginUser {
   name: string
   userId: string
   role: string
@@ -19,6 +22,8 @@ export interface User {
   emailVerified: boolean
   landingPageAccess: string[]
 }
+
+// * Error
 
 export interface LoginError {
   data: {
