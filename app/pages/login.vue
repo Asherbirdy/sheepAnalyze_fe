@@ -1,18 +1,13 @@
 <script setup lang="ts">
 import { useAuthApi } from '~/apis'
-import LoginFormComponent from '~/components/app/login/LoginFormComponent.vue'
+import LoginFormComponent from '~/components/page/login/LoginFormComponent.vue'
 import { CookieEnums } from '~/enum'
-
-enum LoginFormKey {
-  email = 'email',
-  password = 'password',
-}
 
 const state = ref({
   data: {
     login: {
-      [LoginFormKey.email]: '',
-      [LoginFormKey.password]: '',
+      email: '',
+      password: '',
     },
     register: {
       username: '',
@@ -22,6 +17,9 @@ const state = ref({
   },
 })
 
+/*
+  * LOGIN API
+*/
 const {
   data: LoginResponse,
   execute: LoginRequest,
@@ -67,10 +65,15 @@ const tabs = [
     <template #login>
       <LoginFormComponent v-model="state.data.login" />
       <UButton
-        label="Save changes"
+        label="登入"
         type="submit"
         variant="soft"
         class="self-end"
+        :disabled="(
+          !state.data.login.email
+          || !state.data.login.password
+        )"
+
         @click="onLogin"
       />
     </template>
