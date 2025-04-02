@@ -1,21 +1,14 @@
 <script setup lang="ts">
 import { useAuthApi } from '~/apis'
+import LoginFormComponent from '~/components/app/login/LoginFormComponent.vue'
 import { CookieEnums } from '~/enum'
-
-const state = reactive({
-  name: 'Benjamin Canac',
-  username: 'benjamincanac',
-  currentPassword: '',
-  newPassword: '',
-  confirmPassword: '',
-})
 
 enum LoginFormKey {
   email = 'email',
   password = 'password',
 }
 
-const state2 = ref({
+const state = ref({
   data: {
     login: {
       [LoginFormKey.email]: '',
@@ -34,7 +27,7 @@ const {
   execute: LoginRequest,
   error: LoginError,
   // status: loginStatus,
-} = await useAuthApi.login(state2.value.data.login)
+} = await useAuthApi.login(state.value.data.login)
 
 const onLogin = async () => {
   await LoginRequest()
@@ -54,13 +47,11 @@ const onLogin = async () => {
 const tabs = [
   {
     label: 'Login',
-    description: 'Make changes to your account here. Click save when you\'re done.',
     icon: 'i-lucide-user',
     slot: 'login' as const,
   },
   {
     label: 'Register',
-    description: 'Change your password here. After saving, you\'ll be logged out.',
     icon: 'i-lucide-lock',
     slot: 'register' as const,
   },
@@ -73,50 +64,19 @@ const tabs = [
     class="gap-4 w-full"
     :ui="{ trigger: 'flex-1' }"
   >
-    <template #login="{ item }">
-      <p class="text-(--ui-text-muted) mb-4">
-        {{ item.description }}
-      </p>
-
-      <UForm
-        :state="state2.data.login"
-        class="flex flex-col gap-4"
-      >
-        <UFormField
-          label="Name"
-          name="name"
-        >
-          <UInput
-            v-model="state2.data.login.email"
-            class="w-full"
-          />
-        </UFormField>
-        <UFormField
-          label="Username"
-          name="username"
-        >
-          <UInput
-            v-model="state2.data.login.password"
-            class="w-full"
-          />
-        </UFormField>
-
-        <UButton
-          label="Save changes"
-          type="submit"
-          variant="soft"
-          class="self-end"
-          @click="onLogin"
-        />
-      </UForm>
+    <template #login>
+      <LoginFormComponent v-model="state.data.login" />
+      <UButton
+        label="Save changes"
+        type="submit"
+        variant="soft"
+        class="self-end"
+        @click="onLogin"
+      />
     </template>
 
-    <template #register="{ item }">
-      <p class="text-(--ui-text-muted) mb-4">
-        {{ item.description }}
-      </p>
-
-      <UForm
+    <template #register>
+      <!-- <UForm
         :state="state"
         class="flex flex-col gap-4"
       >
@@ -163,7 +123,7 @@ const tabs = [
           variant="soft"
           class="self-end"
         />
-      </UForm>
+      </UForm> -->
     </template>
   </UTabs>
 </template>
