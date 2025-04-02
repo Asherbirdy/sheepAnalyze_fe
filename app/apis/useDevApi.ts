@@ -1,12 +1,12 @@
 import { useRequestApi } from '~/composables'
+import { PublicApiUrl } from '~/enum'
 
 export const useDevApi = {
   get: async () => {
-    return await useRequestApi('/dev', {
+    return await useRequestApi(PublicApiUrl.Dev, {
       method: 'GET',
-      headers: {
-        Auth: 'N',
-      },
+      server: false,
+      lazy: true,
     })
   },
 }
