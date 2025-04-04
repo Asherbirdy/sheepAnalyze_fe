@@ -16,6 +16,12 @@ const validate = (state: Partial<Model>): FormError[] => {
       message: 'Required',
     })
   }
+  if (!regex.email.test(String(state.email))) {
+    errors.push({
+      name: 'email',
+      message: 'Invalid email format',
+    })
+  }
   if (!state.password) {
     errors.push({
       name: 'password',
@@ -47,6 +53,7 @@ const validate = (state: Partial<Model>): FormError[] => {
     >
       <UInput
         v-model="modelValue.password"
+        type="password"
         class="w-full"
       />
     </UFormField>

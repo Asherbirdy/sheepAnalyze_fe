@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useAuthApi } from '~/apis'
 import LoginFormComponent from '~/components/page/login/LoginFormComponent.vue'
-import { CookieEnums } from '~/enum'
+import { ClientRoutes, CookieEnums } from '~/enum'
+
+const toast = useToast()
 
 const state = ref({
   data: {
@@ -24,36 +26,52 @@ const {
   data: LoginResponse,
   execute: LoginRequest,
   error: LoginError,
-  // status: loginStatus,
+  status: LoginStatus,
 } = await useAuthApi.login(state.value.data.login)
 
 const onLogin = async () => {
   await LoginRequest()
 
   if (LoginError.value) {
-    // console.log(LoginError.value.data.error === 'WRONG_EMAIL_OR_PASSWORD')
-    // eslint-disable-next-line no-alert
-    alert('錯誤帳號或密碼')
+    toast.add({
+      title: '錯誤帳號或密碼',
+      color: 'error',
+    })
     console.error(LoginError.value)
+    state.value.data.login.password = ''
     return
   }
 
   useCookie(CookieEnums.AccessToken).value = LoginResponse.value?.token.accessTokenJWT
   useCookie(CookieEnums.RefreshToken).value = LoginResponse.value?.token.refreshTokenJWT
+
+  navigateTo(ClientRoutes.Home)
 }
 
 const tabs = [
   {
-    label: 'Login',
+    label: '登入',
     icon: 'i-lucide-user',
     slot: 'login' as const,
   },
   {
-    label: 'Register',
+    label: '註冊',
     icon: 'i-lucide-lock',
     slot: 'register' as const,
   },
 ]
+
+const { data, refresh } = await useAuthApi.checkValidToken()
+
+const init = async () => {
+  await refresh()
+
+  if (data.value?.msg === 'Token is valid') {
+    navigateTo(ClientRoutes.Home)
+  }
+}
+
+onMounted(init)
 </script>
 
 <template>
@@ -69,9 +87,11 @@ const tabs = [
         type="submit"
         variant="soft"
         class="self-end"
+        :loading="LoginStatus === 'pending'"
         :disabled="(
           !state.data.login.email
           || !state.data.login.password
+          || !regex.email.test(String(state.data.login.email))
         )"
 
         @click="onLogin"
