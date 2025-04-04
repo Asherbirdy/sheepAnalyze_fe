@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthApi } from '~/apis'
-import LoginFormComponent from '~/components/page/login/LoginFormComponent.vue'
+import { LoginFormComponent, RegisterFormComponent } from '~/components'
 import { ClientRoutes, CookieEnums } from '~/enum'
 
 const toast = useToast()
@@ -12,12 +12,27 @@ const state = ref({
       password: '',
     },
     register: {
-      username: '',
+      name: '',
+      email: '',
       password: '',
       confirmPassword: '',
+      serialNumber: '',
     },
   },
 })
+
+const tabs = [
+  {
+    label: '登入',
+    icon: 'i-lucide-user',
+    slot: 'login' as const,
+  },
+  {
+    label: '註冊',
+    icon: 'i-lucide-lock',
+    slot: 'register' as const,
+  },
+]
 
 /*
   * LOGIN API
@@ -48,25 +63,21 @@ const onLogin = async () => {
   navigateTo(ClientRoutes.Home)
 }
 
-const tabs = [
-  {
-    label: '登入',
-    icon: 'i-lucide-user',
-    slot: 'login' as const,
-  },
-  {
-    label: '註冊',
-    icon: 'i-lucide-lock',
-    slot: 'register' as const,
-  },
-]
+/*
+  * CHECK VALID TOKEN API
+*/
+const {
+  data: CheckValidTokenResponse,
+  refresh: CheckValidTokenRefresh,
+} = await useAuthApi.checkValidToken()
 
-const { data, refresh } = await useAuthApi.checkValidToken()
-
+/*
+  * ON MOUNTED
+*/
 const init = async () => {
-  await refresh()
+  await CheckValidTokenRefresh()
 
-  if (data.value?.msg === 'Token is valid') {
+  if (CheckValidTokenResponse.value?.msg === 'Token is valid') {
     navigateTo(ClientRoutes.Home)
   }
 }
@@ -99,54 +110,13 @@ onMounted(init)
     </template>
 
     <template #register>
-      <!-- <UForm
-        :state="state"
-        class="flex flex-col gap-4"
-      >
-        <UFormField
-          label="Current Password"
-          name="current"
-          required
-        >
-          <UInput
-            v-model="state.currentPassword"
-            type="password"
-            required
-            class="w-full"
-          />
-        </UFormField>
-        <UFormField
-          label="New Password"
-          name="new"
-          required
-        >
-          <UInput
-            v-model="state.newPassword"
-            type="password"
-            required
-            class="w-full"
-          />
-        </UFormField>
-        <UFormField
-          label="Confirm Password"
-          name="confirm"
-          required
-        >
-          <UInput
-            v-model="state.confirmPassword"
-            type="password"
-            required
-            class="w-full"
-          />
-        </UFormField>
-
-        <UButton
-          label="Change password"
-          type="submit"
-          variant="soft"
-          class="self-end"
-        />
-      </UForm> -->
+      <RegisterFormComponent v-model="state.data.register" />
+      <UButton
+        label="註冊"
+        type="submit"
+        variant="soft"
+        class="self-end"
+      />
     </template>
   </UTabs>
 </template>
