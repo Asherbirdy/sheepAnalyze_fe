@@ -45,6 +45,7 @@ const {
 } = await useAuthApi.login(state.value.data.login)
 
 const onLogin = async () => {
+  const { login } = state.value.data
   await LoginRequest()
 
   if (LoginError.value) {
@@ -53,7 +54,7 @@ const onLogin = async () => {
       color: 'error',
     })
     console.error(LoginError.value)
-    state.value.data.login.password = ''
+    login.password = ''
     return
   }
 
@@ -63,6 +64,48 @@ const onLogin = async () => {
   navigateTo(ClientRoutes.Home)
 }
 
+/*
+  * REGISTER API
+*/
+const {
+  data: RegisterResponse,
+  execute: RegisterRequest,
+  status: RegisterStatus,
+  error: RegisterError,
+} = await useAuthApi.register(state.value.data.register)
+
+const onRegister = async () => {
+  const { register } = state.value.data
+  await RegisterRequest()
+
+  if (RegisterError.value) {
+    toast.add({
+      title: '錯誤序號或重複註冊',
+      color: 'error',
+    })
+
+    register.serialNumber = ''
+    register.password = ''
+    register.confirmPassword = ''
+    return
+  }
+
+  toast.add({
+    title: '註冊成功 請登入',
+    color: 'success',
+  })
+
+  state.value.data.register.name = ''
+  state.value.data.register.email = ''
+  state.value.data.register.password = ''
+  state.value.data.register.confirmPassword = ''
+  state.value.data.register.serialNumber = ''
+
+  useCookie(CookieEnums.AccessToken).value = RegisterResponse.value?.token.accessTokenJWT
+  useCookie(CookieEnums.RefreshToken).value = RegisterResponse.value?.token.refreshTokenJWT
+
+  navigateTo(ClientRoutes.Home)
+}
 /*
   * CHECK VALID TOKEN API
 */
@@ -116,6 +159,17 @@ onMounted(init)
         type="submit"
         variant="soft"
         class="self-end"
+        :loading="RegisterStatus === 'pending'"
+        :disabled="(
+          !state.data.register.name
+          || !state.data.register.email
+          || !state.data.register.password
+          || !state.data.register.confirmPassword
+          || !state.data.register.serialNumber
+          || !regex.email.test(String(state.data.register.email))
+          || state.data.register.password !== state.data.register.confirmPassword
+        )"
+        @click="onRegister"
       />
     </template>
   </UTabs>

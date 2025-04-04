@@ -1,4 +1,4 @@
-import type { CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse, RegisterPayload } from '~/type'
+import type { CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse, RegisterPayload, RegisterResponse } from '~/type'
 import { useRequestApi } from '~/composables/useRequestApi'
 import { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
@@ -19,7 +19,7 @@ export const useAuthApi = {
     * 註冊
   */
   register: async (state: RegisterPayload) =>
-    await useRequestApi(PublicApiUrl.UserRegister, {
+    await useRequestApi<RegisterResponse, null>(PublicApiUrl.UserRegister, {
       method: 'POST',
       body: state,
       server: false,

@@ -112,7 +112,6 @@ const validate = (state: Partial<Model>): FormError[] => {
     >
       <UInput
         v-model="modelValue.serialNumber"
-        type="password"
         class="w-full"
       />
     </UFormField>
