@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
   ],
   devtools: {
-    enabled: true,
+    enabled: false,
   },
   app: {
     head: {

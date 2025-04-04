@@ -32,9 +32,15 @@ const items = ref(menuStore.getMenu())
         :items="items"
         class="data-[orientation=vertical]:w-48 m-3 md:block hidden"
       />
-      <UContainer class="flex-1">
+      <UContainer class="flex-1 m-3">
         <slot />
       </UContainer>
     </div>
   </div>
 </template>
+
+<!-- <style>
+* {
+  outline: 1px solid red;
+}
+</style> -->
