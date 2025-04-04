@@ -4,10 +4,10 @@ import { PublicRoutes } from '~/enum'
 
 // 定義導航路由
 const routes = [
-  {
-    label: '表單教學',
-    to: PublicRoutes.News,
-  },
+  // {
+  //   label: '表單教學',
+  //   to: PublicRoutes.News,
+  // },
   {
     label: '登入',
     to: PublicRoutes.Login,

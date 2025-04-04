@@ -1,25 +1,15 @@
 <script setup lang="ts">
 import { useAuthApi } from '~/apis'
-import { CookieEnums } from '~/enum'
+import LoginFormComponent from '~/components/page/login/LoginFormComponent.vue'
+import { ClientRoutes, CookieEnums } from '~/enum'
 
-const state = reactive({
-  name: 'Benjamin Canac',
-  username: 'benjamincanac',
-  currentPassword: '',
-  newPassword: '',
-  confirmPassword: '',
-})
+const toast = useToast()
 
-enum LoginFormKey {
-  email = 'email',
-  password = 'password',
-}
-
-const state2 = ref({
+const state = ref({
   data: {
     login: {
-      [LoginFormKey.email]: '',
-      [LoginFormKey.password]: '',
+      email: '',
+      password: '',
     },
     register: {
       username: '',
@@ -29,42 +19,59 @@ const state2 = ref({
   },
 })
 
+/*
+  * LOGIN API
+*/
 const {
   data: LoginResponse,
   execute: LoginRequest,
   error: LoginError,
-  // status: loginStatus,
-} = await useAuthApi.login(state2.value.data.login)
+  status: LoginStatus,
+} = await useAuthApi.login(state.value.data.login)
 
 const onLogin = async () => {
   await LoginRequest()
 
   if (LoginError.value) {
-    // console.log(LoginError.value.data.error === 'WRONG_EMAIL_OR_PASSWORD')
-    // eslint-disable-next-line no-alert
-    alert('錯誤帳號或密碼')
+    toast.add({
+      title: '錯誤帳號或密碼',
+      color: 'error',
+    })
     console.error(LoginError.value)
+    state.value.data.login.password = ''
     return
   }
 
   useCookie(CookieEnums.AccessToken).value = LoginResponse.value?.token.accessTokenJWT
   useCookie(CookieEnums.RefreshToken).value = LoginResponse.value?.token.refreshTokenJWT
+
+  navigateTo(ClientRoutes.Home)
 }
 
 const tabs = [
   {
-    label: 'Login',
-    description: 'Make changes to your account here. Click save when you\'re done.',
+    label: '登入',
     icon: 'i-lucide-user',
     slot: 'login' as const,
   },
   {
-    label: 'Register',
-    description: 'Change your password here. After saving, you\'ll be logged out.',
+    label: '註冊',
     icon: 'i-lucide-lock',
     slot: 'register' as const,
   },
 ]
+
+const { data, refresh } = await useAuthApi.checkValidToken()
+
+const init = async () => {
+  await refresh()
+
+  if (data.value?.msg === 'Token is valid') {
+    navigateTo(ClientRoutes.Home)
+  }
+}
+
+onMounted(init)
 </script>
 
 <template>
@@ -73,50 +80,26 @@ const tabs = [
     class="gap-4 w-full"
     :ui="{ trigger: 'flex-1' }"
   >
-    <template #login="{ item }">
-      <p class="text-(--ui-text-muted) mb-4">
-        {{ item.description }}
-      </p>
+    <template #login>
+      <LoginFormComponent v-model="state.data.login" />
+      <UButton
+        label="登入"
+        type="submit"
+        variant="soft"
+        class="self-end"
+        :loading="LoginStatus === 'pending'"
+        :disabled="(
+          !state.data.login.email
+          || !state.data.login.password
+          || !regex.email.test(String(state.data.login.email))
+        )"
 
-      <UForm
-        :state="state2.data.login"
-        class="flex flex-col gap-4"
-      >
-        <UFormField
-          label="Name"
-          name="name"
-        >
-          <UInput
-            v-model="state2.data.login.email"
-            class="w-full"
-          />
-        </UFormField>
-        <UFormField
-          label="Username"
-          name="username"
-        >
-          <UInput
-            v-model="state2.data.login.password"
-            class="w-full"
-          />
-        </UFormField>
-
-        <UButton
-          label="Save changes"
-          type="submit"
-          variant="soft"
-          class="self-end"
-          @click="onLogin"
-        />
-      </UForm>
+        @click="onLogin"
+      />
     </template>
 
-    <template #register="{ item }">
-      <p class="text-(--ui-text-muted) mb-4">
-        {{ item.description }}
-      </p>
-
-      <UForm
+    <template #register>
+      <!-- <UForm
         :state="state"
         class="flex flex-col gap-4"
       >
@@ -163,7 +146,7 @@ const tabs = [
           variant="soft"
           class="self-end"
         />
-      </UForm>
+      </UForm> -->
     </template>
   </UTabs>
 </template>

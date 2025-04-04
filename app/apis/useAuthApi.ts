@@ -1,6 +1,6 @@
-import type { LoginError, LoginPayload, LoginResponse } from '~/type'
+import type { CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse } from '~/type'
 import { useRequestApi } from '~/composables/useRequestApi'
-import { PublicApiUrl } from '~/enum'
+import { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
 export const useAuthApi = {
   // 登入
@@ -18,6 +18,15 @@ export const useAuthApi = {
     await useRequestApi(PublicApiUrl.UserRegister, {
       method: 'POST',
       body: state,
+      server: false,
+      lazy: true,
+      immediate: false,
+      watch: false,
+    }),
+  // 檢查 token 是否有效
+  checkValidToken: async () =>
+    await useRequestApi<CheckValidTokenResponse, null>(PrivateApiUrl.CheckValidToken, {
+      method: 'GET',
       server: false,
       lazy: true,
       immediate: false,

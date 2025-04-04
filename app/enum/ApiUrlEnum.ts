@@ -16,4 +16,5 @@ export enum PrivateApiUrl {
   Dev = '/dev',
   // USER
   UserShowMe = '/users/showMe',
+  CheckValidToken = '/auth/checkValidToken',
 }
