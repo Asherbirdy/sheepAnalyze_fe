@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAuthApi } from '~/apis'
-import LoginFormComponent from '~/components/page/login/LoginFormComponent.vue'
+import { LoginFormComponent, RegisterFormComponent } from '~/components'
 import { ClientRoutes, CookieEnums } from '~/enum'
 
 const toast = useToast()
@@ -12,41 +12,14 @@ const state = ref({
       password: '',
     },
     register: {
-      username: '',
+      name: '',
+      email: '',
       password: '',
       confirmPassword: '',
+      serialNumber: '',
     },
   },
 })
-
-/*
-  * LOGIN API
-*/
-const {
-  data: LoginResponse,
-  execute: LoginRequest,
-  error: LoginError,
-  status: LoginStatus,
-} = await useAuthApi.login(state.value.data.login)
-
-const onLogin = async () => {
-  await LoginRequest()
-
-  if (LoginError.value) {
-    toast.add({
-      title: '錯誤帳號或密碼',
-      color: 'error',
-    })
-    console.error(LoginError.value)
-    state.value.data.login.password = ''
-    return
-  }
-
-  useCookie(CookieEnums.AccessToken).value = LoginResponse.value?.token.accessTokenJWT
-  useCookie(CookieEnums.RefreshToken).value = LoginResponse.value?.token.refreshTokenJWT
-
-  navigateTo(ClientRoutes.Home)
-}
 
 const tabs = [
   {
@@ -61,12 +34,93 @@ const tabs = [
   },
 ]
 
-const { data, refresh } = await useAuthApi.checkValidToken()
+/*
+  * LOGIN API
+*/
+const {
+  data: LoginResponse,
+  execute: LoginRequest,
+  error: LoginError,
+  status: LoginStatus,
+} = await useAuthApi.login(state.value.data.login)
 
+const onLogin = async () => {
+  const { login } = state.value.data
+  await LoginRequest()
+
+  if (LoginError.value) {
+    toast.add({
+      title: '錯誤帳號或密碼',
+      color: 'error',
+    })
+    console.error(LoginError.value)
+    login.password = ''
+    return
+  }
+
+  useCookie(CookieEnums.AccessToken).value = LoginResponse.value?.token.accessTokenJWT
+  useCookie(CookieEnums.RefreshToken).value = LoginResponse.value?.token.refreshTokenJWT
+
+  navigateTo(ClientRoutes.Home)
+}
+
+/*
+  * REGISTER API
+*/
+const {
+  data: RegisterResponse,
+  execute: RegisterRequest,
+  status: RegisterStatus,
+  error: RegisterError,
+} = await useAuthApi.register(state.value.data.register)
+
+const onRegister = async () => {
+  const { register } = state.value.data
+  await RegisterRequest()
+
+  if (RegisterError.value) {
+    toast.add({
+      title: '錯誤序號或重複註冊',
+      color: 'error',
+    })
+
+    register.serialNumber = ''
+    register.password = ''
+    register.confirmPassword = ''
+    return
+  }
+
+  toast.add({
+    title: '註冊成功 請登入',
+    color: 'success',
+  })
+
+  state.value.data.register.name = ''
+  state.value.data.register.email = ''
+  state.value.data.register.password = ''
+  state.value.data.register.confirmPassword = ''
+  state.value.data.register.serialNumber = ''
+
+  useCookie(CookieEnums.AccessToken).value = RegisterResponse.value?.token.accessTokenJWT
+  useCookie(CookieEnums.RefreshToken).value = RegisterResponse.value?.token.refreshTokenJWT
+
+  navigateTo(ClientRoutes.Home)
+}
+/*
+  * CHECK VALID TOKEN API
+*/
+const {
+  data: CheckValidTokenResponse,
+  refresh: CheckValidTokenRefresh,
+} = await useAuthApi.checkValidToken()
+
+/*
+  * ON MOUNTED
+*/
 const init = async () => {
-  await refresh()
+  await CheckValidTokenRefresh()
 
-  if (data.value?.msg === 'Token is valid') {
+  if (CheckValidTokenResponse.value?.msg === 'Token is valid') {
     navigateTo(ClientRoutes.Home)
   }
 }
@@ -99,54 +153,24 @@ onMounted(init)
     </template>
 
     <template #register>
-      <!-- <UForm
-        :state="state"
-        class="flex flex-col gap-4"
-      >
-        <UFormField
-          label="Current Password"
-          name="current"
-          required
-        >
-          <UInput
-            v-model="state.currentPassword"
-            type="password"
-            required
-            class="w-full"
-          />
-        </UFormField>
-        <UFormField
-          label="New Password"
-          name="new"
-          required
-        >
-          <UInput
-            v-model="state.newPassword"
-            type="password"
-            required
-            class="w-full"
-          />
-        </UFormField>
-        <UFormField
-          label="Confirm Password"
-          name="confirm"
-          required
-        >
-          <UInput
-            v-model="state.confirmPassword"
-            type="password"
-            required
-            class="w-full"
-          />
-        </UFormField>
-
-        <UButton
-          label="Change password"
-          type="submit"
-          variant="soft"
-          class="self-end"
-        />
-      </UForm> -->
+      <RegisterFormComponent v-model="state.data.register" />
+      <UButton
+        label="註冊"
+        type="submit"
+        variant="soft"
+        class="self-end"
+        :loading="RegisterStatus === 'pending'"
+        :disabled="(
+          !state.data.register.name
+          || !state.data.register.email
+          || !state.data.register.password
+          || !state.data.register.confirmPassword
+          || !state.data.register.serialNumber
+          || !regex.email.test(String(state.data.register.email))
+          || state.data.register.password !== state.data.register.confirmPassword
+        )"
+        @click="onRegister"
+      />
     </template>
   </UTabs>
 </template>

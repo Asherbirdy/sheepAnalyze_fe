@@ -1,7 +1,13 @@
 import type { UseFetchOptions } from '#app'
 import type { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
-// * 舊版 可以運作 但是型別報錯
+/*
+  * @DataType Response型別
+  * @ErrorType Error型別
+  * @Options UseFetchOptions<DataType, ErrorType>
+  * @Url API路徑，例如 PublicApiUrl.Login
+  * useFetch文件： https://nuxt.com/docs/api/composables/use-fetch
+*/
 export function useRequestApi<DataT, ErrorT>(
   url: PublicApiUrl | PrivateApiUrl,
   options?: UseFetchOptions<DataT, ErrorT>,
