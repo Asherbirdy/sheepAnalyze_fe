@@ -5,9 +5,13 @@ definePageMeta({
   layout: 'dashboard',
 })
 
-// const state = ref({
-//   data: {},
-// })
+const state = ref({
+  data: {
+    emailVerifiedModal: {
+      otp: '',
+    },
+  },
+})
 
 const { data: UserInfoResponse } = await useUserApi.showMe()
 </script>
@@ -25,7 +29,7 @@ const { data: UserInfoResponse } = await useUserApi.showMe()
 
     <UModal
       :dismissible="false"
-      title="Modal non-dismissible"
+      title="Email驗證"
     >
       <UButton
         label="Email 驗證"
@@ -33,7 +37,31 @@ const { data: UserInfoResponse } = await useUserApi.showMe()
       />
 
       <template #body>
-        <Placeholder class="h-48" />
+        <UForm
+          :state="state.data"
+        >
+          <div class="">
+            <UFormField
+              label="Email"
+              name="emailVerifiedModal.otp"
+              class="flex-1 w-full gap-4"
+            >
+              <UInput
+                label="驗證碼"
+                class="flex-1 w-[calc(100%-124px)] mr-1 mb-2"
+              />
+              <UButton
+                label="寄送 Email 驗證"
+                variant="soft"
+                class="inline-block"
+              />
+            </UFormField>
+          </div>
+        </UForm>
+        <UButton
+          label="驗證 Email"
+          block
+        />
       </template>
     </UModal>
   </div>
