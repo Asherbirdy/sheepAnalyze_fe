@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useUserApi } from '~/apis'
+import { useAuthApi, useUserApi } from '~/apis'
 
 definePageMeta({
   layout: 'dashboard',
@@ -11,9 +11,56 @@ const state = ref({
       otp: '',
     },
   },
+  emailCountdown: {
+    status: false,
+    time: 60,
+    countdown: 0,
+  },
 })
 
+interface Model {
+  otp: string
+}
+
 const { data: UserInfoResponse } = await useUserApi.showMe()
+
+const { execute: executeEmailRequest } = await useAuthApi.sendOTP()
+
+const onEmailRequest = async () => {
+  await executeEmailRequest()
+  state.value.emailCountdown.status = true
+  state.value.emailCountdown.countdown = state.value.emailCountdown.time
+}
+
+const { execute: emailVerifyRequest } = await useAuthApi.bindOTPEmail({
+  OTP: state.value.data.emailVerifiedModal.otp,
+})
+
+const onEmailVerify = async () => {
+  await emailVerifyRequest()
+}
+
+watch(state.value.emailCountdown, (value) => {
+  if (value.countdown > 0) {
+    setTimeout(() => {
+      state.value.emailCountdown.countdown--
+    }, 1000)
+    return
+  }
+  state.value.emailCountdown.status = false
+  state.value.emailCountdown.countdown = state.value.emailCountdown.time
+})
+
+const validate = (state: Partial<Model>) => {
+  const errors = []
+  if (!state.otp) {
+    errors.push({
+      name: 'otp',
+      message: '驗證碼不能為空',
+    })
+  }
+  return errors
+}
 </script>
 
 <template>
@@ -38,22 +85,27 @@ const { data: UserInfoResponse } = await useUserApi.showMe()
 
       <template #body>
         <UForm
-          :state="state.data"
+          :state="state.data.emailVerifiedModal"
+          :validate="validate"
         >
           <div class="">
             <UFormField
-              label="Email"
-              name="emailVerifiedModal.otp"
-              class="flex-1 w-full gap-4"
+              label="驗證碼"
+              name="otp"
+              class="flex-1 justify-between w-full gap-4 mb-2"
             >
               <UInput
+                v-model="state.data.emailVerifiedModal.otp"
                 label="驗證碼"
-                class="flex-1 w-[calc(100%-124px)] mr-1 mb-2"
+                class="flex-1 w-[calc(100%-124px)] mr-1"
+                placeholder="請輸入驗證碼"
               />
               <UButton
-                label="寄送 Email 驗證"
+                :disabled="state.emailCountdown.status"
+                :label="state.emailCountdown.status ? `${state.emailCountdown.countdown}秒` : '寄送 Email 驗證'"
                 variant="soft"
                 class="inline-block"
+                @click="onEmailRequest"
               />
             </UFormField>
           </div>
@@ -61,6 +113,7 @@ const { data: UserInfoResponse } = await useUserApi.showMe()
         <UButton
           label="驗證 Email"
           block
+          @click="onEmailVerify"
         />
       </template>
     </UModal>

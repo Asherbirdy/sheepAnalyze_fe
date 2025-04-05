@@ -48,6 +48,9 @@ export const useAuthApi = {
     await useRequestApi<any, null>(PrivateApiUrl.SendOTP, {
       method: 'GET',
       server: false,
+      lazy: true,
+      immediate: false,
+      watch: false,
     }),
 
   /*
