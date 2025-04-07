@@ -11,10 +11,11 @@ const toast = useToast()
 interface Payment {
   // 先這些
   isActive: boolean
+  title: string
+  isCustom: boolean
   // 先放著
   id: string
   _id: string
-  title: string
   updatedAt: string
   date: string
   status: 'paid' | 'failed' | 'refunded'
@@ -28,6 +29,7 @@ const data = ref<Payment[]>([
     _id: '1',
     title: 'Payment 1',
     isActive: true,
+    isCustom: true,
     updatedAt: '2024-03-11T15:30:00',
     date: '2024-03-11T15:30:00',
     status: 'paid',
@@ -39,6 +41,7 @@ const data = ref<Payment[]>([
     _id: '2',
     title: 'Payment 2',
     isActive: false,
+    isCustom: false,
     updatedAt: '2024-03-11T10:10:00',
     date: '2024-03-11T10:10:00',
     status: 'failed',
@@ -50,6 +53,7 @@ const data = ref<Payment[]>([
     _id: '3',
     title: 'Payment 3',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-11T08:50:00',
     date: '2024-03-11T08:50:00',
     status: 'refunded',
@@ -61,6 +65,7 @@ const data = ref<Payment[]>([
     _id: '4',
     title: 'Payment 4',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-10T19:45:00',
     date: '2024-03-10T19:45:00',
     status: 'paid',
@@ -72,6 +77,7 @@ const data = ref<Payment[]>([
     _id: '5',
     title: 'Payment 5',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-10T15:55:00',
     date: '2024-03-10T15:55:00',
     status: 'paid',
@@ -83,6 +89,7 @@ const data = ref<Payment[]>([
     _id: '6',
     title: 'Payment 6',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-10T13:40:00',
     date: '2024-03-10T13:40:00',
     status: 'refunded',
@@ -94,6 +101,7 @@ const data = ref<Payment[]>([
     _id: '7',
     title: 'Payment 7',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-10T09:15:00',
     date: '2024-03-10T09:15:00',
     status: 'paid',
@@ -105,6 +113,7 @@ const data = ref<Payment[]>([
     _id: '8',
     title: 'Payment 8',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-09T20:25:00',
     date: '2024-03-09T20:25:00',
     status: 'failed',
@@ -116,6 +125,7 @@ const data = ref<Payment[]>([
     _id: '9',
     title: 'Payment 9',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-09T18:45:00',
     date: '2024-03-09T18:45:00',
     status: 'paid',
@@ -127,6 +137,7 @@ const data = ref<Payment[]>([
     _id: '10',
     title: 'Payment 10',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-09T16:05:00',
     date: '2024-03-09T16:05:00',
     status: 'paid',
@@ -138,6 +149,7 @@ const data = ref<Payment[]>([
     _id: '11',
     title: 'Payment 11',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-09T14:20:00',
     date: '2024-03-09T14:20:00',
     status: 'paid',
@@ -149,6 +161,7 @@ const data = ref<Payment[]>([
     _id: '12',
     title: 'Payment 12',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-09T11:35:00',
     date: '2024-03-09T11:35:00',
     status: 'failed',
@@ -160,6 +173,7 @@ const data = ref<Payment[]>([
     _id: '13',
     title: 'Payment 13',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-08T22:50:00',
     date: '2024-03-08T22:50:00',
     status: 'refunded',
@@ -171,6 +185,7 @@ const data = ref<Payment[]>([
     _id: '14',
     title: 'Payment 14',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-08T20:15:00',
     date: '2024-03-08T20:15:00',
     status: 'paid',
@@ -182,6 +197,7 @@ const data = ref<Payment[]>([
     _id: '15',
     title: 'Payment 15',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-08T17:40:00',
     date: '2024-03-08T17:40:00',
     status: 'paid',
@@ -193,6 +209,7 @@ const data = ref<Payment[]>([
     _id: '16',
     title: 'Payment 16',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-08T14:55:00',
     date: '2024-03-08T14:55:00',
     status: 'failed',
@@ -204,6 +221,7 @@ const data = ref<Payment[]>([
     _id: '17',
     title: 'Payment 17',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-08T12:30:00',
     date: '2024-03-08T12:30:00',
     status: 'paid',
@@ -215,6 +233,7 @@ const data = ref<Payment[]>([
     _id: '18',
     title: 'Payment 18',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-08T09:45:00',
     date: '2024-03-08T09:45:00',
     status: 'refunded',
@@ -226,6 +245,7 @@ const data = ref<Payment[]>([
     _id: '19',
     title: 'Payment 19',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-07T23:10:00',
     date: '2024-03-07T23:10:00',
     status: 'paid',
@@ -237,6 +257,7 @@ const data = ref<Payment[]>([
     _id: '20',
     title: 'Payment 20',
     isActive: true,
+    isCustom: false,
     updatedAt: '2024-03-07T20:25:00',
     date: '2024-03-07T20:25:00',
     status: 'paid',
@@ -256,6 +277,23 @@ const columns: TableColumn<Payment>[] = [
         variant: 'subtle',
         color: isActive ? 'success' : 'info',
       }, () => isActive ? '上線' : '未上線')
+    },
+  },
+  {
+    accessorKey: 'title',
+    header: 'Title',
+    cell: ({ row }) => row.getValue('title'),
+  },
+  {
+    accessorKey: 'isCustom',
+    header: 'Custom',
+    cell: ({ row }) => {
+      const isCustom = row.getValue('isCustom')
+      return h(UBadge, {
+        class: 'capitalize',
+        variant: 'subtle',
+        color: isCustom ? 'info' : 'neutral',
+      }, () => isCustom ? '客製化' : '公版')
     },
   },
   {
