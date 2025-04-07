@@ -55,32 +55,41 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const items = [{
-        type: 'label',
-        label: 'Actions',
-      }, {
-        label: 'Copy payment ID',
-        onSelect() {
-          navigator.clipboard.writeText(row.original._id)
-
-          toast.add({
-            title: 'Payment ID copied to clipboard!',
-            color: 'success',
-            icon: 'i-lucide-circle-check',
-          })
+      const items = [
+        {
+          type: 'label',
+          label: 'Actions',
         },
-      }, {
-        label: row.getIsExpanded() ? 'Collapse' : 'Expand',
-        onSelect() {
-          row.toggleExpanded()
+        {
+          label: 'Copy payment ID',
+          onSelect() {
+            navigator.clipboard.writeText(row.original._id)
+            toast.add({
+              title: 'Payment ID copied to clipboard!',
+              color: 'success',
+              icon: 'i-lucide-circle-check',
+            })
+          },
         },
-      }, {
-        type: 'separator',
-      }, {
-        label: 'View customer',
-      }, {
-        label: 'View payment details',
-      }]
+        {
+          label: row.getIsExpanded() ? 'Collapse' : 'Expand',
+          onSelect() {
+            row.toggleExpanded()
+          },
+        },
+        {
+          type: '前往編輯',
+          onSelect() {
+            navigateTo(`/C/landingPage/${row.original._id}`)
+          },
+        },
+        {
+          label: 'View customer',
+        },
+        {
+          label: 'View payment details',
+        },
+      ]
 
       return h('div', { class: 'text-right' }, h(UDropdownMenu, {
         'content': {
