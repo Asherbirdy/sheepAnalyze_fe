@@ -1,6 +1,6 @@
-/**
+/*
  * 不需要 token 的 API
- */
+*/
 export enum PublicApiUrl {
   // DEV
   Dev = '/dev',
@@ -10,9 +10,9 @@ export enum PublicApiUrl {
   UserRegister = '/auth/userRegister',
 }
 
-/**
+/*
  * 需要 token 的 API
- */
+*/
 export enum PrivateApiUrl {
   // DEV
   Dev = '/dev',
@@ -24,4 +24,11 @@ export enum PrivateApiUrl {
 
   // USER
   UserShowMe = '/users/showMe',
+
+  // LANDING PAGE
+  LandingPageCreate = '/landingPage/create',
+  LandingPageSetUrlPath = '/landingPage/setUrlPath',
+  LandingPageGetALL = '/landingPage/all',
+  LandingPageGetInfoById = '/landingPage/getLandingPageInfoById',
+  LandingPageEditInfoById = '/landingPage/editPageInfoById',
 }
