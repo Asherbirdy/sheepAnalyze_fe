@@ -1,12 +1,9 @@
+import type { CreateLandingPagePayload, GetAllLandingPageResponse } from '~/type'
 import { useRequestApi } from '~/composables'
 import { PrivateApiUrl } from '~/enum'
 
-interface LandingPageCreatePayload {
-  title: string
-}
-
 export const useLandingPageApi = {
-  create: async (payload: LandingPageCreatePayload) => await useRequestApi(PrivateApiUrl.LandingPageCreate, {
+  create: async (payload: CreateLandingPagePayload) => await useRequestApi(PrivateApiUrl.LandingPageCreate, {
     method: 'POST',
     server: false,
     lazy: true,
@@ -14,12 +11,9 @@ export const useLandingPageApi = {
     watch: false,
     body: payload,
   }),
-  getAll: async () => await useRequestApi(PrivateApiUrl.LandingPageGetALL, {
+  getAll: async () => await useRequestApi<GetAllLandingPageResponse, null>(PrivateApiUrl.LandingPageGetALL, {
     method: 'GET',
     server: false,
-    lazy: true,
-    immediate: false,
-    watch: false,
   }),
   getInfoById: async () => await useRequestApi(PrivateApiUrl.LandingPageGetInfoById, {
     method: 'GET',
