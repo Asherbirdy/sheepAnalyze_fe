@@ -1,5 +1,5 @@
 import type { ShowMeResponse } from '~/type'
-import { useRequestApi } from '~/composables/useRequestApi'
+import { useRequestApi } from '~/composables'
 import { PrivateApiUrl } from '~/enum'
 
 export const useUserApi = {

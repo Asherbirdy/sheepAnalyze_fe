@@ -1,5 +1,5 @@
 import type { BindOTPEmailPayload, CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse, RegisterPayload, RegisterResponse } from '~/type'
-import { useRequestApi } from '~/composables/useRequestApi'
+import { useRequestApi } from '~/composables'
 import { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
 export const useAuthApi = {
