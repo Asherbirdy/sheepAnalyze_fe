@@ -1,4 +1,4 @@
-import type { CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse, RegisterPayload, RegisterResponse } from '~/type'
+import type { BindOTPEmailPayload, CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse, RegisterPayload, RegisterResponse } from '~/type'
 import { useRequestApi } from '~/composables/useRequestApi'
 import { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
@@ -15,6 +15,7 @@ export const useAuthApi = {
       immediate: false,
       watch: false,
     }),
+
   /*
     * 註冊
   */
@@ -27,12 +28,38 @@ export const useAuthApi = {
       immediate: false,
       watch: false,
     }),
+
   /*
     * 檢查 token 是否有效
   */
   checkValidToken: async () =>
     await useRequestApi<CheckValidTokenResponse, null>(PrivateApiUrl.CheckValidToken, {
       method: 'GET',
+      server: false,
+      lazy: true,
+      immediate: false,
+      watch: false,
+    }),
+
+  /*
+    * 發送 OTP 給 Email
+  */
+  sendOTP: async () =>
+    await useRequestApi<any, null>(PrivateApiUrl.SendOTP, {
+      method: 'GET',
+      server: false,
+      lazy: true,
+      immediate: false,
+      watch: false,
+    }),
+
+  /*
+    * 綁定 OTP Email
+  */
+  bindOTPEmail: async (payload: BindOTPEmailPayload) =>
+    await useRequestApi<any, null>(PrivateApiUrl.BindOTPEmail, {
+      method: 'POST',
+      body: payload,
       server: false,
       lazy: true,
       immediate: false,
