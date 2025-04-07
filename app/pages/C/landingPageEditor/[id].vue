@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 
-const route = useRoute() as { params: { id: string } }
+const route = useRoute('C-landingPageEditor-id')
 </script>
 
 <template>
