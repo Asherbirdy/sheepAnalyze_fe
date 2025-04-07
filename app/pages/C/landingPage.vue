@@ -9,10 +9,12 @@ const UDropdownMenu = resolveComponent('UDropdownMenu')
 const toast = useToast()
 
 interface Payment {
+  // 先這些
+  isActive: boolean
+  // 先放著
   id: string
   _id: string
   title: string
-  isActive: boolean
   updatedAt: string
   date: string
   status: 'paid' | 'failed' | 'refunded'
@@ -36,7 +38,7 @@ const data = ref<Payment[]>([
     id: '4599',
     _id: '2',
     title: 'Payment 2',
-    isActive: true,
+    isActive: false,
     updatedAt: '2024-03-11T10:10:00',
     date: '2024-03-11T10:10:00',
     status: 'failed',
@@ -244,6 +246,18 @@ const data = ref<Payment[]>([
 ])
 
 const columns: TableColumn<Payment>[] = [
+  {
+    accessorKey: 'isActive',
+    header: 'Status',
+    cell: ({ row }) => {
+      const isActive = row.getValue('isActive')
+      return h(UBadge, {
+        class: 'capitalize',
+        variant: 'subtle',
+        color: isActive ? 'success' : 'info',
+      }, () => isActive ? '上線' : '未上線')
+    },
+  },
   {
     accessorKey: 'id',
     header: '#',
