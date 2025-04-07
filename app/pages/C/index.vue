@@ -21,25 +21,43 @@ const state = ref({
 interface Model {
   otp: string
 }
-
+/*
+  * USER API
+*/
 const { data: UserInfoResponse } = await useUserApi.showMe()
 
+/*
+  * AUTH API
+*/
 const { execute: executeEmailRequest } = await useAuthApi.sendOTP()
 
-const onEmailRequest = async () => {
-  await executeEmailRequest()
-  state.value.emailCountdown.status = true
-  state.value.emailCountdown.countdown = state.value.emailCountdown.time
-}
-
+/*
+  * bindOTPEmail API
+*/
 const { execute: emailVerifyRequest } = await useAuthApi.bindOTPEmail({
   OTP: state.value.data.emailVerifiedModal.otp,
 })
 
+/*
+  * SEND EMAIL VERIFY
+*/
+const onEmailRequest = async () => {
+  const { emailCountdown } = state.value
+  await executeEmailRequest()
+  emailCountdown.status = true
+  emailCountdown.countdown = emailCountdown.time
+}
+
+/*
+  * EMAIL VERIFY
+*/
 const onEmailVerify = async () => {
   await emailVerifyRequest()
 }
 
+/*
+  * EMAIL COUNT DOWN
+*/
 watch(state.value.emailCountdown, (value) => {
   if (value.countdown > 0) {
     setTimeout(() => {

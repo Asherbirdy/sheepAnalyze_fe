@@ -21,6 +21,34 @@ const state = ref({
   },
 })
 
+/*
+  * LOGIN API
+*/
+const {
+  data: LoginResponse,
+  execute: LoginRequest,
+  error: LoginError,
+  status: LoginStatus,
+} = await useAuthApi.login(state.value.data.login)
+
+/*
+  * REGISTER API
+*/
+const {
+  data: RegisterResponse,
+  execute: RegisterRequest,
+  status: RegisterStatus,
+  error: RegisterError,
+} = await useAuthApi.register(state.value.data.register)
+
+/*
+  * CHECK VALID TOKEN API
+*/
+const {
+  data: CheckValidTokenResponse,
+  refresh: CheckValidTokenRefresh,
+} = await useAuthApi.checkValidToken()
+
 const tabs = [
   {
     label: '登入',
@@ -33,16 +61,6 @@ const tabs = [
     slot: 'register' as const,
   },
 ]
-
-/*
-  * LOGIN API
-*/
-const {
-  data: LoginResponse,
-  execute: LoginRequest,
-  error: LoginError,
-  status: LoginStatus,
-} = await useAuthApi.login(state.value.data.login)
 
 const onLogin = async () => {
   const { login } = state.value.data
@@ -63,16 +81,6 @@ const onLogin = async () => {
 
   navigateTo(ClientRoutes.Home)
 }
-
-/*
-  * REGISTER API
-*/
-const {
-  data: RegisterResponse,
-  execute: RegisterRequest,
-  status: RegisterStatus,
-  error: RegisterError,
-} = await useAuthApi.register(state.value.data.register)
 
 const onRegister = async () => {
   const { register } = state.value.data
@@ -95,11 +103,11 @@ const onRegister = async () => {
     color: 'success',
   })
 
-  state.value.data.register.name = ''
-  state.value.data.register.email = ''
-  state.value.data.register.password = ''
-  state.value.data.register.confirmPassword = ''
-  state.value.data.register.serialNumber = ''
+  register.name = ''
+  register.email = ''
+  register.password = ''
+  register.confirmPassword = ''
+  register.serialNumber = ''
 
   useCookie(CookieEnums.AccessToken).value = RegisterResponse.value?.token.accessTokenJWT
   useCookie(CookieEnums.RefreshToken).value = RegisterResponse.value?.token.refreshTokenJWT
@@ -107,15 +115,7 @@ const onRegister = async () => {
   navigateTo(ClientRoutes.Home)
 }
 /*
-  * CHECK VALID TOKEN API
-*/
-const {
-  data: CheckValidTokenResponse,
-  refresh: CheckValidTokenRefresh,
-} = await useAuthApi.checkValidToken()
-
-/*
-  * ON MOUNTED
+  * ONMOUNTED
 */
 const init = async () => {
   await CheckValidTokenRefresh()
@@ -145,7 +145,7 @@ onMounted(init)
         :disabled="(
           !state.data.login.email
           || !state.data.login.password
-          || !regex.email.test(String(state.data.login.email))
+          || !state.data.login.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
         )"
 
         @click="onLogin"
@@ -166,7 +166,7 @@ onMounted(init)
           || !state.data.register.password
           || !state.data.register.confirmPassword
           || !state.data.register.serialNumber
-          || !regex.email.test(String(state.data.register.email))
+          || !state.data.register.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)
           || state.data.register.password !== state.data.register.confirmPassword
         )"
         @click="onRegister"
