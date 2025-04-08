@@ -4,7 +4,6 @@ import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 
 const toast = useToast()
-
 const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
@@ -72,29 +71,21 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
           },
         },
         {
+          label: '前往編輯',
+          onSelect() {
+            navigateTo(`/C/landingPageEditor/${row.original._id}`)
+          },
+        },
+        {
           label: row.getIsExpanded() ? 'Collapse' : 'Expand',
           onSelect() {
             row.toggleExpanded()
           },
         },
-        {
-          type: '前往編輯',
-          onSelect() {
-            navigateTo(`/C/landingPage/${row.original._id}`)
-          },
-        },
-        {
-          label: 'View customer',
-        },
-        {
-          label: 'View payment details',
-        },
       ]
 
       return h('div', { class: 'text-right' }, h(UDropdownMenu, {
-        'content': {
-          align: 'end',
-        },
+        'content': { align: 'end' },
         items,
         'aria-label': 'Actions dropdown',
       }, () => h(UButton, {
