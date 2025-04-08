@@ -1,16 +1,16 @@
+import { ClientRoutes } from '~/enum'
+
 export function useMenuStore() {
   const menu = useState('menu', () => [
     {
-      label: 'GitHub',
-      icon: 'i-simple-icons-github',
-      badge: '3.8k',
-      to: 'https://github.com/nuxt/ui',
-      target: '_blank',
+      label: 'Home',
+      icon: 'i-lucide-home',
+      to: ClientRoutes.Home,
     },
     {
-      label: 'Help',
+      label: 'Landing Page',
       icon: 'i-lucide-circle-help',
-      disabled: true,
+      to: ClientRoutes.LandingPage,
     },
   ])
 

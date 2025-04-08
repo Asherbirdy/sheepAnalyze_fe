@@ -14,9 +14,13 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/ui',
   ],
+
+  components: false, // 不使用自動引入
+
   devtools: {
     enabled: false,
   },
+
   app: {
     head: {
       viewport: 'width=device-width,initial-scale=1',
@@ -88,6 +92,8 @@ export default defineNuxtConfig({
       },
     },
   },
+
   pwa,
+
   vueuse: { ssrHandlers: true },
 })

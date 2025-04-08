@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { useAuthApi, useUserApi } from '~/apis'
 
-definePageMeta({
-  layout: 'dashboard',
-})
-
 const state = ref({
   data: {
     emailVerifiedModal: {
