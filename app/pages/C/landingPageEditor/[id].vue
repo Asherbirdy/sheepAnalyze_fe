@@ -13,7 +13,7 @@ const state = ref({
 
 const getHTML = () => state.value.data.editorHTML = editor?.value?.getHTML()
 
-const buttons = [
+const feature = [
   {
     type: 'feature',
     icon: TextHeader124Filled,
@@ -162,7 +162,7 @@ onBeforeUnmount(leave)
   <div>
     <div class="flex flex-wrap gap-[5px] p-[10px] bg-black rounded-t-md">
       <button
-        v-for="button in buttons"
+        v-for="button in feature"
         :key="button.title"
         :disabled="button.isDisabled()"
         :title="button.title"
