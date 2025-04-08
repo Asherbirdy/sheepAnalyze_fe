@@ -3,11 +3,14 @@ import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 
 const editor = ref()
-const editorHTML = ref('')
 
-const getHTML = () => {
-  editorHTML.value = editor?.value?.getHTML()
-}
+const state = ref({
+  data: {
+    editorHTML: null,
+  },
+})
+
+const getHTML = () => state.value.data.editorHTML = editor?.value?.getHTML()
 
 const init = () => {
   editor.value = new Editor({
@@ -16,12 +19,10 @@ const init = () => {
   })
 }
 
-const destroy = () => {
-  editor.value.destroy()
-}
+const leave = () => editor.value.destroy()
 
 onMounted(init)
-onBeforeUnmount(destroy)
+onBeforeUnmount(leave)
 </script>
 
 <template>
@@ -30,6 +31,6 @@ onBeforeUnmount(destroy)
     <button @click="getHTML">
       getHTML
     </button>
-    {{ editorHTML }}
+    {{ state.data.editorHTML }}
   </div>
 </template>
