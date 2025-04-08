@@ -16,6 +16,9 @@ importers:
       '@nuxt/ui':
         specifier: ^3.0.1
         version: 3.0.1(@babel/parser@7.26.10)(change-case@5.4.4)(db0@0.3.1)(embla-carousel@8.5.2)(ioredis@5.6.0)(magicast@0.3.5)(typescript@5.8.2)(vite@6.2.2(@types/node@22.13.12)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))
+      '@vicons/fluent':
+        specifier: ^0.13.0
+        version: 0.13.0
     devDependencies:
       '@antfu/eslint-config':
         specifier: ^4.5.1
@@ -2147,6 +2150,9 @@ packages:
     resolution: {integrity: sha512-A/Si4mrTkQqJ6EXJKv5EYCDQ3NL6nJXxG8VGXePsaiQigsomHYQC9xSpX8qGk7AEZk4b1ssbYIqJ0ISQQ7bfcA==}
     engines: {node: '>=18'}
     hasBin: true
+
+  '@vicons/fluent@0.13.0':
+    resolution: {integrity: sha512-bYGZsOE3qzvm3Cm43e7tybgGlr5ZUpYqtRZq0g0Tfupe8jIzLolpvQLNUt1zS8Mgt6goTbUk5YH7Fkv16jkykg==}
 
   '@vite-pwa/nuxt@0.10.6':
     resolution: {integrity: sha512-yQTrMNLz2KuroEaqstHYvylT258BgYryON1tC2MQGCG8VVyWXfmYZPeffid/zCE8pkKMQpp6e9owKUyVLgT5xg==}
@@ -8876,6 +8882,8 @@ snapshots:
       - encoding
       - rollup
       - supports-color
+
+  '@vicons/fluent@0.13.0': {}
 
   '@vite-pwa/nuxt@0.10.6(magicast@0.3.5)(vite@6.2.2(@types/node@22.13.12)(jiti@2.4.2)(lightningcss@1.29.2)(terser@5.39.0)(yaml@2.7.0))':
     dependencies:

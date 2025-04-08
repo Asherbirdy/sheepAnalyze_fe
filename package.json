@@ -18,7 +18,8 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/ui": "^3.0.1"
+    "@nuxt/ui": "^3.0.1",
+    "@vicons/fluent": "^0.13.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.5.1",
