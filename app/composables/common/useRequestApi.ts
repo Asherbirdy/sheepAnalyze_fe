@@ -9,7 +9,7 @@ import type { PrivateApiUrl, PublicApiUrl } from '~/enum'
   * useFetch文件： https://nuxt.com/docs/api/composables/use-fetch
 */
 export function useRequestApi<DataT, ErrorT>(
-  url: PublicApiUrl | PrivateApiUrl,
+  url: PublicApiUrl | PrivateApiUrl | string,
   options?: UseFetchOptions<DataT, ErrorT>,
 ) {
   const config = useRuntimeConfig()

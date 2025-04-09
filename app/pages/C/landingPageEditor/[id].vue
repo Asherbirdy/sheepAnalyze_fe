@@ -2,16 +2,33 @@
 import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { ArrowRedo16Filled, ArrowUndo16Filled, Code24Filled, TextAlignJustify20Filled, TextAlignLeft16Filled, TextAlignRight16Filled, TextBold24Filled, TextBulletListLtr16Filled, TextHeader124Filled, TextHeader220Filled, TextHeader324Filled, TextItalic24Filled, TextNumberListLtr16Filled, TextParagraph16Filled, TextQuote20Filled, TextStrikethrough24Filled } from '@vicons/fluent'
+import { useLandingPageApi } from '~/apis/useLandingPageApi'
+
+const route = useRoute('C-landingPageEditor-id')
+
+const {
+  data: landingPageResponse,
+  // refresh: landingPageRequset,
+} = await useLandingPageApi.getInfoById({
+  landingPageId: route.params.id,
+})
 
 const editor = ref()
 
 const state = ref({
   data: {
-    editorHTML: null,
+    title: '',
+    description: '',
+    isCustom: false,
+    isCustomId: '',
+    isActive: false,
+    updatedBy: '',
+    lastEditVisited: '',
+    html: null,
   },
 })
 
-const getHTML = () => state.value.data.editorHTML = editor?.value?.getHTML()
+const getHTML = () => state.value.data.html = editor?.value?.getHTML()
 
 const feature = [
   {
@@ -146,8 +163,16 @@ const feature = [
 ]
 
 const init = () => {
+  const { data } = state.value
+  data.title = landingPageResponse?.value?.landingPage?.title || ''
+  data.description = landingPageResponse?.value?.landingPage?.description || ''
+  data.isCustom = landingPageResponse?.value?.landingPage?.isCustom || false
+  data.isCustomId = landingPageResponse?.value?.landingPage?.isCustomId || ''
+  data.isActive = landingPageResponse?.value?.landingPage?.isActive || false
+  data.updatedBy = landingPageResponse?.value?.landingPage?.updatedBy || ''
+  data.lastEditVisited = landingPageResponse?.value?.landingPage?.lastEditVisited || ''
   editor.value = new Editor({
-    content: '<p>I\'m running Tiptap with Vue.js. 🎉</p>',
+    content: state.value.data.html,
     extensions: [StarterKit],
   })
 }
@@ -160,6 +185,14 @@ onBeforeUnmount(leave)
 
 <template>
   <div>
+    <p>Title: {{ landingPageResponse?.landingPage?.title }}</p>
+    <p>Description: {{ landingPageResponse?.landingPage?.description }}</p>
+    <p>isCustom: {{ landingPageResponse?.landingPage?.isCustom }}</p>
+    <p>isCustomId: {{ landingPageResponse?.landingPage?.isCustomId }}</p>
+    <p>isActive: {{ landingPageResponse?.landingPage?.isActive }}</p>
+    <p>updatedBy: {{ landingPageResponse?.landingPage?.updatedBy }}</p>
+    <p>lastEditVisited: {{ landingPageResponse?.landingPage?.lastEditVisited }}</p>
+
     <div class="flex flex-wrap gap-[5px] p-[10px] bg-black rounded-t-md">
       <button
         v-for="button in feature"
@@ -190,7 +223,7 @@ onBeforeUnmount(leave)
     </button>
 
     <div class="mt-2 text-sm text-gray-300 whitespace-pre-wrap">
-      {{ state.data.editorHTML }}
+      {{ state.data.html }}
     </div>
   </div>
 </template>
