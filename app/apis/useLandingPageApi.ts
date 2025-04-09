@@ -35,12 +35,28 @@ export const useLandingPageApi = {
   /*
     * EDIT
   */
-  editInfoById: async () =>
-    await useRequestApi(PrivateApiUrl.LandingPageEditInfoById, {
+  editInfoById: async (payload: EditInfoByIdPayload) =>
+    await useRequestApi(`${PrivateApiUrl.LandingPageEditInfoById}/?landingPageId=${payload.query.landingPageId}`, {
       method: 'PUT',
       server: false,
       lazy: true,
       immediate: false,
       watch: false,
+      body: payload.body,
     }),
+}
+
+// * PAYLOAD
+export interface EditInfoByIdPayload {
+  query: {
+    landingPageId: string
+  }
+  body: {
+    title: string
+    description: string
+    isCustom: boolean
+    isCustomId: string
+    isActive: boolean
+    html: string
+  }
 }

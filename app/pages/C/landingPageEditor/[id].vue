@@ -6,13 +6,6 @@ import { useLandingPageApi } from '~/apis/useLandingPageApi'
 
 const route = useRoute('C-landingPageEditor-id')
 
-const {
-  data: landingPageResponse,
-  // refresh: landingPageRequset,
-} = await useLandingPageApi.getInfoById({
-  landingPageId: route.params.id,
-})
-
 const editor = ref()
 
 const state = ref({
@@ -24,11 +17,45 @@ const state = ref({
     isActive: false,
     updatedBy: '',
     lastEditVisited: '',
-    html: null,
+    html: '',
   },
 })
 
-const getHTML = () => state.value.data.html = editor?.value?.getHTML()
+const {
+  data: landingPageResponse,
+  refresh: landingPageRequset,
+} = await useLandingPageApi.getInfoById({
+  landingPageId: route.params.id,
+})
+
+const {
+  execute: EditRequest,
+  status: EditStatus,
+} = await useLandingPageApi.editInfoById({
+  query: {
+    landingPageId: route.params.id,
+  },
+  body: state.value.data,
+})
+
+const onSave = async () => {
+  state.value.data.html = editor?.value?.getHTML()
+  await nextTick(() => {
+    EditRequest()
+    landingPageRequset()
+  })
+
+  if (EditStatus.value === 'success') {
+    // eslint-disable-next-line no-alert
+    alert('保存成功')
+    return
+  }
+
+  if (EditStatus.value === 'error') {
+    // eslint-disable-next-line no-alert
+    alert('保存失败')
+  }
+}
 
 const feature = [
   {
@@ -172,7 +199,7 @@ const init = () => {
   data.updatedBy = landingPageResponse?.value?.landingPage?.updatedBy || ''
   data.lastEditVisited = landingPageResponse?.value?.landingPage?.lastEditVisited || ''
   editor.value = new Editor({
-    content: state.value.data.html,
+    content: landingPageResponse?.value?.landingPage?.html || '',
     extensions: [StarterKit],
   })
 }
@@ -217,9 +244,10 @@ onBeforeUnmount(leave)
 
     <button
       class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      @click="getHTML"
+      :loading="EditStatus === 'pending'"
+      @click="onSave"
     >
-      getHTML
+      保存
     </button>
 
     <div class="mt-2 text-sm text-gray-300 whitespace-pre-wrap">
