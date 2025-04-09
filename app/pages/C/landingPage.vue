@@ -3,7 +3,7 @@ import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 
-const toast = useToast()
+const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
@@ -60,14 +60,9 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
           label: 'Actions',
         },
         {
-          label: 'Copy payment ID',
+          label: '前往頁面',
           onSelect() {
-            navigator.clipboard.writeText(row.original._id)
-            toast.add({
-              title: 'Payment ID copied to clipboard!',
-              color: 'success',
-              icon: 'i-lucide-circle-check',
-            })
+            navigateTo(`/lands/${row.original._id}`)
           },
         },
         {
@@ -98,8 +93,6 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
     },
   },
 ]
-
-const table = useTemplateRef('table')
 </script>
 
 <template>
