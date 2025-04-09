@@ -1,6 +1,6 @@
 import type { CreateLandingPagePayload, GetAllLandingPageResponse, GetInfoByIdPayload, GetInfoByILandingPageResponse } from '~/type'
 import { useRequestApi } from '~/composables'
-import { PrivateApiUrl } from '~/enum'
+import { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
 export const useLandingPageApi = {
   /*
@@ -27,10 +27,10 @@ export const useLandingPageApi = {
     * GET
   */
   getInfoById: async (payload: GetInfoByIdPayload) =>
-    await useRequestApi<GetInfoByILandingPageResponse, null>(`${PrivateApiUrl.LandingPageGetInfoById}/?landingPageId=${payload.landingPageId}`, {
+    await useRequestApi<GetInfoByILandingPageResponse, null>(`${PublicApiUrl.LandingPageGetInfoById}/?landingPageId=${payload.query.landingPageId}`, {
       method: 'GET',
-      server: false,
-      lazy: false,
+      server: payload.ssr,
+      lazy: payload.ssr,
     }),
   /*
     * EDIT

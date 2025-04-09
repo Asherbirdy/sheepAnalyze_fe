@@ -77,3 +77,9 @@
     margin: 2rem 0;
   }
 }
+
+.ProseMirror-focused,
+.ProseMirror {
+  padding: 10px 10px;
+  border: 1px black solid;
+}

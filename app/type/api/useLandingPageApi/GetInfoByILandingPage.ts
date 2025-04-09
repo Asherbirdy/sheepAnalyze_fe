@@ -23,5 +23,8 @@ export interface LandingPageGetInfoById {
 
 // * PAYLOAD
 export interface GetInfoByIdPayload {
-  landingPageId: string
+  query: {
+    landingPageId: string
+  }
+  ssr: boolean
 }

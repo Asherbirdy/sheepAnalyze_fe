@@ -25,7 +25,10 @@ const {
   data: landingPageResponse,
   refresh: landingPageRequset,
 } = await useLandingPageApi.getInfoById({
-  landingPageId: route.params.id,
+  query: {
+    landingPageId: route.params.id,
+  },
+  ssr: false,
 })
 
 const {
