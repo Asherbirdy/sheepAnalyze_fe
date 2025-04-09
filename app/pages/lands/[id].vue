@@ -3,6 +3,9 @@ import { useLandingPageApi } from '~/apis/useLandingPageApi'
 
 const route = useRoute('lands-id')
 
+definePageMeta({
+  layout: 'none',
+})
 const {
   data: landingPageResponse,
 } = await useLandingPageApi.getInfoById({

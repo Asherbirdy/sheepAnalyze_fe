@@ -216,13 +216,6 @@ onBeforeUnmount(leave)
 <template>
   <div>
     <p>Title: {{ landingPageResponse?.landingPage?.title }}</p>
-    <p>Description: {{ landingPageResponse?.landingPage?.description }}</p>
-    <p>isCustom: {{ landingPageResponse?.landingPage?.isCustom }}</p>
-    <p>isCustomId: {{ landingPageResponse?.landingPage?.isCustomId }}</p>
-    <p>isActive: {{ landingPageResponse?.landingPage?.isActive }}</p>
-    <p>updatedBy: {{ landingPageResponse?.landingPage?.updatedBy }}</p>
-    <p>lastEditVisited: {{ landingPageResponse?.landingPage?.lastEditVisited }}</p>
-
     <div class="flex flex-wrap gap-[5px] p-[10px] bg-black rounded-t-md">
       <button
         v-for="button in feature"
