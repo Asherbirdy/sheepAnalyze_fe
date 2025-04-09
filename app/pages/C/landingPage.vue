@@ -14,14 +14,11 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isActive',
     header: 'Status',
-    cell: ({ row }) => {
-      const isActive = row.getValue('isActive')
-      return h(UBadge, {
-        class: 'capitalize',
-        variant: 'subtle',
-        color: isActive ? 'success' : 'info',
-      }, () => isActive ? '上線' : '未上線')
-    },
+    cell: ({ row }) => h(UBadge, {
+      class: 'capitalize',
+      variant: 'subtle',
+      color: row.getValue('isActive') ? 'success' : 'info',
+    }, () => row.getValue('isActive') ? '上線' : '未上線'),
   },
   {
     accessorKey: 'title',
@@ -31,14 +28,11 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isCustom',
     header: 'Custom',
-    cell: ({ row }) => {
-      const isCustom = row.getValue('isCustom')
-      return h(UBadge, {
-        class: 'capitalize',
-        variant: 'subtle',
-        color: isCustom ? 'info' : 'neutral',
-      }, () => isCustom ? '客製化' : '公版')
-    },
+    cell: ({ row }) => h(UBadge, {
+      class: 'capitalize',
+      variant: 'subtle',
+      color: row.getValue('isCustom') ? 'info' : 'neutral',
+    }, () => row.getValue('isCustom') ? '客製化' : '公版'),
   },
   {
     accessorKey: 'urlPathId',
@@ -71,12 +65,12 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
             navigateTo(`/C/landingPageEditor/${row.original._id}`)
           },
         },
-        {
-          label: row.getIsExpanded() ? 'Collapse' : 'Expand',
-          onSelect() {
-            row.toggleExpanded()
-          },
-        },
+        // {
+        //   label: !row.original.isActive ? '使網站上線' : '使網站下線',
+        //   onSelect() {
+
+        //   },
+        // }
       ]
 
       return h('div', { class: 'text-right' }, h(UDropdownMenu, {
