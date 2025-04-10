@@ -3,7 +3,7 @@ import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 
-const toast = useToast()
+const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
 const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
@@ -14,14 +14,11 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isActive',
     header: 'Status',
-    cell: ({ row }) => {
-      const isActive = row.getValue('isActive')
-      return h(UBadge, {
-        class: 'capitalize',
-        variant: 'subtle',
-        color: isActive ? 'success' : 'info',
-      }, () => isActive ? '上線' : '未上線')
-    },
+    cell: ({ row }) => h(UBadge, {
+      class: 'capitalize',
+      variant: 'subtle',
+      color: row.getValue('isActive') ? 'success' : 'info',
+    }, () => row.getValue('isActive') ? '上線' : '未上線'),
   },
   {
     accessorKey: 'title',
@@ -31,14 +28,11 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isCustom',
     header: 'Custom',
-    cell: ({ row }) => {
-      const isCustom = row.getValue('isCustom')
-      return h(UBadge, {
-        class: 'capitalize',
-        variant: 'subtle',
-        color: isCustom ? 'info' : 'neutral',
-      }, () => isCustom ? '客製化' : '公版')
-    },
+    cell: ({ row }) => h(UBadge, {
+      class: 'capitalize',
+      variant: 'subtle',
+      color: row.getValue('isCustom') ? 'info' : 'neutral',
+    }, () => row.getValue('isCustom') ? '客製化' : '公版'),
   },
   {
     accessorKey: 'urlPathId',
@@ -60,14 +54,9 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
           label: 'Actions',
         },
         {
-          label: 'Copy payment ID',
+          label: '前往頁面',
           onSelect() {
-            navigator.clipboard.writeText(row.original._id)
-            toast.add({
-              title: 'Payment ID copied to clipboard!',
-              color: 'success',
-              icon: 'i-lucide-circle-check',
-            })
+            navigateTo(`/lands/${row.original._id}`)
           },
         },
         {
@@ -76,12 +65,12 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
             navigateTo(`/C/landingPageEditor/${row.original._id}`)
           },
         },
-        {
-          label: row.getIsExpanded() ? 'Collapse' : 'Expand',
-          onSelect() {
-            row.toggleExpanded()
-          },
-        },
+        // {
+        //   label: !row.original.isActive ? '使網站上線' : '使網站下線',
+        //   onSelect() {
+
+        //   },
+        // }
       ]
 
       return h('div', { class: 'text-right' }, h(UDropdownMenu, {
@@ -98,8 +87,6 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
     },
   },
 ]
-
-const table = useTemplateRef('table')
 </script>
 
 <template>

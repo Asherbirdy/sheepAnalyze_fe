@@ -8,6 +8,9 @@ export enum PublicApiUrl {
   // AUTH
   Login = '/auth/login',
   UserRegister = '/auth/userRegister',
+
+  // LANDING PAGE
+  LandingPageGetInfoById = '/landingPage/getLandingPageInfoById',
 }
 
 /*
@@ -29,6 +32,5 @@ export enum PrivateApiUrl {
   LandingPageCreate = '/landingPage/create',
   LandingPageSetUrlPath = '/landingPage/setUrlPath',
   LandingPageGetALL = '/landingPage/all',
-  LandingPageGetInfoById = '/landingPage/getLandingPageInfoById',
   LandingPageEditInfoById = '/landingPage/editPageInfoById',
 }
