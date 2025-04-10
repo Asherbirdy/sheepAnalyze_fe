@@ -9,4 +9,5 @@ export const ClientBase = '/C'
 export enum ClientRoutes {
   Home = `${ClientBase}/`,
   LandingPage = `${ClientBase}/landingPage`,
+  LandingPageEditor = `${ClientBase}/landingPage/editor`,
 }
