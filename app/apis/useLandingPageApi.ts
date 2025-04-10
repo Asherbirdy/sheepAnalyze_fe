@@ -1,4 +1,4 @@
-import type { CreateLandingPagePayload, GetAllLandingPageResponse, GetInfoByIdPayload, GetInfoByILandingPageResponse } from '~/type'
+import type { CreateLandingPagePayload, EditInfoByIdPayload, GetAllLandingPageResponse, GetInfoByIdPayload, GetInfoByILandingPageResponse } from '~/type'
 import { useRequestApi } from '~/composables'
 import { PrivateApiUrl, PublicApiUrl } from '~/enum'
 
@@ -27,36 +27,27 @@ export const useLandingPageApi = {
     * GET
   */
   getInfoById: async (payload: GetInfoByIdPayload) =>
-    await useRequestApi<GetInfoByILandingPageResponse, null>(`${PublicApiUrl.LandingPageGetInfoById}/?landingPageId=${payload.query.landingPageId}`, {
-      method: 'GET',
-      server: payload.ssr,
-      lazy: payload.ssr,
-    }),
+    await useRequestApi<GetInfoByILandingPageResponse, null>(
+      `${PublicApiUrl.LandingPageGetInfoById}/?landingPageId=${payload.query.landingPageId}`,
+      {
+        method: 'GET',
+        server: payload.ssr,
+        lazy: payload.ssr,
+      },
+    ),
   /*
     * EDIT
   */
   editInfoById: async (payload: EditInfoByIdPayload) =>
-    await useRequestApi(`${PrivateApiUrl.LandingPageEditInfoById}/?landingPageId=${payload.query.landingPageId}`, {
-      method: 'PUT',
-      server: false,
-      lazy: true,
-      immediate: false,
-      watch: false,
-      body: payload.body,
-    }),
-}
-
-// * PAYLOAD
-export interface EditInfoByIdPayload {
-  query: {
-    landingPageId: string
-  }
-  body: {
-    title: string
-    description: string
-    isCustom: boolean
-    isCustomId: string
-    isActive: boolean
-    html: string
-  }
+    await useRequestApi(
+      `${PrivateApiUrl.LandingPageEditInfoById}/?landingPageId=${payload.query.landingPageId}`,
+      {
+        method: 'PUT',
+        server: false,
+        lazy: true,
+        immediate: false,
+        watch: false,
+        body: payload.body,
+      },
+    ),
 }
