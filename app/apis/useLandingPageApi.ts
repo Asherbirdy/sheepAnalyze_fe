@@ -1,13 +1,13 @@
 import type { CreateLandingPagePayload, EditInfoByIdPayload, GetAllLandingPageResponse, GetInfoByIdPayload, GetInfoByILandingPageResponse } from '~/type'
 import { useRequestApi } from '~/composables'
-import { PrivateApiUrl, PublicApiUrl } from '~/enum'
+import { PublicRequestUrl, UserRequestUrl } from '~/enum'
 
 export const useLandingPageApi = {
   /*
     * CREATE
   */
   create: async (payload: CreateLandingPagePayload) =>
-    await useRequestApi(PrivateApiUrl.LandingPageCreate, {
+    await useRequestApi(UserRequestUrl.LandingPageCreate, {
       method: 'POST',
       server: false,
       lazy: true,
@@ -19,7 +19,7 @@ export const useLandingPageApi = {
     * GET
   */
   getAll: async () =>
-    await useRequestApi<GetAllLandingPageResponse, null>(PrivateApiUrl.LandingPageGetALL, {
+    await useRequestApi<GetAllLandingPageResponse, null>(UserRequestUrl.LandingPageGetALL, {
       method: 'GET',
       server: false,
     }),
@@ -28,7 +28,7 @@ export const useLandingPageApi = {
   */
   getInfoById: async (payload: GetInfoByIdPayload) =>
     await useRequestApi<GetInfoByILandingPageResponse, null>(
-      `${PublicApiUrl.LandingPageGetInfoById}/?landingPageId=${payload.query.landingPageId}`,
+      `${PublicRequestUrl.LandingPageGetInfoById}/?landingPageId=${payload.query.landingPageId}`,
       {
         method: 'GET',
         server: payload.ssr,
@@ -40,7 +40,7 @@ export const useLandingPageApi = {
   */
   editInfoById: async (payload: EditInfoByIdPayload) =>
     await useRequestApi(
-      `${PrivateApiUrl.LandingPageEditInfoById}/?landingPageId=${payload.query.landingPageId}`,
+      `${UserRequestUrl.LandingPageEditInfoById}/?landingPageId=${payload.query.landingPageId}`,
       {
         method: 'PUT',
         server: false,

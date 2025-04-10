@@ -1,10 +1,10 @@
 import type { ShowMeResponse } from '~/type'
 import { useRequestApi } from '~/composables'
-import { PrivateApiUrl } from '~/enum'
+import { UserRequestUrl } from '~/enum'
 
 export const useUserApi = {
   showMe: async () => {
-    return useRequestApi<ShowMeResponse, null>(PrivateApiUrl.UserShowMe, {
+    return useRequestApi<ShowMeResponse, null>(UserRequestUrl.UserShowMe, {
       method: 'GET',
       server: false,
       lazy: true,

@@ -1,7 +1,7 @@
 /*
  * 不需要 token 的 API
 */
-export enum PublicApiUrl {
+export enum PublicRequestUrl {
   // DEV
   Dev = '/dev',
 
@@ -16,7 +16,7 @@ export enum PublicApiUrl {
 /*
  * 需要 token 的 API
 */
-export enum PrivateApiUrl {
+export enum UserRequestUrl {
   // DEV
   Dev = '/dev',
 
