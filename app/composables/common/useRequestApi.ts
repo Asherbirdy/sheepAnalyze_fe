@@ -1,15 +1,15 @@
 import type { UseFetchOptions } from '#app'
-import type { PrivateApiUrl, PublicApiUrl } from '~/enum'
+import type { PublicRequestUrl, UserRequestUrl } from '~/enum'
 
 /*
   * @DataType Response型別
   * @ErrorType Error型別
   * @Options UseFetchOptions<DataType, ErrorType>
-  * @Url API路徑，例如 PublicApiUrl.Login
+  * @Url API路徑，例如 PublicRequestUrl.Login
   * useFetch文件： https://nuxt.com/docs/api/composables/use-fetch
 */
 export function useRequestApi<DataT, ErrorT>(
-  url: PublicApiUrl | PrivateApiUrl | string,
+  url: PublicRequestUrl | UserRequestUrl | string,
   options?: UseFetchOptions<DataT, ErrorT>,
 ) {
   const config = useRuntimeConfig()
