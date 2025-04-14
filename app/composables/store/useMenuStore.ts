@@ -12,6 +12,11 @@ export function useMenuStore() {
       icon: 'i-lucide-circle-help',
       to: ClientRoutes.LandingPage,
     },
+    {
+      label: 'Blending',
+      icon: 'i-lucide-circle-help',
+      to: ClientRoutes.Blending,
+    },
   ])
 
   const getMenu = () => menu.value

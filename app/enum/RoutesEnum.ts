@@ -10,4 +10,5 @@ export enum ClientRoutes {
   Home = `${ClientBase}/`,
   LandingPage = `${ClientBase}/landingPage`,
   LandingPageEditor = `${ClientBase}/landingPage/editor`,
+  Blending = `${ClientBase}/blending`,
 }
