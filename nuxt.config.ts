@@ -79,11 +79,11 @@ export default defineNuxtConfig({
       ignore: ['/hi'],
     },
   },
-  vite: {
-    build: {
-      sourcemap: false,
-    },
-  },
+  // vite: {
+  //   build: {
+  //     sourcemap: false,
+  //   },
+  // },
 
   eslint: {
     config: {
