@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/ui',
   ],
-
   components: false, // 不使用自動引入
 
   app: {
@@ -78,6 +77,11 @@ export default defineNuxtConfig({
       crawlLinks: false,
       // routes: ['/'],
       ignore: ['/hi'],
+    },
+  },
+  vite: {
+    build: {
+      sourcemap: false,
     },
   },
 
