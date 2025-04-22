@@ -54,7 +54,16 @@ const filterList = computed(() => [
 
 <template>
   <div>
-    <h1>2025年 全會所戶外相調</h1>
+    <div class="flex justify-between items-center">
+      <h1>2025年 全會所戶外相調</h1>
+      <UButton
+        color="info"
+        variant="soft"
+        size="sm"
+      >
+        更新
+      </UButton>
+    </div>
     <p class="mb-4">
       報名人數{{ data?.length }}
     </p>
@@ -64,7 +73,7 @@ const filterList = computed(() => [
       class="mb-4"
     >
       <p>{{ item.title }} ({{ item.data.length }}位):</p>
-      <div class="flex gap-2">
+      <div class="flex flex-wrap gap-2">
         <UBadge
           v-for="name in item.data"
           :key="name"
