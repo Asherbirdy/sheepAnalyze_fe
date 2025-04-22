@@ -34,6 +34,8 @@ export const useBlendingApi = {
       method: 'GET',
       server: false,
       lazy: true,
+      immediate: false,
+      watch: false,
     })
   },
 }

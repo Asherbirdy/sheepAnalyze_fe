@@ -11,15 +11,41 @@ enum AgeRange {
   SixYearOld = '六歲以下',
 }
 
-const { data: blendingData } = await useBlendingApi.get()
+enum Identity {
+  Brother = '弟兄',
+  Sister = '姊妹',
+  Male = '男介朋友',
+  Female = '女介朋友',
+}
+
+const {
+  data: BlendingResponse,
+  execute: BlendingRequest,
+} = await useBlendingApi.get()
+
+const {
+  execute: CreateFromSheetRequest,
+  status: CreateFromSheetStatus,
+} = await useBlendingApi.createFromSheet()
+
+const handleUpdateData = async () => {
+  await CreateFromSheetRequest()
+  await BlendingRequest()
+}
 
 // 過濾掉空值name
-const data = computed(() => blendingData.value?.response.filter(item => item.name !== ''))
-
+const data = computed(() => BlendingResponse.value?.response.filter(item => item.name !== ''))
+// 福音朋友
+const gospelFriends = computed(() => data.value
+  ?.filter(item =>
+    item.identity === Identity.Female
+    || item.identity === Identity.Male,
+  ))
+// 過濾年齡
 const filterAgeRange = (ageRange: AgeRange) => data.value
   ?.filter(item => item.ageRange === ageRange)
   .map(item => item.name) || []
-
+// 過濾列表
 const filterList = computed(() => [
   {
     title: '年長報名',
@@ -60,6 +86,8 @@ const filterList = computed(() => [
         color="info"
         variant="soft"
         size="sm"
+        :loading="CreateFromSheetStatus === 'pending'"
+        @click="handleUpdateData"
       >
         更新
       </UButton>
@@ -81,6 +109,20 @@ const filterList = computed(() => [
           variant="soft"
         >
           {{ name }}
+        </UBadge>
+      </div>
+    </div>
+    <div>-----</div>
+    <div>
+      <p>福音朋友</p>
+      <div class="flex flex-wrap gap-2">
+        <UBadge
+          v-for="nameData in gospelFriends"
+          :key="nameData._id"
+          color="info"
+          variant="soft"
+        >
+          {{ nameData.name }}
         </UBadge>
       </div>
     </div>
