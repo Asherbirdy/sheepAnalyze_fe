@@ -35,47 +35,34 @@ const handleUpdateData = async () => {
 
 // 過濾掉空值name
 const data = computed(() => BlendingResponse.value?.response.filter(item => item.name !== ''))
+
 // 福音朋友
 const gospelFriends = computed(() => data.value
   ?.filter(item =>
     item.identity === Identity.Female
     || item.identity === Identity.Male,
   ))
+
 // 過濾年齡
 const filterAgeRange = (ageRange: AgeRange) => data.value
   ?.filter(item => item.ageRange === ageRange)
   .map(item => item.name) || []
+
 // 過濾列表
 const filterList = computed(() => [
-  {
-    title: '年長報名',
-    data: filterAgeRange(AgeRange.Elder),
-  },
-  {
-    title: '壯年報名',
-    data: filterAgeRange(AgeRange.Middle),
-  },
-  {
-    title: '青職報名',
-    data: filterAgeRange(AgeRange.Young),
-  },
-  {
-    title: '大學報名',
-    data: filterAgeRange(AgeRange.College),
-  },
-  {
-    title: '青少年報名',
-    data: filterAgeRange(AgeRange.Teen),
-  },
-  {
-    title: '兒童報名',
-    data: filterAgeRange(AgeRange.Child),
-  },
-  {
-    title: '六歲以下報名',
-    data: filterAgeRange(AgeRange.SixYearOld),
-  },
+  { title: '年長報名', data: filterAgeRange(AgeRange.Elder) },
+  { title: '壯年報名', data: filterAgeRange(AgeRange.Middle) },
+  { title: '青職報名', data: filterAgeRange(AgeRange.Young) },
+  { title: '大學報名', data: filterAgeRange(AgeRange.College) },
+  { title: '青少年報名', data: filterAgeRange(AgeRange.Teen) },
+  { title: '兒童報名', data: filterAgeRange(AgeRange.Child) },
+  { title: '六歲以下報名', data: filterAgeRange(AgeRange.SixYearOld) },
 ])
+
+const tabs = [
+  { label: '報名名單', slot: 'join' },
+  { label: '福音朋友', slot: 'gospel' },
+]
 </script>
 
 <template>
@@ -92,39 +79,48 @@ const filterList = computed(() => [
         更新
       </UButton>
     </div>
-    <p class="mb-4">
-      報名人數{{ data?.length }}
-    </p>
-    <div
-      v-for="item in filterList"
-      :key="item.title"
-      class="mb-4"
+    <UTabs
+      :items="tabs"
+      variant="link"
+      class="gap-4 w-full"
+      :ui="{ trigger: 'flex-1' }"
     >
-      <p>{{ item.title }} ({{ item.data.length }}位):</p>
-      <div class="flex flex-wrap gap-2">
-        <UBadge
-          v-for="name in item.data"
-          :key="name"
-          color="info"
-          variant="soft"
+      <template #join>
+        <p class="mb-4">
+          報名人數{{ data?.length }}
+        </p>
+        <div
+          v-for="nameSet in filterList"
+          :key="nameSet.title"
+          class="mb-4"
         >
-          {{ name }}
-        </UBadge>
-      </div>
-    </div>
-    <div>-----</div>
-    <div>
-      <p>福音朋友</p>
-      <div class="flex flex-wrap gap-2">
-        <UBadge
-          v-for="nameData in gospelFriends"
-          :key="nameData._id"
-          color="info"
-          variant="soft"
-        >
-          {{ nameData.name }}
-        </UBadge>
-      </div>
-    </div>
+          <p>{{ nameSet.title }} ({{ nameSet.data.length }}位):</p>
+          <div class="flex flex-wrap gap-2">
+            <UBadge
+              v-for="name in nameSet.data"
+              :key="name"
+              color="info"
+              variant="soft"
+            >
+              {{ name }}
+            </UBadge>
+          </div>
+        </div>
+      </template>
+
+      <template #gospel>
+        <p>福音朋友{{ gospelFriends?.length }}位</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="nameData in gospelFriends"
+            :key="nameData._id"
+            color="info"
+            variant="soft"
+          >
+            {{ nameData.name }}
+          </UBadge>
+        </div>
+      </template>
+    </UTabs>
   </div>
 </template>
