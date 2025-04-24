@@ -44,7 +44,7 @@
     "pinia": "^3.0.1",
     "typescript": "^5.8.2",
     "vitest": "^3.0.9",
-    "vue-tsc": "^2.2.8"
+    "vue-tsc": "v2.2.10"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
