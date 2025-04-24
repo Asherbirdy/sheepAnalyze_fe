@@ -1,17 +1,50 @@
 <script setup lang="ts">
 import { useAuthApi, useUserApi } from '~/apis'
 
-const state = ref({
+interface RefState<
+  DataType,
+  ApiType,
+  PageType,
+  QueryType,
+  FeatureType,
+> {
+  data: DataType
+  api: ApiType
+  page: PageType
+  query: QueryType
+  feature: FeatureType
+}
+
+interface EmailVerifiedModal {
+  emailVerifiedModal: {
+    otp: string
+  }
+}
+
+interface FeatureCountdown {
+  emailCountdown: {
+    status: boolean
+    time: number
+    countdown: number
+  }
+}
+
+const state = ref<RefState<EmailVerifiedModal, null, null, null, FeatureCountdown>>({
   data: {
     emailVerifiedModal: {
       otp: '',
     },
   },
-  emailCountdown: {
-    status: false,
-    time: 60,
-    countdown: 0,
+  feature: {
+    emailCountdown: {
+      status: false,
+      time: 60,
+      countdown: 0,
+    },
   },
+  api: null,
+  page: null,
+  query: null,
 })
 
 interface Model {
@@ -38,7 +71,7 @@ const { execute: emailVerifyRequest } = await useAuthApi.bindOTPEmail({
   * SEND EMAIL VERIFY
 */
 const onEmailRequest = async () => {
-  const { emailCountdown } = state.value
+  const { emailCountdown } = state.value.feature
   await executeEmailRequest()
   emailCountdown.status = true
   emailCountdown.countdown = emailCountdown.time
@@ -54,15 +87,15 @@ const onEmailVerify = async () => {
 /*
   * EMAIL COUNT DOWN
 */
-watch(state.value.emailCountdown, (value) => {
+watch(state.value.feature.emailCountdown, (value) => {
   if (value.countdown > 0) {
     setTimeout(() => {
-      state.value.emailCountdown.countdown--
+      state.value.feature.emailCountdown.countdown--
     }, 1000)
     return
   }
-  state.value.emailCountdown.status = false
-  state.value.emailCountdown.countdown = state.value.emailCountdown.time
+  state.value.feature.emailCountdown.status = false
+  state.value.feature.emailCountdown.countdown = state.value.feature.emailCountdown.time
 })
 
 const validate = (state: Partial<Model>) => {
@@ -99,7 +132,7 @@ const validate = (state: Partial<Model>) => {
 
       <template #body>
         <UForm
-          :state="state.data.emailVerifiedModal"
+          :state="state.data?.emailVerifiedModal"
           :validate="validate"
         >
           <div class="">
@@ -115,8 +148,8 @@ const validate = (state: Partial<Model>) => {
                 placeholder="請輸入驗證碼"
               />
               <UButton
-                :disabled="state.emailCountdown.status"
-                :label="state.emailCountdown.status ? `${state.emailCountdown.countdown}秒` : '寄送 Email 驗證'"
+                :disabled="state.feature.emailCountdown.status"
+                :label="state.feature.emailCountdown.status ? `${state.feature.emailCountdown.countdown}秒` : '寄送 Email 驗證'"
                 variant="soft"
                 class="inline-block"
                 @click="onEmailRequest"
