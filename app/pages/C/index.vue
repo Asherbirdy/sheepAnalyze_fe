@@ -1,35 +1,8 @@
 <script setup lang="ts">
+import type { IndexStateData, IndexStateFeature, StateType } from '~/type'
 import { useAuthApi, useUserApi } from '~/apis'
 
-interface RefState<
-  DataType,
-  ApiType,
-  PageType,
-  QueryType,
-  FeatureType,
-> {
-  data: DataType
-  api: ApiType
-  page: PageType
-  query: QueryType
-  feature: FeatureType
-}
-
-interface EmailVerifiedModal {
-  emailVerifiedModal: {
-    otp: string
-  }
-}
-
-interface FeatureCountdown {
-  emailCountdown: {
-    status: boolean
-    time: number
-    countdown: number
-  }
-}
-
-const state = ref<RefState<EmailVerifiedModal, null, null, null, FeatureCountdown>>({
+const state = ref<StateType<IndexStateData, null, null, IndexStateFeature>>({
   data: {
     emailVerifiedModal: {
       otp: '',
@@ -43,7 +16,6 @@ const state = ref<RefState<EmailVerifiedModal, null, null, null, FeatureCountdow
     },
   },
   api: null,
-  page: null,
   query: null,
 })
 
