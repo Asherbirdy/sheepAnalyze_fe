@@ -46,7 +46,7 @@ const gospelFriends = computed(() => data.value
 // 過濾年齡
 const filterAgeRange = (ageRange: AgeRange) => data.value
   ?.filter(item => item.ageRange === ageRange)
-  .map(item => item.name) || []
+  .map(item => item) || []
 
 // 過濾列表
 const filterList = computed(() => [
@@ -98,11 +98,11 @@ const tabs = [
           <div class="flex flex-wrap gap-2">
             <UBadge
               v-for="name in nameSet.data"
-              :key="name"
+              :key="name._id"
               color="info"
               variant="soft"
             >
-              {{ name }}
+              {{ name.name }}
             </UBadge>
           </div>
         </div>
@@ -117,7 +117,7 @@ const tabs = [
             color="info"
             variant="soft"
           >
-            {{ nameData.name }}
+            {{ nameData.name }} ({{ nameData.ageRange }})
           </UBadge>
         </div>
       </template>
