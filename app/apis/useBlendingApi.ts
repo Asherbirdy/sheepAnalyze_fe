@@ -19,6 +19,7 @@ export interface Blending {
   createdAt: string
   updatedAt: string
   __v: number
+  selectSchedule: string
 }
 
 export const useBlendingApi = {

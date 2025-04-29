@@ -48,6 +48,11 @@ const filterAgeRange = (ageRange: AgeRange) => data.value
   ?.filter(item => item.ageRange === ageRange)
   .map(item => item) || []
 
+// 過濾單日報名
+const filterOneDay = computed(() => data.value
+  ?.filter(item => item.selectSchedule === '週六_單日行程')
+  .map(item => item) || [])
+
 // 過濾列表
 const filterList = computed(() => [
   { title: '年長報名', data: filterAgeRange(AgeRange.Elder) },
@@ -62,6 +67,7 @@ const filterList = computed(() => [
 const tabs = [
   { label: '報名名單', slot: 'join' },
   { label: '福音朋友', slot: 'gospel' },
+  { label: '單日報名', slot: 'oneDay' },
 ]
 </script>
 
@@ -118,6 +124,20 @@ const tabs = [
             variant="soft"
           >
             {{ nameData.name }} ({{ nameData.ageRange }})
+          </UBadge>
+        </div>
+      </template>
+
+      <template #oneDay>
+        <p>週六單日報名{{ filterOneDay?.length }}位</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="nameData in filterOneDay"
+            :key="nameData._id"
+            color="info"
+            variant="soft"
+          >
+            {{ nameData.name }}
           </UBadge>
         </div>
       </template>
