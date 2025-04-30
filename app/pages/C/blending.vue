@@ -53,6 +53,10 @@ const filterOneDay = computed(() => data.value
   ?.filter(item => item.selectSchedule === '週六_單日行程')
   .map(item => item) || [])
 
+const filterSunday = computed(() => data.value
+  ?.filter(item => item.selectSchedule === '只前往主日')
+  .map(item => item) || [])
+
 // 過濾列表
 const filterList = computed(() => [
   { title: '年長報名', data: filterAgeRange(AgeRange.Elder) },
@@ -133,6 +137,17 @@ const tabs = [
         <div class="flex flex-wrap gap-2">
           <UBadge
             v-for="nameData in filterOneDay"
+            :key="nameData._id"
+            color="info"
+            variant="soft"
+          >
+            {{ nameData.name }}
+          </UBadge>
+        </div>
+        <p>只前往主日{{ filterSunday?.length }}位</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="nameData in filterSunday"
             :key="nameData._id"
             color="info"
             variant="soft"
