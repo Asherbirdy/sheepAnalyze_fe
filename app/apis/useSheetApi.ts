@@ -1,22 +1,11 @@
+import type { CreateSheetPayload, DeleteSheetPayload, EditSheetPayload } from '~/type'
 import { useRequestApi } from '~/composables'
 import { UserRequestUrl } from '~/enum'
 
-interface CreateSheetPayload {
-  name: string
-  api: string
-}
-
-interface EditSheetPayload {
-  _id: string
-  name: string
-  api: string
-}
-
-interface DeleteSheetPayload {
-  id: string
-}
-
 export const useSheetApi = {
+  /*
+     * CREATE
+  */
   create: async (payload: CreateSheetPayload) =>
     await useRequestApi(UserRequestUrl.SheetCreate, {
       method: 'POST',
@@ -26,11 +15,17 @@ export const useSheetApi = {
       watch: false,
       body: payload,
     }),
+  /*
+     * GET ALL
+  */
   getAll: async () =>
     await useRequestApi(UserRequestUrl.SheetAll, {
       method: 'GET',
       server: false,
     }),
+  /*
+    * EDIT
+  */
   edit: async (payload: EditSheetPayload) =>
     await useRequestApi(UserRequestUrl.SheetEdit, {
       method: 'PUT',
@@ -40,6 +35,9 @@ export const useSheetApi = {
       watch: false,
       body: payload,
     }),
+  /*
+    * DELETE
+  */
   delete: async (payload: DeleteSheetPayload) =>
     await useRequestApi(UserRequestUrl.SheetDelete, {
       method: 'DELETE',
