@@ -57,7 +57,7 @@ const filterSunday = computed(() => data.value
   ?.filter(item => item.selectSchedule === '只前往主日')
   .map(item => item) || [])
 
-// 過濾列表
+// 過濾列表 a
 const filterList = computed(() => [
   { title: '年長報名', data: filterAgeRange(AgeRange.Elder) },
   { title: '壯年報名', data: filterAgeRange(AgeRange.Middle) },
