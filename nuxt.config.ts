@@ -14,19 +14,18 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/ui',
   ],
-
   components: false, // 不使用自動引入
 
   app: {
     head: {
-      viewport: 'width=device-width,initial-scale=1',
+      viewport: 'width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no',
       link: [
         { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
         { rel: 'icon', type: 'image/svg+xml', href: '/nuxt.svg' },
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
       ],
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' },
         { name: 'description', content: appDescription },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
         // { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
@@ -80,6 +79,11 @@ export default defineNuxtConfig({
       ignore: ['/hi'],
     },
   },
+  // vite: {
+  //   build: {
+  //     sourcemap: false,
+  //   },
+  // },
 
   eslint: {
     config: {

@@ -12,6 +12,8 @@ export * from './api/useLandingPageApi/GetInfoByILandingPage'
 // useUserApi
 export * from './api/useUserApi/ShowMeApiType'
 
-// * APP
-
 // * COMMON
+export * from './common/StateType'
+
+// * PAGE
+export * from './page/home'

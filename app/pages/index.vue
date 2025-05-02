@@ -6,11 +6,15 @@ definePageMeta({
 })
 
 const { data } = await useDevApi.get()
+
+const navigateToLogin = () => {
+  navigateTo('/login')
+}
 </script>
 
 <template>
   <div>
-    <UButton>
+    <UButton @click="navigateToLogin">
       Click me
     </UButton>
     <p>
