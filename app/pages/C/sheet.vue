@@ -55,12 +55,33 @@ const openModal = (data: GoogleSheet) => {
         </div>
       </div>
     </UCard>
-    <UModal v-model:open="state.feature.modal.status">
-      <template #content>
-        <UCard>
-          <UInput v-model="state.data.modalForm.name" />
-          <UInput v-model="state.data.modalForm.api" />
-        </UCard>
+    <UModal
+      v-model:open="state.feature.modal.status"
+      title="Modal with footer"
+      description="This is useful when you want a form in a Modal."
+      :ui="{ footer: 'justify-end' }"
+    >
+      <UButton
+        label="Open"
+        color="neutral"
+        variant="subtle"
+      />
+
+      <template #body>
+        ss
+      </template>
+
+      <template #footer>
+        <UButton
+          label="Cancel"
+          color="neutral"
+          variant="outline"
+          @click="state.feature.modal.status = false"
+        />
+        <UButton
+          label="Submit"
+          color="neutral"
+        />
       </template>
     </UModal>
   </div>
