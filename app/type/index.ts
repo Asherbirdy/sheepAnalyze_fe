@@ -13,6 +13,8 @@ export * from './api/useLandingPageApi/GetInfoByILandingPage'
 export * from './api/useSheetApi/CreateSheetApiType'
 export * from './api/useSheetApi/DeleteSheetApiType'
 export * from './api/useSheetApi/EditSheetApiType'
+export * from './api/useSheetApi/GetAllSheetApiType'
+
 // useUserApi
 export * from './api/useUserApi/ShowMeApiType'
 

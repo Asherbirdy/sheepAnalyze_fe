@@ -1,4 +1,4 @@
-import type { CreateSheetPayload, DeleteSheetPayload, EditSheetPayload } from '~/type'
+import type { CreateSheetPayload, DeleteSheetPayload, EditSheetPayload, SheetGetAllResponse } from '~/type'
 import { useRequestApi } from '~/composables'
 import { UserRequestUrl } from '~/enum'
 
@@ -19,7 +19,7 @@ export const useSheetApi = {
      * GET ALL
   */
   getAll: async () =>
-    await useRequestApi(UserRequestUrl.SheetAll, {
+    await useRequestApi<SheetGetAllResponse, any>(UserRequestUrl.SheetAll, {
       method: 'GET',
       server: false,
     }),
