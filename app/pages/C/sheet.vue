@@ -6,7 +6,10 @@ const { data: sheets } = await useSheetApi.getAll()
 
 const state = ref<StateType<SheetStateData, SheetStateFeature>>({
   data: {
-    currentSheet: null,
+    modalForm: {
+      name: '',
+      api: '',
+    },
   },
   feature: {
     modal: {
@@ -16,7 +19,8 @@ const state = ref<StateType<SheetStateData, SheetStateFeature>>({
 })
 
 const openModal = (data: GoogleSheet) => {
-  state.value.data.currentSheet = data
+  state.value.data.modalForm.name = data.name
+  state.value.data.modalForm.api = data.api
   state.value.feature.modal.status = true
 }
 </script>
@@ -53,7 +57,10 @@ const openModal = (data: GoogleSheet) => {
     </UCard>
     <UModal v-model:open="state.feature.modal.status">
       <template #content>
-        <Placeholder class="h-48 m-4" />
+        <UCard>
+          <UInput v-model="state.data.modalForm.name" />
+          <UInput v-model="state.data.modalForm.api" />
+        </UCard>
       </template>
     </UModal>
   </div>

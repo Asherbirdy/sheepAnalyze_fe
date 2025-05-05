@@ -1,7 +1,10 @@
 import type { GoogleSheet } from '~/type'
 
 export interface SheetStateData {
-  currentSheet: GoogleSheet | null
+  modalForm: {
+    name: string
+    api: string
+  }
 }
 export interface SheetStateFeature {
   modal: {
