@@ -22,4 +22,5 @@ export * from './api/useUserApi/ShowMeApiType'
 export * from './common/StateType'
 
 // * PAGE
+export * from './page/C/SheetPage'
 export * from './page/home'
