@@ -1,5 +1,3 @@
-import type { GoogleSheet } from '~/type'
-
 export interface SheetStateData {
   modalForm: {
     name: string
