@@ -9,19 +9,22 @@ export function useMenuStore() {
     },
     {
       label: 'Landing Page',
-      icon: 'i-lucide-circle-help',
+      icon: 'fluent-mdl2:page',
       to: ClientRoutes.LandingPage,
     },
     {
       label: 'Blending',
-      icon: 'i-lucide-circle-help',
+      icon: 'material-symbols-light:blender',
       to: ClientRoutes.Blending,
+    },
+    {
+      label: 'Sheet',
+      icon: 'i-lucide-file-spreadsheet',
+      to: ClientRoutes.Sheet,
     },
   ])
 
   const getMenu = () => menu.value
 
-  return {
-    getMenu,
-  }
+  return { getMenu }
 }

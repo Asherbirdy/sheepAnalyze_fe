@@ -9,6 +9,12 @@ export * from './api/useLandingPageApi/CreateLandingPage'
 export * from './api/useLandingPageApi/EditInfoById'
 export * from './api/useLandingPageApi/GetAllLandingPage'
 export * from './api/useLandingPageApi/GetInfoByILandingPage'
+// useSheetApi
+export * from './api/useSheetApi/CreateSheetApiType'
+export * from './api/useSheetApi/DeleteSheetApiType'
+export * from './api/useSheetApi/EditSheetApiType'
+export * from './api/useSheetApi/GetAllSheetApiType'
+
 // useUserApi
 export * from './api/useUserApi/ShowMeApiType'
 
@@ -16,4 +22,5 @@ export * from './api/useUserApi/ShowMeApiType'
 export * from './common/StateType'
 
 // * PAGE
+export * from './page/C/SheetPage'
 export * from './page/home'

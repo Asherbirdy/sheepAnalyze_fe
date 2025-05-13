@@ -1,16 +1,13 @@
 export interface StateType<
   DataType,
-  ApiType,
-  QueryType,
+  // QueryType,
   FeatureType,
 > {
   // 畫面資料
   data: DataType
-  // API
-  api: ApiType
   // 例如 線讚組建
   // 查詢資料
-  query: QueryType
+  // query: QueryType
   // 功能資料
   feature: FeatureType
 }

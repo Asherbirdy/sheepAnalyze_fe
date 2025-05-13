@@ -37,4 +37,10 @@ export enum UserRequestUrl {
   // BLENDING
   BlendingCreateFromSheet = '/blending/createFromSheet',
   BlendingGetAll = '/blending/getAll',
+
+  // SHEET
+  SheetCreate = '/sheet/create',
+  SheetAll = '/sheet/all',
+  SheetEdit = '/sheet/edit',
+  SheetDelete = '/sheet/delete',
 }

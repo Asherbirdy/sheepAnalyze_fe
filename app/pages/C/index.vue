@@ -2,7 +2,7 @@
 import type { IndexStateData, IndexStateFeature, StateType } from '~/type'
 import { useAuthApi, useUserApi } from '~/apis'
 
-const state = ref<StateType<IndexStateData, null, null, IndexStateFeature>>({
+const state = ref<StateType<IndexStateData, IndexStateFeature>>({
   data: {
     emailVerifiedModal: {
       otp: '',
@@ -15,8 +15,6 @@ const state = ref<StateType<IndexStateData, null, null, IndexStateFeature>>({
       countdown: 0,
     },
   },
-  api: null,
-  query: null,
 })
 
 interface Model {
