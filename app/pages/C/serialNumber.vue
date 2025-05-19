@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSerialNumberApi } from '~/apis'
+import DeleteSerialNumberComponent from '~/components/page/C/SerialNumber/DeleteSerialNumberComponent.vue'
 
 const { data: SerialNumbersResponse } = await useSerialNumberApi.getAll()
 </script>
@@ -27,7 +28,7 @@ const { data: SerialNumbersResponse } = await useSerialNumberApi.getAll()
             </UBadge>
             <p>{{ serialNumber.notes || '無備註' }}</p>
           </div>
-          <UIcon name="i-lucide-trash" />
+          <DeleteSerialNumberComponent />
         </div>
       </template>
       <p>
