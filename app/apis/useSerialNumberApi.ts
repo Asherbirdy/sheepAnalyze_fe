@@ -1,10 +1,10 @@
-import type { SerialNumberCreatePayload } from '~/type/api/useSerialNumberApi/SerialNumberCreateType'
+import type { SerialNumberCreatePayload, SerialNumberGetAllResponse } from '~/type'
 import { useRequestApi } from '~/composables'
 import { UserRequestUrl } from '~/enum'
 
 export const useSerialNumberApi = {
   getAll: async () =>
-    await useRequestApi(UserRequestUrl.SerialNumberGetAll, {
+    await useRequestApi<SerialNumberGetAllResponse, null>(UserRequestUrl.SerialNumberGetAll, {
       method: 'GET',
       server: false,
     }),

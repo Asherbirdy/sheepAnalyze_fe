@@ -13,6 +13,7 @@ export * from './api/useLandingPageApi/GetInfoByILandingPage'
 
 // useSerialNumberApi
 export * from './api/useSerialNumberApi/SerialNumberCreateType'
+export * from './api/useSerialNumberApi/SerialNumberGetAllType'
 
 // useSheetApi
 export * from './api/useSheetApi/CreateSheetApiType'
