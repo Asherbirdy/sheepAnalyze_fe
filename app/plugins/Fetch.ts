@@ -1,4 +1,4 @@
-import { CookieEnums, UserRequestUrl } from '~/enum'
+import { CookieEnums, PublicRoutes, UserRequestUrl } from '~/enum'
 
 export default defineNuxtPlugin(() => {
   const $Fetch = $fetch.create({
@@ -28,6 +28,9 @@ export default defineNuxtPlugin(() => {
           break
         case 401:
           errorMessage = '[ Client Error: 401 ] 身份認證未通過! 請重新登入！'
+          if (window.location.pathname !== PublicRoutes.Login) {
+            navigateTo('/login')
+          }
           break
         case 403:
           errorMessage = '[ Client Error: 403 ] 用戶已獲得授權，但訪問被禁止！'
@@ -44,7 +47,10 @@ export default defineNuxtPlugin(() => {
         default:
           errorMessage = '[ Unknown Error ] 未知錯誤！'
       }
-      console.error(errorMessage, response)
+
+      if (window.location.pathname !== PublicRoutes.Login) {
+        console.error(errorMessage, response)
+      }
     },
   })
 
