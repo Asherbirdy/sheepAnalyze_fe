@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSerialNumberApi } from '~/apis'
+import AddSerialNumberComponent from '~/components/page/C/SerialNumber/AddSerialNumberComponent.vue'
 import DeleteSerialNumberComponent from '~/components/page/C/SerialNumber/DeleteSerialNumberComponent.vue'
 
 const { data: SerialNumbersResponse } = await useSerialNumberApi.getAll()
@@ -11,10 +12,7 @@ const { data: SerialNumbersResponse } = await useSerialNumberApi.getAll()
       <p class="text-md font-bold">
         序號列表
       </p>
-      <UButton>
-        <UIcon name="i-lucide-plus" />
-        創建序號
-      </UButton>
+      <AddSerialNumberComponent />
     </div>
     <UCard
       v-for="serialNumber in SerialNumbersResponse?.userSerialNumber"
