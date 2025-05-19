@@ -1,5 +1,7 @@
 <script setup lang='ts'>
 import type { StateType } from '~/type'
+import { useSerialNumberApi } from '~/apis'
+import { UserRequestUrl } from '~/enum'
 
 interface FeatureType {
   modal: {
@@ -22,6 +24,16 @@ const state = ref<StateType<null, FeatureType>>({
   },
   data: null,
 })
+
+const { execute, status } = await useSerialNumberApi.delete({
+  id: serialNumberId.value,
+})
+
+const handleDeleteSerialNumber = async () => {
+  await execute()
+  await refreshNuxtData(UserRequestUrl.SerialNumberGetAll)
+  state.value.feature.modal.open = false
+}
 </script>
 
 <template>
@@ -34,7 +46,7 @@ const state = ref<StateType<null, FeatureType>>({
   </div>
   <UModal
     v-model:open="state.feature.modal.open"
-    title="是否刪除序號"
+    title="刪除序號"
     :ui="{ footer: 'justify-end' }"
   >
     <template #body>
@@ -52,6 +64,8 @@ const state = ref<StateType<null, FeatureType>>({
       <UButton
         label="確認"
         variant="outline"
+        :loading="status === 'pending'"
+        @click="handleDeleteSerialNumber"
       />
     </template>
   </UModal>

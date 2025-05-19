@@ -2,11 +2,14 @@ import type { SerialNumberCreatePayload, SerialNumberGetAllResponse } from '~/ty
 import { useRequestApi } from '~/composables'
 import { UserRequestUrl } from '~/enum'
 
+const nuxtApp = useNuxtApp()
 export const useSerialNumberApi = {
   getAll: async () =>
     await useRequestApi<SerialNumberGetAllResponse, null>(UserRequestUrl.SerialNumberGetAll, {
       method: 'GET',
       server: false,
+      key: UserRequestUrl.SerialNumberGetAll,
+      getCachedData: key => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
     }),
 
   create: async (payload: SerialNumberCreatePayload) =>
@@ -19,9 +22,9 @@ export const useSerialNumberApi = {
       body: payload,
     }),
 
-  delete: async (payload: any) =>
+  delete: async (payload: { id: string }) =>
     await useRequestApi(UserRequestUrl.SerialNumberDelete, {
-      method: 'POST',
+      method: 'DELETE',
       server: false,
       lazy: true,
       immediate: false,
