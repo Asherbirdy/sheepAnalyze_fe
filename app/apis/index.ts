@@ -1,5 +1,6 @@
 export * from './useAuthApi'
 export * from './useBlendingApi'
 export * from './useDevApi'
+export * from './useSerialNumberApi'
 export * from './useSheetApi'
 export * from './useUserApi'

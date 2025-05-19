@@ -43,4 +43,9 @@ export enum UserRequestUrl {
   SheetAll = '/sheet/all',
   SheetEdit = '/sheet/edit',
   SheetDelete = '/sheet/delete',
+
+  // SERIAL NUMBER
+  SerialNumberGetAll = '/userSerialNumber/getAll',
+  SerialNumberCreate = '/userSerialNumber/create',
+  SerialNumberDelete = '/userSerialNumber/delete',
 }
