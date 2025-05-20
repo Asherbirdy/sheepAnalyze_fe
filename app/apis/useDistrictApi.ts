@@ -1,3 +1,4 @@
+import type { GetAllDistrictResponse } from '~/type'
 import { useRequestApi } from '~/composables'
 import { UserRequestUrl } from '~/enum'
 
@@ -6,7 +7,7 @@ export const useDistrictApi = {
     * GET
   */
   getAll: async () =>
-    await useRequestApi(UserRequestUrl.District, {
+    await useRequestApi<GetAllDistrictResponse, null>(UserRequestUrl.District, {
       method: 'GET',
       server: false,
       lazy: true,

@@ -1,5 +1,6 @@
 <script setup lang='ts'>
 import type { StateType } from '~/type'
+import { useDistrictApi } from '~/apis'
 import { Role, roleOptions } from '~/enum'
 
 interface FeatureType {
@@ -27,12 +28,12 @@ const state = ref<StateType<DataType, FeatureType>>({
   },
 })
 
-const districtItems = ref([
-  {
-    label: '台北市',
-    value: '台北市',
-  },
-])
+// const districtItems = ref([
+//   {
+//     label: '台北市',
+//     value: '台北市',
+//   },
+// ])
 </script>
 
 <template>
