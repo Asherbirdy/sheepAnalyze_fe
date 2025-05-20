@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useMenuStore } from '~/composables'
+import { useMenuStore } from '~/store'
 
 const menuStore = useMenuStore()
 const items = ref(menuStore.getMenu())
