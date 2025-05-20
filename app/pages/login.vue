@@ -76,8 +76,10 @@ const onLogin = async () => {
     return
   }
 
-  useCookie(CookieEnums.AccessToken).value = LoginResponse.value?.token.accessTokenJWT
-  useCookie(CookieEnums.RefreshToken).value = LoginResponse.value?.token.refreshTokenJWT
+  const accessToken = useCookie<string>(CookieEnums.AccessToken)
+  const refreshToken = useCookie<string>(CookieEnums.RefreshToken)
+  accessToken.value = LoginResponse.value?.token.accessTokenJWT || ''
+  refreshToken.value = LoginResponse.value?.token.refreshTokenJWT || ''
 
   navigateTo(ClientRoutes.Home)
 }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useSerialNumberApi } from '~/apis'
-import AddSerialNumberComponent from '~/components/page/C/SerialNumber/AddSerialNumberComponent.vue'
-import DeleteSerialNumberComponent from '~/components/page/C/SerialNumber/DeleteSerialNumberComponent.vue'
+import { AddSerialNumberComponent, DeleteSerialNumberComponent } from '~/components'
 
 const { data: SerialNumbersResponse } = await useSerialNumberApi.getAll()
 </script>
