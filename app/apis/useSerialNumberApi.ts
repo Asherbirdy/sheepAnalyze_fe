@@ -13,15 +13,17 @@ export const useSerialNumberApi = {
     })
   },
 
-  create: async (payload: SerialNumberCreatePayload) =>
-    await useRequestApi(UserRequestUrl.SerialNumberCreate, {
+  create: async (payload: SerialNumberCreatePayload) => {
+    const { execute } = await useRequestApi(UserRequestUrl.SerialNumberCreate, {
       method: 'POST',
       server: false,
       lazy: true,
       immediate: false,
       watch: false,
       body: payload,
-    }),
+    })
+    return { execute }
+  },
 
   delete: async (payload: { id: string }) =>
     await useRequestApi(UserRequestUrl.SerialNumberDelete, {

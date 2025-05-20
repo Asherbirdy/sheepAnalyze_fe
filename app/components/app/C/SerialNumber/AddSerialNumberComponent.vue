@@ -1,12 +1,12 @@
 <script setup lang='ts'>
 import type { District, StateType } from '~/type'
+import { useSerialNumberApi } from '~/apis'
 import { Role, roleOptions, UserRequestUrl } from '~/enum'
-
-const { data: CachedDistricts } = useNuxtData(UserRequestUrl.District)
 
 interface FeatureType {
   modal: {
     open: boolean
+    status: boolean
   }
 }
 
@@ -19,15 +19,38 @@ interface DataType {
 const state = ref<StateType<DataType, FeatureType>>({
   data: {
     role: Role.user,
-    districtId: CachedDistricts.value?.districts[0]._id,
+    districtId: '',
     notes: '',
   },
   feature: {
     modal: {
       open: false,
+      status: false,
     },
   },
 })
+
+const { data: CachedDistricts } = useNuxtData(UserRequestUrl.District)
+
+const handleCreateSerialNumber = async () => {
+  const { feature, data } = state.value
+  const { execute } = await useSerialNumberApi.create({
+    role: data.role,
+    districtId: data.districtId,
+    notes: data.notes,
+  })
+
+  feature.modal.status = true
+  await execute()
+  feature.modal.status = false
+
+  await refreshNuxtData(UserRequestUrl.SerialNumberGetAll)
+
+  feature.modal.open = false
+  state.value.data.role = Role.user
+  state.value.data.districtId = ''
+  state.value.data.notes = ''
+}
 </script>
 
 <template>
@@ -91,10 +114,18 @@ const state = ref<StateType<DataType, FeatureType>>({
           label="取消"
           color="neutral"
           variant="outline"
+          @click="state.feature.modal.open = false"
         />
         <UButton
           label="確認"
           variant="outline"
+          :disabled="
+            !state.data.role
+              || !state.data.districtId
+              || !state.data.notes
+          "
+          :loading="state.feature.modal.status"
+          @click="handleCreateSerialNumber"
         />
       </template>
     </UModal>
