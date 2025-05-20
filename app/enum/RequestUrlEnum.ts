@@ -48,4 +48,7 @@ export enum UserRequestUrl {
   SerialNumberGetAll = '/userSerialNumber/getAll',
   SerialNumberCreate = '/userSerialNumber/create',
   SerialNumberDelete = '/userSerialNumber/delete',
+
+  // DISTRICT
+  District = '/district',
 }
