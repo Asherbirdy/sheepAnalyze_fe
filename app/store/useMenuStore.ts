@@ -29,7 +29,7 @@ export function useMenuStore() {
     },
   ])
 
-  const getMenu = () => menu.value
+  const getMenu = computed(() => menu.value)
 
   return { getMenu }
 }

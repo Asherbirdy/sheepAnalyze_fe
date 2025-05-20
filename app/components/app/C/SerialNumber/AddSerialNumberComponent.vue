@@ -1,10 +1,12 @@
 <script setup lang='ts'>
-import type { StateType } from '~/type'
-import { Role } from '~/enum'
+import type { District, StateType } from '~/type'
+import { useSerialNumberApi } from '~/apis'
+import { Role, roleOptions, UserRequestUrl } from '~/enum'
 
 interface FeatureType {
   modal: {
     open: boolean
+    status: boolean
   }
 }
 
@@ -23,35 +25,32 @@ const state = ref<StateType<DataType, FeatureType>>({
   feature: {
     modal: {
       open: false,
+      status: false,
     },
   },
 })
 
-const roleItems = ref([
-  {
-    label: '開發者',
-    value: Role.dev,
-  },
-  {
-    label: '管理者',
-    value: Role.admin,
-  },
-  {
-    label: '區負責',
-    value: Role.districtLeader,
-  },
-  {
-    label: '使用者',
-    value: Role.user,
-  },
-])
+const { data: CachedDistricts } = useNuxtData(UserRequestUrl.District)
 
-const districtItems = ref([
-  {
-    label: '台北市',
-    value: '台北市',
-  },
-])
+const handleCreateSerialNumber = async () => {
+  const { feature, data } = state.value
+  const { execute } = await useSerialNumberApi.create({
+    role: data.role,
+    districtId: data.districtId,
+    notes: data.notes,
+  })
+
+  feature.modal.status = true
+  await execute()
+  feature.modal.status = false
+
+  await refreshNuxtData(UserRequestUrl.SerialNumberGetAll)
+
+  feature.modal.open = false
+  state.value.data.role = Role.user
+  state.value.data.districtId = ''
+  state.value.data.notes = ''
+}
 </script>
 
 <template>
@@ -66,29 +65,67 @@ const districtItems = ref([
       :ui="{ footer: 'justify-end' }"
     >
       <template #body>
-        <div class="flex flex-col gap-2">
-          <USelect
-            v-model="state.data.role"
-            :items="roleItems"
-            class="w-48"
-          />
-          <USelect
-            v-model="state.data.districtId"
-            :items="districtItems"
-            class="w-48"
-          />
-          <UInput v-model="state.data.notes" />
-        </div>
+        <UForm
+          :state="state.data"
+          class="space-y-4 flex flex-col gap-4"
+        >
+          <div class="flex gap-4">
+            <UFormField
+              label="角色"
+              name="role"
+            >
+              <USelect
+                v-model="state.data.role"
+                :items="roleOptions"
+                label="角色"
+                name="role"
+              />
+            </UFormField>
+            <UFormField
+              label="區域"
+              name="districtId"
+            >
+              <USelect
+                v-model="state.data.districtId"
+                label="區域"
+                name="districtId"
+                :items="CachedDistricts?.districts.map((district: District) => ({
+                  label: district.name,
+                  value: district._id,
+                }))"
+              />
+            </UFormField>
+          </div>
+          <UFormField
+            label="備註"
+            name="notes"
+          >
+            <UInput
+              v-model="state.data.notes"
+              label="備註"
+              name="notes"
+              :ui="{ root: 'w-full' }"
+            />
+          </UFormField>
+        </UForm>
       </template>
       <template #footer>
         <UButton
           label="取消"
           color="neutral"
           variant="outline"
+          @click="state.feature.modal.open = false"
         />
         <UButton
           label="確認"
           variant="outline"
+          :disabled="
+            !state.data.role
+              || !state.data.districtId
+              || !state.data.notes
+          "
+          :loading="state.feature.modal.status"
+          @click="handleCreateSerialNumber"
         />
       </template>
     </UModal>
