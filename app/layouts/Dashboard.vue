@@ -2,7 +2,7 @@
 import { useMenuStore } from '~/store'
 
 const menuStore = useMenuStore()
-const items = ref(menuStore.getMenu())
+const { getMenu } = menuStore
 </script>
 
 <template>
@@ -13,7 +13,7 @@ const items = ref(menuStore.getMenu())
       </h1>
       <div class="md:hidden">
         <UDropdownMenu
-          :items="items"
+          :items="getMenu"
           :ui="{
             content: 'w-48',
           }"
@@ -29,7 +29,7 @@ const items = ref(menuStore.getMenu())
     <div class="flex h-[calc(100vh-64px)] ">
       <UNavigationMenu
         orientation="vertical"
-        :items="items"
+        :items="getMenu"
         class="data-[orientation=vertical]:w-48 m-3 md:block hidden"
       />
       <UContainer class="flex-1 m-3">
