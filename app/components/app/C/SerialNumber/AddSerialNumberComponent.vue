@@ -66,19 +66,46 @@ const districtItems = ref([
       :ui="{ footer: 'justify-end' }"
     >
       <template #body>
-        <div class="flex flex-col gap-2">
-          <USelect
-            v-model="state.data.role"
-            :items="roleItems"
-            class="w-48"
-          />
-          <USelect
-            v-model="state.data.districtId"
-            :items="districtItems"
-            class="w-48"
-          />
-          <UInput v-model="state.data.notes" />
-        </div>
+        <UForm
+          :state="state"
+          class="space-y-4 flex flex-col gap-4"
+        >
+          <div class="flex gap-4">
+            <UFormField
+              label="角色"
+              name="role"
+            >
+              <USelect
+                v-model="state.data.role"
+                :items="roleItems"
+                label="角色"
+                name="role"
+              />
+            </UFormField>
+            <UFormField
+              label="區域"
+              name="districtId"
+            >
+              <USelect
+                v-model="state.data.districtId"
+                label="區域"
+                name="districtId"
+                :items="districtItems"
+              />
+            </UFormField>
+          </div>
+          <UFormField
+            label="備註"
+            name="notes"
+          >
+            <UInput
+              v-model="state.data.notes"
+              label="備註"
+              name="notes"
+              :ui="{ root: 'w-full' }"
+            />
+          </UFormField>
+        </UForm>
       </template>
       <template #footer>
         <UButton
