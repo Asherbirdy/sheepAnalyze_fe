@@ -27,7 +27,7 @@ const state = ref<StateType<DataType, FeatureType>>({
   },
 })
 
-const items = ref([
+const roleItems = ref([
   {
     label: '開發者',
     value: Role.dev,
@@ -43,6 +43,13 @@ const items = ref([
   {
     label: '使用者',
     value: Role.user,
+  },
+])
+
+const districtItems = ref([
+  {
+    label: '台北市',
+    value: '台北市',
   },
 ])
 </script>
@@ -62,12 +69,12 @@ const items = ref([
         <div class="flex flex-col gap-2">
           <USelect
             v-model="state.data.role"
-            :items="items"
+            :items="roleItems"
             class="w-48"
           />
           <USelect
             v-model="state.data.districtId"
-            :items="items"
+            :items="districtItems"
             class="w-48"
           />
           <UInput v-model="state.data.notes" />
