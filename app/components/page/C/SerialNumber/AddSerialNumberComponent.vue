@@ -19,9 +19,7 @@ const state = ref<StateType<null, FeatureType>>({
 
 <template>
   <div>
-    <UButton
-      @click="state.feature.modal.open = true"
-    >
+    <UButton @click="state.feature.modal.open = true">
       <UIcon name="i-lucide-plus" />
       創建序號
     </UButton>

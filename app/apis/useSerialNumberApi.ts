@@ -2,15 +2,16 @@ import type { SerialNumberCreatePayload, SerialNumberGetAllResponse } from '~/ty
 import { useRequestApi } from '~/composables'
 import { UserRequestUrl } from '~/enum'
 
-const nuxtApp = useNuxtApp()
 export const useSerialNumberApi = {
-  getAll: async () =>
-    await useRequestApi<SerialNumberGetAllResponse, null>(UserRequestUrl.SerialNumberGetAll, {
+  getAll: async () => {
+    const nuxtApp = useNuxtApp()
+    return await useRequestApi<SerialNumberGetAllResponse, null>(UserRequestUrl.SerialNumberGetAll, {
       method: 'GET',
       server: false,
       key: UserRequestUrl.SerialNumberGetAll,
       getCachedData: key => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
-    }),
+    })
+  },
 
   create: async (payload: SerialNumberCreatePayload) =>
     await useRequestApi(UserRequestUrl.SerialNumberCreate, {
