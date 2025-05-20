@@ -4,11 +4,17 @@ export * from './api/useAuthApi/BindOTPEmailApiType'
 export * from './api/useAuthApi/CheckValidTokenApiType'
 export * from './api/useAuthApi/LoginApiType'
 export * from './api/useAuthApi/RegisterApiType'
+
 // useLandingPageApi
 export * from './api/useLandingPageApi/CreateLandingPage'
 export * from './api/useLandingPageApi/EditInfoById'
 export * from './api/useLandingPageApi/GetAllLandingPage'
 export * from './api/useLandingPageApi/GetInfoByILandingPage'
+
+// useSerialNumberApi
+export * from './api/useSerialNumberApi/SerialNumberCreateType'
+export * from './api/useSerialNumberApi/SerialNumberGetAllType'
+
 // useSheetApi
 export * from './api/useSheetApi/CreateSheetApiType'
 export * from './api/useSheetApi/DeleteSheetApiType'

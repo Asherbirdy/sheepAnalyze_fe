@@ -22,6 +22,11 @@ export function useMenuStore() {
       icon: 'i-lucide-file-spreadsheet',
       to: ClientRoutes.Sheet,
     },
+    {
+      label: 'Serial Number',
+      icon: 'i-lucide-barcode',
+      to: ClientRoutes.SerialNumber,
+    },
   ])
 
   const getMenu = () => menu.value
