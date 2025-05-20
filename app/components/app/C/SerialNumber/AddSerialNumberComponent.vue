@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import type { StateType } from '~/type'
-import { Role } from '~/enum'
+import { Role, roleOptions } from '~/enum'
 
 interface FeatureType {
   modal: {
@@ -27,25 +27,6 @@ const state = ref<StateType<DataType, FeatureType>>({
   },
 })
 
-const roleItems = ref([
-  {
-    label: '開發者',
-    value: Role.dev,
-  },
-  {
-    label: '管理者',
-    value: Role.admin,
-  },
-  {
-    label: '區負責',
-    value: Role.districtLeader,
-  },
-  {
-    label: '使用者',
-    value: Role.user,
-  },
-])
-
 const districtItems = ref([
   {
     label: '台北市',
@@ -67,7 +48,7 @@ const districtItems = ref([
     >
       <template #body>
         <UForm
-          :state="state"
+          :state="state.data"
           class="space-y-4 flex flex-col gap-4"
         >
           <div class="flex gap-4">
@@ -77,7 +58,7 @@ const districtItems = ref([
             >
               <USelect
                 v-model="state.data.role"
-                :items="roleItems"
+                :items="roleOptions"
                 label="角色"
                 name="role"
               />
