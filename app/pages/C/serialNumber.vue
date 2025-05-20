@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useSerialNumberApi } from '~/apis'
+import { useDistrictApi, useSerialNumberApi } from '~/apis'
 import { AddSerialNumberComponent, DeleteSerialNumberComponent } from '~/components'
 
 const { data: SerialNumbersResponse } = await useSerialNumberApi.getAll()
+await useDistrictApi.getAll()
 </script>
 
 <template>

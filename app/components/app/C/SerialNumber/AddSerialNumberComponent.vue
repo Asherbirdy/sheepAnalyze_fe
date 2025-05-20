@@ -1,7 +1,8 @@
 <script setup lang='ts'>
-import type { StateType } from '~/type'
-import { useDistrictApi } from '~/apis'
-import { Role, roleOptions } from '~/enum'
+import type { District, StateType } from '~/type'
+import { Role, roleOptions, UserRequestUrl } from '~/enum'
+
+const { data: CachedDistricts } = useNuxtData(UserRequestUrl.District)
 
 interface FeatureType {
   modal: {
@@ -18,7 +19,7 @@ interface DataType {
 const state = ref<StateType<DataType, FeatureType>>({
   data: {
     role: Role.user,
-    districtId: '',
+    districtId: CachedDistricts.value?.districts[0]._id,
     notes: '',
   },
   feature: {
@@ -27,13 +28,6 @@ const state = ref<StateType<DataType, FeatureType>>({
     },
   },
 })
-
-// const districtItems = ref([
-//   {
-//     label: '台北市',
-//     value: '台北市',
-//   },
-// ])
 </script>
 
 <template>
@@ -72,7 +66,10 @@ const state = ref<StateType<DataType, FeatureType>>({
                 v-model="state.data.districtId"
                 label="區域"
                 name="districtId"
-                :items="districtItems"
+                :items="CachedDistricts?.districts.map((district: District) => ({
+                  label: district.name,
+                  value: district._id,
+                }))"
               />
             </UFormField>
           </div>

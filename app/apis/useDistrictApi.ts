@@ -6,12 +6,16 @@ export const useDistrictApi = {
   /*
     * GET
   */
-  getAll: async () =>
-    await useRequestApi<GetAllDistrictResponse, null>(UserRequestUrl.District, {
+  getAll: async () => {
+    const nuxtApp = useNuxtApp()
+    return await useRequestApi<GetAllDistrictResponse, null>(UserRequestUrl.District, {
       method: 'GET',
       server: false,
       lazy: true,
-    }),
+      key: UserRequestUrl.District,
+      getCachedData: key => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
+    })
+  },
 
   /*
     * CREATE
