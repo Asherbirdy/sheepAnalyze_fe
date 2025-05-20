@@ -1,5 +1,6 @@
 <script setup lang='ts'>
 import type { StateType } from '~/type'
+import { Role } from '~/enum'
 
 interface FeatureType {
   modal: {
@@ -7,14 +8,43 @@ interface FeatureType {
   }
 }
 
-const state = ref<StateType<null, FeatureType>>({
+interface DataType {
+  role: Role
+  districtId: string
+  notes: string
+}
+
+const state = ref<StateType<DataType, FeatureType>>({
+  data: {
+    role: Role.user,
+    districtId: '',
+    notes: '',
+  },
   feature: {
     modal: {
       open: false,
     },
   },
-  data: null,
 })
+
+const items = ref([
+  {
+    label: '開發者',
+    value: Role.dev,
+  },
+  {
+    label: '管理者',
+    value: Role.admin,
+  },
+  {
+    label: '區負責',
+    value: Role.districtLeader,
+  },
+  {
+    label: '使用者',
+    value: Role.user,
+  },
+])
 </script>
 
 <template>
@@ -29,9 +59,19 @@ const state = ref<StateType<null, FeatureType>>({
       :ui="{ footer: 'justify-end' }"
     >
       <template #body>
-        <p>
-          asdasdsa
-        </p>
+        <div class="flex flex-col gap-2">
+          <USelect
+            v-model="state.data.role"
+            :items="items"
+            class="w-48"
+          />
+          <USelect
+            v-model="state.data.districtId"
+            :items="items"
+            class="w-48"
+          />
+          <UInput v-model="state.data.notes" />
+        </div>
       </template>
       <template #footer>
         <UButton
