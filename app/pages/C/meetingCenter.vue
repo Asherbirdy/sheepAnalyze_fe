@@ -39,8 +39,11 @@ const updateData = async () => {
 
 <template>
   <div>
-    <UButton @click="updateData">
-      <UIcon name="i-lucide-plus" />
+    <UButton
+      size="sm"
+      variant="soft"
+      @click="updateData"
+    >
       更新數據
     </UButton>
     <UTabs
