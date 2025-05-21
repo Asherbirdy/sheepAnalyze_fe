@@ -27,8 +27,7 @@ const districtFour = computed(() => data.value?.filter(
 
 const tabs = [
   { label: '報名名單', slot: 'join' },
-  { label: '去程-遊覽車', slot: 'departure' },
-  { label: '回程-遊覽車', slot: 'return' },
+  { label: '遊覽車', slot: 'bus' },
 ]
 
 const updateData = async () => {
@@ -101,6 +100,11 @@ const updateData = async () => {
           >
             {{ item.name }}
           </UBadge>
+        </div>
+      </template>
+      <template #bus>
+        <div>
+          <p>遊覽車</p>
         </div>
       </template>
     </UTabs>
