@@ -1,6 +1,19 @@
 <script setup lang='ts'>
 import { useMeetingCenterApi } from '~/apis'
 
+enum GospelFriendIdentity {
+  male = '男介朋友',
+  female = '女介朋友',
+  child = '兒童',
+}
+
+enum Journey {
+  departure = '搭乘去程',
+  returnRide = '搭乘回程',
+  selfGo = '自行前往',
+  notReturn = '不搭回程',
+}
+
 const {
   data: MeetingCenterResponse,
   refresh: MeetingCenterRequest,
@@ -12,8 +25,8 @@ const {
 } = await useMeetingCenterApi.create()
 
 const data = computed(() => MeetingCenterResponse.value?.data)
-const kidData = computed(() => data.value?.filter(item => item.identity === '兒童'))
-const adultData = computed(() => data.value?.filter(item => item.identity !== '兒童'))
+const kidData = computed(() => data.value?.filter(item => item.identity === GospelFriendIdentity.child))
+const adultData = computed(() => data.value?.filter(item => item.identity !== GospelFriendIdentity.child))
 const districtOne = computed(() => data.value?.filter(
   item => item.districtName === '一區',
 ))
@@ -38,12 +51,15 @@ const updateData = async () => {
   await MeetingCenterRequest()
 }
 
-const isGospelFriend = (identity: string) => {
-  if (identity === '男介朋友' || identity === '女介朋友' || identity === '兒童') {
-    return true
-  }
-  return false
-}
+const GOSPEL_FRIEND_IDENTITIES = [
+  GospelFriendIdentity.male,
+  GospelFriendIdentity.female,
+  GospelFriendIdentity.child,
+]
+
+const isGospelFriend = (identity: string) =>
+  GOSPEL_FRIEND_IDENTITIES.includes(identity as GospelFriendIdentity,
+  )
 </script>
 
 <template>
@@ -135,7 +151,7 @@ const isGospelFriend = (identity: string) => {
           <p>二區:</p>
           <div class="flex flex-wrap gap-2">
             <UBadge
-              v-for="(item, index) in districtTwo?.filter(item => item.departure === '搭乘去程')"
+              v-for="(item, index) in districtTwo?.filter(item => item.departure === Journey.departure)"
               :key="index"
               color="info"
               variant="soft"
@@ -147,7 +163,7 @@ const isGospelFriend = (identity: string) => {
           <p>三區:</p>
           <div class="flex flex-wrap gap-2">
             <UBadge
-              v-for="(item, index) in districtThree?.filter(item => item.departure === '搭乘去程')"
+              v-for="(item, index) in districtThree?.filter(item => item.departure === Journey.departure)"
               :key="index"
               color="info"
               variant="soft"
@@ -159,7 +175,7 @@ const isGospelFriend = (identity: string) => {
           <p>四區:</p>
           <div class="flex flex-wrap gap-2">
             <UBadge
-              v-for="(item, index) in districtFour?.filter(item => item.departure === '搭乘去程')"
+              v-for="(item, index) in districtFour?.filter(item => item.departure === Journey.departure)"
               :key="index"
               color="info"
               variant="soft"
@@ -174,7 +190,7 @@ const isGospelFriend = (identity: string) => {
         <p>一區:</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
-            v-for="(item, index) in districtOne?.filter(item => item.returnRide === '搭乘回程')"
+            v-for="(item, index) in districtOne?.filter(item => item.returnRide === Journey.returnRide)"
             :key="index"
             color="info"
             variant="soft"
@@ -186,7 +202,7 @@ const isGospelFriend = (identity: string) => {
         <p>二區:</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
-            v-for="(item, index) in districtTwo?.filter(item => item.returnRide === '搭乘回程')"
+            v-for="(item, index) in districtTwo?.filter(item => item.returnRide === Journey.returnRide)"
             :key="index"
             color="info"
             variant="soft"
@@ -198,7 +214,7 @@ const isGospelFriend = (identity: string) => {
         <p>三區:</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
-            v-for="(item, index) in districtThree?.filter(item => item.returnRide === '搭乘回程')"
+            v-for="(item, index) in districtThree?.filter(item => item.returnRide === Journey.returnRide)"
             :key="index"
             color="info"
             variant="soft"
@@ -210,7 +226,7 @@ const isGospelFriend = (identity: string) => {
         <p>四區:</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
-            v-for="(item, index) in districtFour?.filter(item => item.returnRide === '搭乘回程')"
+            v-for="(item, index) in districtFour?.filter(item => item.returnRide === Journey.returnRide)"
             :key="index"
             color="info"
             variant="soft"
@@ -224,7 +240,7 @@ const isGospelFriend = (identity: string) => {
         <p>自行前往(早):</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
-            v-for="(item, index) in data?.filter(item => item.departure === '自行前往')"
+            v-for="(item, index) in data?.filter(item => item.departure === Journey.selfGo)"
             :key="index"
             color="info"
             variant="soft"
@@ -236,7 +252,7 @@ const isGospelFriend = (identity: string) => {
         <p>不搭回程(午):</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
-            v-for="(item, index) in data?.filter(item => item.returnRide === '不搭回程')"
+            v-for="(item, index) in data?.filter(item => item.returnRide === Journey.notReturn)"
             :key="index"
             color="info"
             variant="soft"
