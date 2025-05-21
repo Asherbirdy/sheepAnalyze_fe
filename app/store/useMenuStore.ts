@@ -27,6 +27,11 @@ export function useMenuStore() {
       icon: 'i-lucide-barcode',
       to: ClientRoutes.SerialNumber,
     },
+    {
+      label: '港湖集中主日',
+      icon: 'i-lucide-video',
+      to: ClientRoutes.MeetingCenter,
+    },
   ])
 
   const getMenu = computed(() => menu.value)
