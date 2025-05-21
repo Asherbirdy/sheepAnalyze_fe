@@ -28,8 +28,8 @@ const districtFour = computed(() => data.value?.filter(
 
 const tabs = [
   { label: '報名名單', slot: 'join' },
-  { label: '搭乘去程遊覽車', slot: 'departure' },
-  { label: '搭乘回程遊覽車', slot: 'returnRide' },
+  { label: '搭乘遊覽車', slot: 'departure' },
+  { label: '自行前往', slot: 'selfGo' },
 ]
 
 const updateData = async () => {
@@ -56,6 +56,9 @@ const updateData = async () => {
     >
       <template #join>
         <div>總報名：{{ data?.length }}位</div>
+        <p class="text-sm text-red-600">
+          請於5/27日前<br>協助調查是否搭乘遊覽車～謝謝
+        </p>
         <p>一區</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
@@ -107,6 +110,7 @@ const updateData = async () => {
       </template>
       <template #departure>
         <div>
+          <p>搭乘去程遊覽車</p>
           <p>一區:</p>
           <div class="flex flex-wrap gap-2">
             <UBadge
@@ -156,8 +160,7 @@ const updateData = async () => {
             </UBadge>
           </div>
         </div>
-      </template>
-      <template #returnRide>
+        <p>----------------</p>
         <p>搭乘回程遊覽車</p>
         <p>一區:</p>
         <div class="flex flex-wrap gap-2">
@@ -199,6 +202,32 @@ const updateData = async () => {
         <div class="flex flex-wrap gap-2">
           <UBadge
             v-for="(item, index) in districtFour?.filter(item => item.returnRide === '搭乘回程')"
+            :key="index"
+            color="info"
+            variant="soft"
+            size="sm"
+          >
+            {{ item.name }}
+          </UBadge>
+        </div>
+      </template>
+      <template #selfGo>
+        <p>自行前往(早):</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="(item, index) in data?.filter(item => item.departure === '自行前往')"
+            :key="index"
+            color="info"
+            variant="soft"
+            size="sm"
+          >
+            {{ item.name }}
+          </UBadge>
+        </div>
+        <p>不搭回程(午):</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="(item, index) in data?.filter(item => item.returnRide === '不搭回程')"
             :key="index"
             color="info"
             variant="soft"
