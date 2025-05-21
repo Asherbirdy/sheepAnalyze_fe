@@ -8,6 +8,7 @@ const {
 
 const {
   execute: MeetingCenterCreateRequest,
+  status: MeetingCenterCreateStatus,
 } = await useMeetingCenterApi.create()
 
 const data = computed(() => MeetingCenterResponse.value?.data)
@@ -27,7 +28,8 @@ const districtFour = computed(() => data.value?.filter(
 
 const tabs = [
   { label: '報名名單', slot: 'join' },
-  { label: '遊覽車', slot: 'bus' },
+  { label: '搭乘去程遊覽車', slot: 'departure' },
+  { label: '搭乘回程遊覽車', slot: 'returnRide' },
 ]
 
 const updateData = async () => {
@@ -41,6 +43,7 @@ const updateData = async () => {
     <UButton
       size="sm"
       variant="soft"
+      :loading="MeetingCenterCreateStatus === 'pending'"
       @click="updateData"
     >
       更新數據
@@ -102,9 +105,107 @@ const updateData = async () => {
           </UBadge>
         </div>
       </template>
-      <template #bus>
+      <template #departure>
         <div>
-          <p>遊覽車</p>
+          <p>一區:</p>
+          <div class="flex flex-wrap gap-2">
+            <UBadge
+              v-for="(item, index) in districtOne?.filter(item => item.departure === '搭乘去程')"
+              :key="index"
+              color="info"
+              variant="soft"
+              size="sm"
+            >
+              {{ item.name }}
+            </UBadge>
+          </div>
+          <p>二區:</p>
+          <div class="flex flex-wrap gap-2">
+            <UBadge
+              v-for="(item, index) in districtTwo?.filter(item => item.departure === '搭乘去程')"
+              :key="index"
+              color="info"
+              variant="soft"
+              size="sm"
+            >
+              {{ item.name }}
+            </UBadge>
+          </div>
+          <p>三區:</p>
+          <div class="flex flex-wrap gap-2">
+            <UBadge
+              v-for="(item, index) in districtThree?.filter(item => item.departure === '搭乘去程')"
+              :key="index"
+              color="info"
+              variant="soft"
+              size="sm"
+            >
+              {{ item.name }}
+            </UBadge>
+          </div>
+          <p>四區:</p>
+          <div class="flex flex-wrap gap-2">
+            <UBadge
+              v-for="(item, index) in districtFour?.filter(item => item.departure === '搭乘去程')"
+              :key="index"
+              color="info"
+              variant="soft"
+              size="sm"
+            >
+              {{ item.name }}
+            </UBadge>
+          </div>
+        </div>
+      </template>
+      <template #returnRide>
+        <p>搭乘回程遊覽車</p>
+        <p>一區:</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="(item, index) in districtOne?.filter(item => item.returnRide === '搭乘回程')"
+            :key="index"
+            color="info"
+            variant="soft"
+            size="sm"
+          >
+            {{ item.name }}
+          </UBadge>
+        </div>
+        <p>二區:</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="(item, index) in districtTwo?.filter(item => item.returnRide === '搭乘回程')"
+            :key="index"
+            color="info"
+            variant="soft"
+            size="sm"
+          >
+            {{ item.name }}
+          </UBadge>
+        </div>
+        <p>三區:</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="(item, index) in districtThree?.filter(item => item.returnRide === '搭乘回程')"
+            :key="index"
+            color="info"
+            variant="soft"
+            size="sm"
+          >
+            {{ item.name }}
+          </UBadge>
+        </div>
+        <p>四區:</p>
+        <div class="flex flex-wrap gap-2">
+          <UBadge
+            v-for="(item, index) in districtFour?.filter(item => item.returnRide === '搭乘回程')"
+            :key="index"
+            color="info"
+            variant="soft"
+            size="sm"
+          >
+            {{ item.name }}
+          </UBadge>
         </div>
       </template>
     </UTabs>
