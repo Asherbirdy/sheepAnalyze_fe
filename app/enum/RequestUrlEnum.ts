@@ -51,4 +51,7 @@ export enum UserRequestUrl {
 
   // DISTRICT
   District = '/district',
+
+  // MEETING CENTER
+  MeetingCenter = '/meetingCenter/',
 }

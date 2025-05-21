@@ -13,4 +13,5 @@ export enum ClientRoutes {
   Blending = `${ClientBase}/blending`,
   Sheet = `${ClientBase}/sheet`,
   SerialNumber = `${ClientBase}/serialNumber`,
+  MeetingCenter = `${ClientBase}/meetingCenter`,
 }
