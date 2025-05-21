@@ -12,7 +12,8 @@ const {
 } = await useMeetingCenterApi.create()
 
 const data = computed(() => MeetingCenterResponse.value?.data)
-
+const kidData = computed(() => data.value?.filter(item => item.identity === '兒童'))
+const adultData = computed(() => data.value?.filter(item => item.identity !== '兒童'))
 const districtOne = computed(() => data.value?.filter(
   item => item.districtName === '一區',
 ))
@@ -36,6 +37,13 @@ const updateData = async () => {
   await MeetingCenterCreateRequest()
   await MeetingCenterRequest()
 }
+
+const isGospelFriend = (identity: string) => {
+  if (identity === '男介朋友' || identity === '女介朋友' || identity === '兒童') {
+    return true
+  }
+  return false
+}
 </script>
 
 <template>
@@ -56,6 +64,7 @@ const updateData = async () => {
     >
       <template #join>
         <div>總報名：{{ data?.length }}位</div>
+        <div>成人{{ adultData?.length }}位,兒童{{ kidData?.length }}位</div>
         <p class="text-sm text-red-600">
           請於5/27日前<br>協助調查是否搭乘遊覽車～謝謝
         </p>
@@ -64,11 +73,11 @@ const updateData = async () => {
           <UBadge
             v-for="(item, index) in districtOne"
             :key="index"
-            color="info"
+            :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
             size="sm"
           >
-            {{ item.name }}
+            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
           </UBadge>
         </div>
         <p>二區</p>
@@ -76,11 +85,11 @@ const updateData = async () => {
           <UBadge
             v-for="(item, index) in districtTwo"
             :key="index"
-            color="info"
+            :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
             size="sm"
           >
-            {{ item.name }}
+            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
           </UBadge>
         </div>
         <p>三區</p>
@@ -88,11 +97,11 @@ const updateData = async () => {
           <UBadge
             v-for="(item, index) in districtThree"
             :key="index"
-            color="info"
+            :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
             size="sm"
           >
-            {{ item.name }}
+            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
           </UBadge>
         </div>
         <p>四區</p>
@@ -100,11 +109,11 @@ const updateData = async () => {
           <UBadge
             v-for="(item, index) in districtFour"
             :key="index"
-            color="info"
+            :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
             size="sm"
           >
-            {{ item.name }}
+            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
           </UBadge>
         </div>
       </template>
