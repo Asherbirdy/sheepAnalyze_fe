@@ -9,6 +9,5 @@ export interface EditInfoByIdPayload {
     isCustom: boolean
     isCustomId: string
     isActive: boolean
-    html: string
   }
 }

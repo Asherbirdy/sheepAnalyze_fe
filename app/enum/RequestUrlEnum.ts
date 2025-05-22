@@ -33,6 +33,8 @@ export enum UserRequestUrl {
   LandingPageSetUrlPath = '/landingPage/setUrlPath',
   LandingPageGetALL = '/landingPage/all',
   LandingPageEditInfoById = '/landingPage/editPageInfoById',
+  LandingPageEditHtmlById = '/landingPage/editHtmlById',
+  LandingPage = '/landingPage',
 
   // BLENDING
   BlendingCreateFromSheet = '/blending/createFromSheet',

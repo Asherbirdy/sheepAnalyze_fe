@@ -1,4 +1,10 @@
-import type { CreateLandingPagePayload, EditInfoByIdPayload, GetAllLandingPageResponse, GetInfoByIdPayload, GetInfoByILandingPageResponse } from '~/type'
+import type {
+  CreateLandingPagePayload,
+  EditInfoByIdPayload,
+  GetAllLandingPageResponse,
+  GetInfoByIdPayload,
+  GetInfoByILandingPageResponse,
+} from '~/type'
 import { useRequestApi } from '~/composables'
 import { PublicRequestUrl, UserRequestUrl } from '~/enum'
 
@@ -49,5 +55,19 @@ export const useLandingPageApi = {
         watch: false,
         body: payload.body,
       },
+    ),
+  /*
+    * EDIT
+  */
+  editHtmlById: async (payload: GetInfoByIdPayload) =>
+    await useRequestApi<GetInfoByILandingPageResponse, null>(
+      `${UserRequestUrl.LandingPageEditHtmlById}/?landingPageId=${payload.query.landingPageId}`,
+    ),
+  /*
+    * DELETE
+  */
+  deleteById: async (payload: GetInfoByIdPayload) =>
+    await useRequestApi<GetInfoByILandingPageResponse, null>(
+      `${UserRequestUrl.LandingPage}/?landingPageId=${payload.query.landingPageId}`,
     ),
 }
