@@ -2,6 +2,7 @@
 export enum PublicRoutes {
   Home = '/',
   Login = '/login',
+  LandingPage = '/lands',
 }
 
 export const ClientBase = '/C'
