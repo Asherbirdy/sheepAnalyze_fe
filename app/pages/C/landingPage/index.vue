@@ -12,7 +12,11 @@ const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
 
 const { data: LandingPageResponse } = await useLandingPageApi.getAll()
+
 const { isMdSize } = useWindowSize()
+
+const urlBase = computed(() => window.location.origin)
+
 const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isActive',
@@ -64,21 +68,27 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
         },
       ]
 
-      return h('div', { class: 'text-right' }, h(UDropdownMenu, {
-        'content': { align: 'end' },
-        items,
-        'aria-label': 'Actions dropdown',
-      }, () => h(UButton, {
-        'icon': 'i-lucide-ellipsis-vertical',
-        'color': 'neutral',
-        'variant': 'ghost',
-        'class': 'ml-auto',
-        'aria-label': 'Actions dropdown',
-      })))
+      return h(
+        'div',
+        { class: 'text-right' },
+        h(UDropdownMenu, {
+          'content': { align: 'end' },
+          items,
+          'aria-label': 'Actions dropdown',
+        }, () => h(
+          UButton,
+          {
+            'icon': 'i-lucide-ellipsis-vertical',
+            'color': 'neutral',
+            'variant': 'ghost',
+            'class': 'ml-auto',
+            'aria-label': 'Actions dropdown',
+          },
+        )),
+      )
     },
   },
 ]
-const urlBase = computed(() => window.location.origin)
 </script>
 
 <template>
