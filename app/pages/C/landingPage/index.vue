@@ -135,7 +135,7 @@ const urlBase = computed(() => window.location.origin)
             size="sm"
             @click="navigateTo(`${ClientRoutes.LandingPageEditor}/${row._id}`)"
           >
-            前往編輯
+            前往文字編輯
           </UButton>
         </div>
       </UCard>
