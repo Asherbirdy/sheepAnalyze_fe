@@ -5,13 +5,13 @@ export default defineNuxtPlugin(() => {
     async onRequest({ options, request }) {
       const config = useRuntimeConfig()
 
-      // ['http://localhost:1207/api/v1/dev', 'http://localhost:1207/api/v1/users/showMe']等...
+      // ['http://localhost:1207/api/v1/dev?test=123123', 'http://localhost:1207/api/v1/users/showMe']等...
       const PrivateApiUrls: string[] = Object.values(UserRequestUrl).map(
         url => `${config.public.API_URL}${url}`,
       )
 
       // 如果 apiUrl 是 PrivateApiUrl, headers 需要有 Authorization Token
-      if (PrivateApiUrls.includes(request as string)) {
+      if (PrivateApiUrls.some(url => (request as string).startsWith(url))) {
         const headers = await getAuthHeaders()
         options.headers = { ...options.headers, ...headers }
         return
