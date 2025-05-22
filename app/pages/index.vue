@@ -15,7 +15,7 @@ const navigateToLogin = () => {
 <template>
   <div>
     <UButton @click="navigateToLogin">
-      Click me
+      登入
     </UButton>
     <p>
       {{ data }}
