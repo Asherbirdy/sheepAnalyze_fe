@@ -3,6 +3,7 @@ import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 import { useWindowSize } from '~/composables/common/useWindowSize'
+import { ClientRoutes, PublicRoutes } from '~/enum'
 
 const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
@@ -55,23 +56,11 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
           label: 'Actions',
         },
         {
-          label: '前往頁面',
-          onSelect() {
-            navigateTo(`/lands/${row.original._id}`)
-          },
-        },
-        {
           label: '前往編輯',
           onSelect() {
-            navigateTo(`/C/landingPage/editor/${row.original._id}`)
+            navigateTo(`${ClientRoutes.LandingPageEditor}/${row.original._id}`)
           },
         },
-        // {
-        //   label: !row.original.isActive ? '使網站上線' : '使網站下線',
-        //   onSelect() {
-
-        //   },
-        // }
       ]
 
       return h('div', { class: 'text-right' }, h(UDropdownMenu, {
@@ -105,11 +94,15 @@ const urlBase = computed(() => window.location.origin)
         <pre>{{ row.original }}</pre>
       </template>
     </UTable>
-    <div v-else>
+    <!-- 手機版 -->
+    <div
+      v-else
+      class="flex flex-col justify-center items-center"
+    >
       <UCard
         v-for="row in LandingPageResponse?.data"
         :key="row._id"
-        class="mb-3 max-h-48"
+        class="mb-3 max-h-48 max-w-[320px]"
       >
         <div class="flex justify-between">
           <UBadge
@@ -131,8 +124,8 @@ const urlBase = computed(() => window.location.origin)
         <p>
           ID: {{ row.urlPathId }}
         </p>
-        <p>
-          網址: {{ `${urlBase}/lands/${row._id}` }}
+        <p class="text-sm break-words">
+          網址: {{ `${urlBase}${PublicRoutes.LandingPage}/${row._id}` }}
         </p>
 
         <div class="flex gap-2">
@@ -140,15 +133,7 @@ const urlBase = computed(() => window.location.origin)
             block
             variant="soft"
             size="sm"
-            @click="navigateTo(`${urlBase}/lands/${row._id}`)"
-          >
-            前往頁面
-          </UButton>
-          <UButton
-            block
-            variant="soft"
-            size="sm"
-            @click="navigateTo(`/C/landingPage/editor/${row._id}`)"
+            @click="navigateTo(`${ClientRoutes.LandingPageEditor}/${row._id}`)"
           >
             前往編輯
           </UButton>

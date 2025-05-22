@@ -11,6 +11,12 @@ export function useMenuStore() {
       active: computed(() => route.path === ClientRoutes.Home),
     },
     {
+      label: 'Serial Number',
+      icon: 'i-lucide-barcode',
+      to: ClientRoutes.SerialNumber,
+      active: computed(() => route.path === ClientRoutes.SerialNumber),
+    },
+    {
       label: 'Landing Page',
       icon: 'fluent-mdl2:page',
       to: ClientRoutes.LandingPage,
@@ -22,18 +28,12 @@ export function useMenuStore() {
       to: ClientRoutes.Blending,
       active: computed(() => route.path === ClientRoutes.Blending),
     },
-    {
-      label: 'Sheet',
-      icon: 'i-lucide-file-spreadsheet',
-      to: ClientRoutes.Sheet,
-      active: computed(() => route.path === ClientRoutes.Sheet),
-    },
-    {
-      label: 'Serial Number',
-      icon: 'i-lucide-barcode',
-      to: ClientRoutes.SerialNumber,
-      active: computed(() => route.path === ClientRoutes.SerialNumber),
-    },
+    // {
+    //   label: 'Sheet',
+    //   icon: 'i-lucide-file-spreadsheet',
+    //   to: ClientRoutes.Sheet,
+    //   active: computed(() => route.path === ClientRoutes.Sheet),
+    // },
     {
       label: '港湖集中主日',
       icon: 'i-lucide-video',
