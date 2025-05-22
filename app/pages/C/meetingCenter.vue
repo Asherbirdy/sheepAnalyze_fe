@@ -60,6 +60,17 @@ const GOSPEL_FRIEND_IDENTITIES = [
 const isGospelFriend = (identity: string) =>
   GOSPEL_FRIEND_IDENTITIES.includes(identity as GospelFriendIdentity,
   )
+
+const isGospelFriendString = (identity: string) => {
+  if (identity === GospelFriendIdentity.child) {
+    return '(兒童)'
+  }
+  if (identity === GospelFriendIdentity.male || identity === GospelFriendIdentity.female) {
+    return '(福音朋友)'
+  }
+
+  return ''
+}
 </script>
 
 <template>
@@ -79,7 +90,7 @@ const isGospelFriend = (identity: string) =>
       :ui="{ trigger: 'flex-1' }"
     >
       <template #join>
-        <div>總報名：{{ data?.length }}位</div>
+        <div>6/8 港湖集中主日 報名：{{ data?.length }}位</div>
         <div>成人{{ adultData?.length }}位,兒童{{ kidData?.length }}位</div>
         <p class="text-sm text-red-600">
           請於5/27日前<br>協助調查是否搭乘遊覽車～謝謝
@@ -91,9 +102,8 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
-            size="sm"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
         <p>二區</p>
@@ -103,9 +113,8 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
-            size="sm"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
         <p>三區</p>
@@ -115,9 +124,8 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
-            size="sm"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
         <p>四區</p>
@@ -127,15 +135,17 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
-            size="sm"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
       </template>
       <template #departure>
         <div>
-          <p>搭乘去程遊覽車</p>
+          <p>6/8 港湖集中主日 要搭遊覽車人位</p>
+          <p class="font-bold">
+            搭乘去程遊覽車(東湖->信基)
+          </p>
           <p>一區:</p>
           <div class="flex flex-wrap gap-2">
             <UBadge
@@ -143,7 +153,6 @@ const isGospelFriend = (identity: string) =>
               :key="index"
               color="info"
               variant="soft"
-              size="sm"
             >
               {{ item.name }}
             </UBadge>
@@ -155,7 +164,6 @@ const isGospelFriend = (identity: string) =>
               :key="index"
               color="info"
               variant="soft"
-              size="sm"
             >
               {{ item.name }}
             </UBadge>
@@ -167,7 +175,6 @@ const isGospelFriend = (identity: string) =>
               :key="index"
               color="info"
               variant="soft"
-              size="sm"
             >
               {{ item.name }}
             </UBadge>
@@ -179,14 +186,15 @@ const isGospelFriend = (identity: string) =>
               :key="index"
               color="info"
               variant="soft"
-              size="sm"
             >
               {{ item.name }}
             </UBadge>
           </div>
         </div>
-        <p>----------------</p>
-        <p>搭乘回程遊覽車</p>
+
+        <p class="font-bold">
+          搭乘回程遊覽車(信基->東湖)
+        </p>
         <p>一區:</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
@@ -194,7 +202,6 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             color="info"
             variant="soft"
-            size="sm"
           >
             {{ item.name }}
           </UBadge>
@@ -206,7 +213,6 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             color="info"
             variant="soft"
-            size="sm"
           >
             {{ item.name }}
           </UBadge>
@@ -218,7 +224,6 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             color="info"
             variant="soft"
-            size="sm"
           >
             {{ item.name }}
           </UBadge>
@@ -230,7 +235,6 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             color="info"
             variant="soft"
-            size="sm"
           >
             {{ item.name }}
           </UBadge>
@@ -244,7 +248,6 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             color="info"
             variant="soft"
-            size="sm"
           >
             {{ item.name }}
           </UBadge>
@@ -256,7 +259,6 @@ const isGospelFriend = (identity: string) =>
             :key="index"
             color="info"
             variant="soft"
-            size="sm"
           >
             {{ item.name }}
           </UBadge>
