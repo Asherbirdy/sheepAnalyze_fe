@@ -86,9 +86,9 @@ const validate = (state: Partial<Model>) => {
       <h2>姓名：{{ UserInfoResponse?.user.name }}</h2>
       <h2>電子信箱：{{ UserInfoResponse?.user.email }}</h2>
       <h2>區域：{{ UserInfoResponse?.user.district.name }}</h2>
-      <h2>Email驗證：{{ UserInfoResponse?.user.emailVerified }}</h2>
+      <h2>Email驗證：{{ UserInfoResponse?.user.emailVerified ? '已驗證' : '未驗證' }}</h2>
       <h2>權限：{{ UserInfoResponse?.user.role }}</h2>
-      <h2>網頁權限：{{ UserInfoResponse?.user.landingPageAccess }}</h2>
+      <h2>部落格權限：{{ UserInfoResponse?.user.landingPageAccess }}</h2>
     </UCard>
 
     <UModal
@@ -96,6 +96,7 @@ const validate = (state: Partial<Model>) => {
       title="Email驗證"
     >
       <UButton
+        v-if="!UserInfoResponse?.user.emailVerified"
         label="Email 驗證"
         block
       />
