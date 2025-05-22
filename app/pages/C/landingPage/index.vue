@@ -2,6 +2,7 @@
 import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
+import { useWindowSize } from '~/composables/common/useWindowSize'
 
 const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
@@ -9,7 +10,7 @@ const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
 
 const { data: LandingPageResponse } = await useLandingPageApi.getAll()
-
+const { isMdSize } = useWindowSize()
 const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isActive',
@@ -92,6 +93,7 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
 <template>
   <div class="flex-1 divide-y divide-(--ui-border-accented) w-full">
     <UTable
+      v-if="!isMdSize"
       ref="table"
       :data="LandingPageResponse?.data"
       :columns="columns"
@@ -102,5 +104,41 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
         <pre>{{ row.original }}</pre>
       </template>
     </UTable>
+    <div v-else>
+      <UCard
+        v-for="landingPage in LandingPageResponse?.data"
+        :key="landingPage._id"
+        class="mb-3 min-h-24"
+      >
+        <div class="flex justify-between">
+          <UBadge
+            :color="landingPage.isActive ? 'success' : 'info'"
+            variant="soft"
+          >
+            {{ landingPage.isActive ? '上線' : '未上線' }}
+          </UBadge>
+          <UBadge
+            color="neutral"
+            variant="soft"
+          >
+            {{ landingPage.isCustom ? '是' : '否' }}
+          </UBadge>
+        </div>
+        <h2>
+          {{ landingPage.title }}
+        </h2>
+        <p>
+          {{ landingPage.urlPathId }}
+        </p>
+
+        <UButton
+          block
+          variant="soft"
+          size="sm"
+        >
+          Actions
+        </UButton>
+      </UCard>
+    </div>
   </div>
 </template>
