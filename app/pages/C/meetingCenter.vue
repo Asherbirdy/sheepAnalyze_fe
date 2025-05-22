@@ -60,6 +60,17 @@ const GOSPEL_FRIEND_IDENTITIES = [
 const isGospelFriend = (identity: string) =>
   GOSPEL_FRIEND_IDENTITIES.includes(identity as GospelFriendIdentity,
   )
+
+const isGospelFriendString = (identity: string) => {
+  if (identity === GospelFriendIdentity.child) {
+    return '(兒童)'
+  }
+  if (identity === GospelFriendIdentity.male || identity === GospelFriendIdentity.female) {
+    return '(福音朋友)'
+  }
+
+  return ''
+}
 </script>
 
 <template>
@@ -92,7 +103,7 @@ const isGospelFriend = (identity: string) =>
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
         <p>二區</p>
@@ -103,7 +114,7 @@ const isGospelFriend = (identity: string) =>
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
         <p>三區</p>
@@ -114,7 +125,7 @@ const isGospelFriend = (identity: string) =>
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
         <p>四區</p>
@@ -125,7 +136,7 @@ const isGospelFriend = (identity: string) =>
             :color="isGospelFriend(item.identity) ? 'success' : 'info'"
             variant="soft"
           >
-            {{ item.name }}{{ isGospelFriend(item.identity) ? '(福音朋友)' : '' }}
+            {{ item.name }}{{ isGospelFriendString(item.identity) }}
           </UBadge>
         </div>
       </template>
