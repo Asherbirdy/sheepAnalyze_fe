@@ -1,8 +1,9 @@
 <script lang="ts" setup>
+import type { NavigationMenuItem } from '@nuxt/ui'
 import { useMenuStore } from '~/store'
 
 const menuStore = useMenuStore()
-const { getMenu } = menuStore
+const { getMenu } = menuStore as unknown as { getMenu: NavigationMenuItem[] }
 </script>
 
 <template>
@@ -38,9 +39,3 @@ const { getMenu } = menuStore
     </div>
   </div>
 </template>
-
-<!-- <style>
-* {
-  outline: 1px solid red;
-}
-</style> -->
