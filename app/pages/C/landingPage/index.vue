@@ -2,6 +2,7 @@
 import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
+import { useWindowSize } from '~/composables/common/useWindowSize'
 
 const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
@@ -9,7 +10,7 @@ const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
 
 const { data: LandingPageResponse } = await useLandingPageApi.getAll()
-
+const { isMdSize } = useWindowSize()
 const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isActive',
@@ -87,11 +88,13 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
     },
   },
 ]
+const urlBase = computed(() => window.location.origin)
 </script>
 
 <template>
   <div class="flex-1 divide-y divide-(--ui-border-accented) w-full">
     <UTable
+      v-if="!isMdSize"
       ref="table"
       :data="LandingPageResponse?.data"
       :columns="columns"
@@ -102,5 +105,55 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
         <pre>{{ row.original }}</pre>
       </template>
     </UTable>
+    <div v-else>
+      <UCard
+        v-for="row in LandingPageResponse?.data"
+        :key="row._id"
+        class="mb-3 max-h-48"
+      >
+        <div class="flex justify-between">
+          <UBadge
+            :color="row.isActive ? 'success' : 'info'"
+            variant="soft"
+          >
+            {{ row.isActive ? '上線' : '未上線' }}
+          </UBadge>
+          <UBadge
+            color="neutral"
+            variant="soft"
+          >
+            {{ row.isCustom ? '客製化' : '公版' }}
+          </UBadge>
+        </div>
+        <h2 class="text-lg font-bold">
+          {{ row.title }}
+        </h2>
+        <p>
+          ID: {{ row.urlPathId }}
+        </p>
+        <p>
+          網址: {{ `${urlBase}/lands/${row._id}` }}
+        </p>
+
+        <div class="flex gap-2">
+          <UButton
+            block
+            variant="soft"
+            size="sm"
+            @click="navigateTo(`${urlBase}/lands/${row._id}`)"
+          >
+            前往頁面
+          </UButton>
+          <UButton
+            block
+            variant="soft"
+            size="sm"
+            @click="navigateTo(`/C/landingPage/editor/${row._id}`)"
+          >
+            前往編輯
+          </UButton>
+        </div>
+      </UCard>
+    </div>
   </div>
 </template>
