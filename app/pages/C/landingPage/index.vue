@@ -2,6 +2,7 @@
 import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
+import { AddLandingPageComponent } from '~/components'
 import { useWindowSize } from '~/composables/common/useWindowSize'
 import { ClientRoutes, PublicRoutes } from '~/enum'
 
@@ -56,7 +57,7 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
           label: 'Actions',
         },
         {
-          label: '前往編輯',
+          label: '文字編輯器',
           onSelect() {
             navigateTo(`${ClientRoutes.LandingPageEditor}/${row.original._id}`)
           },
@@ -81,7 +82,13 @@ const urlBase = computed(() => window.location.origin)
 </script>
 
 <template>
-  <div class="flex-1 divide-y divide-(--ui-border-accented) w-full">
+  <div class="flex-1 w-full">
+    <div class="flex justify-between mb-3">
+      <p class="text-lg font-bold">
+        Landing Page
+      </p>
+      <AddLandingPageComponent />
+    </div>
     <UTable
       v-if="!isMdSize"
       ref="table"
@@ -128,14 +135,19 @@ const urlBase = computed(() => window.location.origin)
           網址: {{ `${urlBase}${PublicRoutes.LandingPage}/${row._id}` }}
         </p>
 
-        <div class="flex gap-2">
+        <div class="flex gap-2 justify-end">
           <UButton
-            block
+            variant="soft"
+            size="sm"
+          >
+            編輯標題
+          </UButton>
+          <UButton
             variant="soft"
             size="sm"
             @click="navigateTo(`${ClientRoutes.LandingPageEditor}/${row._id}`)"
           >
-            前往編輯
+            文字編輯器
           </UButton>
         </div>
       </UCard>

@@ -24,11 +24,15 @@ export const useLandingPageApi = {
   /*
     * GET
   */
-  getAll: async () =>
-    await useRequestApi<GetAllLandingPageResponse, null>(UserRequestUrl.LandingPageGetALL, {
+  getAll: async () => {
+    const nuxtApp = useNuxtApp()
+    return await useRequestApi<GetAllLandingPageResponse, null>(UserRequestUrl.LandingPageGetALL, {
       method: 'GET',
       server: false,
-    }),
+      key: UserRequestUrl.LandingPageGetALL,
+      getCachedData: key => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
+    })
+  },
   /*
     * GET
   */
