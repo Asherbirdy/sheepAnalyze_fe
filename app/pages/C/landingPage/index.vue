@@ -2,7 +2,7 @@
 import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
-import { AddLandingPageComponent } from '~/components'
+import { AddLandingPageComponent, EditLandingPageInfoComponent } from '~/components'
 import { useWindowSize } from '~/composables/common/useWindowSize'
 import { ClientRoutes, PublicRoutes } from '~/enum'
 
@@ -146,13 +146,7 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
         </p>
 
         <div class="flex flex-wrap gap-2 justify-center">
-          <UButton
-            variant="soft"
-            size="sm"
-            class="sm:flex-none"
-          >
-            編輯標題
-          </UButton>
+          <EditLandingPageInfoComponent :data="row" />
           <UButton
             variant="soft"
             size="sm"

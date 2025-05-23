@@ -1,5 +1,7 @@
 // Landing Page
 import AddLandingPageComponent from './app/C/LandingPage/AddLandingPageComponent.vue'
+import EditLandingPageInfoComponent from './app/C/LandingPage/EditLandingPageInfoComponent.vue'
+
 // Serial Number
 import AddSerialNumberComponent from './app/C/SerialNumber/AddSerialNumberComponent.vue'
 
@@ -13,6 +15,7 @@ export {
   AddLandingPageComponent,
   AddSerialNumberComponent,
   DeleteSerialNumberComponent,
+  EditLandingPageInfoComponent,
   LoginFormComponent,
   RegisterFormComponent,
 }
