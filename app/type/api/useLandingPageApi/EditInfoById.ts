@@ -5,9 +5,9 @@ export interface EditInfoByIdPayload {
   }
   body: {
     title: string
-    description: string
-    isCustom: boolean
-    isCustomId: string
-    isActive: boolean
+    // description: string
+    // isCustom: boolean
+    // isCustomId: string
+    // isActive: boolean
   }
 }

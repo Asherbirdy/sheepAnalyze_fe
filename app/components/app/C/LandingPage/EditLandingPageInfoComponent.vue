@@ -1,11 +1,10 @@
 <script setup lang='ts'>
-import type { StateType } from '~/type'
+import type { LandingPageGetAllData, StateType } from '~/type'
+import { useLandingPageApi } from '~/apis'
+import { UserRequestUrl } from '~/enum'
 
 interface DataType {
   title: string
-  description: string
-  isCustom: boolean
-  isCustomId: string
 }
 
 interface FeatureType {
@@ -15,7 +14,7 @@ interface FeatureType {
 }
 
 const props = defineProps<{
-  data: DataType
+  data: LandingPageGetAllData
 }>()
 
 const { data: propsData } = toRefs(props)
@@ -23,9 +22,6 @@ const { data: propsData } = toRefs(props)
 const state = ref<StateType<DataType, FeatureType>>({
   data: {
     title: '',
-    description: '',
-    isCustom: false,
-    isCustomId: '',
   },
   feature: {
     modal: {
@@ -34,9 +30,25 @@ const state = ref<StateType<DataType, FeatureType>>({
   },
 })
 
+const {
+  execute: EditLandingPageInfoRequest,
+  status: EditLandingPageInfoStatus,
+} = await useLandingPageApi.editInfoById({
+  query: {
+    landingPageId: propsData.value._id,
+  },
+  body: state.value.data,
+})
+
 const openModal = () => {
-  state.value.data = propsData.value
+  state.value.data.title = propsData.value.title
   state.value.feature.modal.open = true
+}
+
+const onSubmit = async () => {
+  await EditLandingPageInfoRequest()
+  refreshNuxtData(UserRequestUrl.LandingPageGetALL)
+  state.value.feature.modal.open = false
 }
 </script>
 
@@ -82,6 +94,8 @@ const openModal = () => {
       <UButton
         label="Submit"
         color="neutral"
+        :loading="EditLandingPageInfoStatus === 'pending'"
+        @click="onSubmit"
       />
     </template>
   </UModal>

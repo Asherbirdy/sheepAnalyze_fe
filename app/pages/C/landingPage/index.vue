@@ -114,7 +114,7 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
     <!-- 手機版 -->
     <div
       v-else
-      class="flex flex-col w-full px-4"
+      class="flex flex-col w-full"
     >
       <UCard
         v-for="row in LandingPageResponse?.data"
