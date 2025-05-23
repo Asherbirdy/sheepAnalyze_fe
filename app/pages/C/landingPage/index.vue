@@ -114,14 +114,14 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
     <!-- 手機版 -->
     <div
       v-else
-      class="flex flex-col justify-center items-center"
+      class="flex flex-col w-full px-4"
     >
       <UCard
         v-for="row in LandingPageResponse?.data"
         :key="row._id"
-        class="mb-3 max-h-48 max-w-[320px]"
+        class="mb-3 w-full"
       >
-        <div class="flex justify-between">
+        <div class="flex flex-wrap gap-2 mb-2">
           <UBadge
             :color="row.isActive ? 'success' : 'info'"
             variant="soft"
@@ -135,26 +135,28 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
             {{ row.isCustom ? '客製化' : '公版' }}
           </UBadge>
         </div>
-        <h2 class="text-lg font-bold">
+        <h2 class="text-lg font-bold mb-2">
           {{ row.title }}
         </h2>
-        <p>
+        <p class="mb-1">
           ID: {{ row.urlPathId }}
         </p>
-        <p class="text-sm break-words">
+        <p class="text-sm break-all mb-4">
           網址: {{ `${urlBase}${PublicRoutes.LandingPage}/${row._id}` }}
         </p>
 
-        <div class="flex gap-2 justify-end">
+        <div class="flex flex-wrap gap-2 justify-center">
           <UButton
             variant="soft"
             size="sm"
+            class="sm:flex-none"
           >
             編輯標題
           </UButton>
           <UButton
             variant="soft"
             size="sm"
+            class="sm:flex-none"
             @click="navigateTo(`${ClientRoutes.LandingPageEditor}/${row._id}`)"
           >
             文字編輯器
