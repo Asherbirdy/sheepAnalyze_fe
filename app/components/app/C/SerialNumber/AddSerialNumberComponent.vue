@@ -6,7 +6,6 @@ import { Role, roleOptions, UserRequestUrl } from '~/enum'
 interface FeatureType {
   modal: {
     open: boolean
-    status: boolean
   }
 }
 
@@ -25,30 +24,29 @@ const state = ref<StateType<DataType, FeatureType>>({
   feature: {
     modal: {
       open: false,
-      status: false,
     },
   },
 })
 
-const { execute } = await useSerialNumberApi.create(state.value.data)
+const {
+  execute: CreateSerialNumberRequest,
+  status: CreateSerialNumberStatus,
+} = await useSerialNumberApi.create(state.value.data)
 
-
-const { data: CachedDistricts } = useNuxtData(UserRequestUrl.District)
+const {
+  data: CachedDistricts,
+} = useNuxtData(UserRequestUrl.District)
 
 const handleCreateSerialNumber = async () => {
   const { feature, data } = state.value
 
-
-  feature.modal.status = true
-  await execute()
-  feature.modal.status = false
-
+  await CreateSerialNumberRequest()
   await refreshNuxtData(UserRequestUrl.SerialNumberGetAll)
 
   feature.modal.open = false
-  state.value.data.role = Role.user
-  state.value.data.districtId = ''
-  state.value.data.notes = ''
+  data.role = Role.user
+  data.districtId = ''
+  data.notes = ''
 }
 </script>
 
@@ -123,7 +121,7 @@ const handleCreateSerialNumber = async () => {
               || !state.data.districtId
               || !state.data.notes
           "
-          :loading="state.feature.modal.status"
+          :loading="CreateSerialNumberStatus === 'pending'"
           @click="handleCreateSerialNumber"
         />
       </template>
