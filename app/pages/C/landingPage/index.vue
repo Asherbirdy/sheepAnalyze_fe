@@ -4,7 +4,7 @@ import type { LandingPageGetAllData, StateType } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 import { AddLandingPageComponent } from '~/components'
 import { useWindowSize } from '~/composables/common/useWindowSize'
-import { ClientRoutes, PublicRoutes } from '~/enum'
+import { ClientRoutes, PublicRoutes, UserRequestUrl } from '~/enum'
 
 const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
@@ -14,7 +14,9 @@ const UDropdownMenu = resolveComponent('UDropdownMenu')
 const { data: LandingPageResponse } = await useLandingPageApi.getAll()
 
 interface DataType {
-  title: string
+  modal: {
+    currentData: LandingPageGetAllData
+  }
 }
 
 interface FeatureType {
@@ -25,7 +27,23 @@ interface FeatureType {
 
 const state = ref<StateType<DataType, FeatureType>>({
   data: {
-    title: '',
+    modal: {
+      currentData: {
+        _id: '',
+        title: '',
+        isActive: false,
+        isCustom: false,
+        urlPathId: '',
+        updatedAt: '',
+        description: '',
+        isCustomId: '',
+        updatedBy: '',
+        lastEditVisited: '',
+        createdAt: '',
+        lastEditVisitedUser: '',
+        __v: 0,
+      },
+    },
   },
   feature: {
     modal: {
@@ -38,7 +56,7 @@ const { isMdSize } = useWindowSize()
 const urlBase = computed(() => window.location.origin)
 
 const openModal = (data: LandingPageGetAllData) => {
-  state.value.data.title = data.title
+  state.value.data.modal.currentData = data
   state.value.feature.modal.open = true
 }
 
@@ -121,6 +139,18 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
     },
   },
 ]
+
+const onSubmit = async () => {
+  const { execute } = await useLandingPageApi.editInfoById({
+    query: {
+      landingPageId: state.value.data.modal.currentData._id,
+    },
+    body: state.value.data.modal.currentData,
+  })
+  await execute()
+  refreshNuxtData(UserRequestUrl.LandingPageGetALL)
+  state.value.feature.modal.open = false
+}
 </script>
 
 <template>
@@ -213,6 +243,7 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
             name="title"
           >
             <UInput
+              v-model="state.data.modal.currentData.title"
               label="標題"
               name="title"
               :ui="{ root: 'w-full' }"
@@ -222,12 +253,14 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
       </template>
       <template #footer>
         <UButton
-          label="Cancel"
+          label="取消"
           color="neutral"
           variant="outline"
+          @click="state.feature.modal.open = false"
         />
         <UButton
-          label="Submit"
+          label="更新"
+          @click="onSubmit"
         />
       </template>
     </UModal>
