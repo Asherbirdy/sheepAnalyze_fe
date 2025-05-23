@@ -2,7 +2,7 @@
 import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData, StateType } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
-import { AddLandingPageComponent, EditLandingPageInfoComponent } from '~/components'
+import { AddLandingPageComponent } from '~/components'
 import { useWindowSize } from '~/composables/common/useWindowSize'
 import { ClientRoutes, PublicRoutes } from '~/enum'
 
