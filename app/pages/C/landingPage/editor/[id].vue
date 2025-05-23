@@ -5,7 +5,7 @@ import { ArrowRedo16Filled, ArrowUndo16Filled, Code24Filled, TextAlignJustify20F
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 
 const route = useRoute('C-landingPage-editor-id')
-
+const router = useRouter()
 const editor = ref()
 
 const state = ref({
@@ -215,6 +215,10 @@ onBeforeUnmount(leave)
 
 <template>
   <div>
+    <UButton
+      label="上一頁"
+      @click="router.back()"
+    />
     <p>Title: {{ landingPageResponse?.landingPage?.title }}</p>
     <div class="flex flex-wrap gap-[5px] p-[10px] bg-black rounded-t-md">
       <button

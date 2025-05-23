@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui'
-import type { LandingPageGetAllData } from '~/type'
+import type { LandingPageGetAllData, StateType } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 import { AddLandingPageComponent, EditLandingPageInfoComponent } from '~/components'
 import { useWindowSize } from '~/composables/common/useWindowSize'
@@ -13,9 +13,34 @@ const UDropdownMenu = resolveComponent('UDropdownMenu')
 
 const { data: LandingPageResponse } = await useLandingPageApi.getAll()
 
+interface DataType {
+  title: string
+}
+
+interface FeatureType {
+  modal: {
+    open: boolean
+  }
+}
+
+const state = ref<StateType<DataType, FeatureType>>({
+  data: {
+    title: '',
+  },
+  feature: {
+    modal: {
+      open: false,
+    },
+  },
+})
 const { isMdSize } = useWindowSize()
 
 const urlBase = computed(() => window.location.origin)
+
+const openModal = (data: LandingPageGetAllData) => {
+  state.value.data.title = data.title
+  state.value.feature.modal.open = true
+}
 
 const columns: TableColumn<LandingPageGetAllData>[] = [
   {
@@ -64,6 +89,13 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
           label: '文字編輯器',
           onSelect() {
             navigateTo(`${ClientRoutes.LandingPageEditor}/${row.original._id}`)
+          },
+        },
+        {
+          label: '編輯標題',
+          type: 'Actions',
+          onSelect: () => {
+            openModal(row.original)
           },
         },
       ]
@@ -146,7 +178,15 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
         </p>
 
         <div class="flex flex-wrap gap-2 justify-center">
-          <EditLandingPageInfoComponent :data="row" />
+          <!-- <EditLandingPageInfoComponent :data="row" /> -->
+          <UButton
+            variant="soft"
+            size="sm"
+            class="sm:flex-none"
+            @click="openModal(row)"
+          >
+            編輯標題
+          </UButton>
           <UButton
             variant="soft"
             size="sm"
@@ -158,5 +198,38 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
         </div>
       </UCard>
     </div>
+    <UModal
+      v-model:open="state.feature.modal.open"
+      title="編輯頁面資訊"
+      :ui="{ footer: 'justify-end' }"
+    >
+      <template #body>
+        <UForm
+          :state="state.data"
+          class="space-y-4 flex flex-col gap-4"
+        >
+          <UFormField
+            label="標題"
+            name="title"
+          >
+            <UInput
+              label="標題"
+              name="title"
+              :ui="{ root: 'w-full' }"
+            />
+          </UFormField>
+        </UForm>
+      </template>
+      <template #footer>
+        <UButton
+          label="Cancel"
+          color="neutral"
+          variant="outline"
+        />
+        <UButton
+          label="Submit"
+        />
+      </template>
+    </UModal>
   </div>
 </template>
