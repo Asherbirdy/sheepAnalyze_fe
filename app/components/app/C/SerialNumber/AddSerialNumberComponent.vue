@@ -30,15 +30,14 @@ const state = ref<StateType<DataType, FeatureType>>({
   },
 })
 
+const { execute } = await useSerialNumberApi.create(state.value.data)
+
+
 const { data: CachedDistricts } = useNuxtData(UserRequestUrl.District)
 
 const handleCreateSerialNumber = async () => {
   const { feature, data } = state.value
-  const { execute } = await useSerialNumberApi.create({
-    role: data.role,
-    districtId: data.districtId,
-    notes: data.notes,
-  })
+
 
   feature.modal.status = true
   await execute()
