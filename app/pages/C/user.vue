@@ -1,29 +1,13 @@
 <script setup lang="ts">
 import type { LandingPageAccess } from '~/enum'
-import type { StateType } from '~/type'
+import type { GetUserList, StateType, UserPageDataType, UserPageFeatureType } from '~/type'
 import { useUserApi } from '~/apis'
 import { landingPageAccessOptions, Role, roleOptions } from '~/enum'
 
-const { data: UserListResponse } = await useUserApi.getUserList()
-
-interface DataType {
-  form: {
-    id: string
-    role: Role
-    landingPageAccess: LandingPageAccess[]
-  }
-}
-
-interface FeatureType {
-  modal: {
-    open: boolean
-  }
-}
-
-const state = ref<StateType<DataType, FeatureType>>({
+const state = ref<StateType<UserPageDataType, UserPageFeatureType>>({
   data: {
     form: {
-      id: '',
+      userId: '',
       role: Role.user,
       landingPageAccess: [],
     },
@@ -34,6 +18,30 @@ const state = ref<StateType<DataType, FeatureType>>({
     },
   },
 })
+
+const {
+  data: UserListResponse,
+  refresh: UserListRefresh,
+} = await useUserApi.getUserList()
+
+const {
+  execute: ChangeUserAccessRequest,
+  status: ChangeUserAccessStatus,
+} = await useUserApi.changeUserAccess(state.value.data.form)
+
+const handleUpdateUserAccess = async () => {
+  await ChangeUserAccessRequest()
+  await UserListRefresh()
+  state.value.feature.modal.open = false
+}
+
+const openModal = (row: GetUserList) => {
+  const { data, feature } = state.value
+  data.form.userId = row._id
+  data.form.role = row.role as Role
+  data.form.landingPageAccess = row.landingPageAccess as LandingPageAccess[]
+  feature.modal.open = true
+}
 </script>
 
 <template>
@@ -57,7 +65,7 @@ const state = ref<StateType<DataType, FeatureType>>({
               variant="soft"
               size="sm"
               class="sm:flex-none"
-              @click="state.feature.modal.open = true"
+              @click="openModal(row)"
             >
               編輯
             </UButton>
@@ -109,6 +117,8 @@ const state = ref<StateType<DataType, FeatureType>>({
         <UButton
           label="確認"
           color="neutral"
+          :loading="ChangeUserAccessStatus === 'pending'"
+          @click="handleUpdateUserAccess"
         />
       </template>
     </UModal>

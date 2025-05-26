@@ -4,7 +4,7 @@ export enum LandingPageAccess {
   delete = 'delete', // 允許刪除
 }
 
-export const landingPageAccessOptions = ref([
+export const landingPageAccessOptions = [
   {
     label: '允許新增',
     value: LandingPageAccess.create,
@@ -17,4 +17,4 @@ export const landingPageAccessOptions = ref([
     label: '允許刪除',
     value: LandingPageAccess.delete,
   },
-])
+]

@@ -38,9 +38,11 @@ export const useUserApi = {
   },
   changeUserAccess: async (payload: ChangeUserAccessRequestPayload) => {
     return useRequestApi(UserRequestUrl.UserChangeUserAccess, {
-      method: 'POST',
+      method: 'PATCH',
       server: false,
       lazy: true,
+      immediate: false,
+      watch: false,
       body: payload,
     })
   },
