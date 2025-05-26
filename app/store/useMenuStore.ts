@@ -13,7 +13,8 @@ export function useMenuStore() {
     {
       label: '帳號管理',
       icon: 'mingcute:group-3-line',
-      active: computed(() => route.path === ClientRoutes.SerialNumber),
+      to: ClientRoutes.User,
+      active: computed(() => route.path === ClientRoutes.User),
     },
     {
       label: '帳號序號申請',
