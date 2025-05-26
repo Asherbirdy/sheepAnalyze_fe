@@ -27,6 +27,7 @@ export enum UserRequestUrl {
 
   // USER
   UserShowMe = '/users/showMe',
+  UserGetUserList = '/users/getAllUsers',
 
   // LANDING PAGE
   LandingPageCreate = '/landingPage/create',

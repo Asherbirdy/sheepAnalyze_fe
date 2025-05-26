@@ -10,4 +10,11 @@ export const useUserApi = {
       lazy: true,
     })
   },
+  getUserList: async () => {
+    return useRequestApi<any, null>(UserRequestUrl.UserGetUserList, {
+      method: 'GET',
+      server: false,
+      lazy: true,
+    })
+  },
 }
