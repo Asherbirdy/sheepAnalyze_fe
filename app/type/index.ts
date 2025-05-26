@@ -27,6 +27,7 @@ export * from './api/useSheetApi/GetAllSheetApiType'
 
 // useUserApi
 export * from './api/useUserApi/ChangeUserAccessType'
+export * from './api/useUserApi/GetUserListType'
 export * from './api/useUserApi/ShowMeApiType'
 
 // * COMMON
