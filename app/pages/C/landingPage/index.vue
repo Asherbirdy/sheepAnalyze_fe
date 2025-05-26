@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui'
-import type { LandingPageGetAllData } from '~/type'
+import type { LandingPageGetAllData, StateType } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
+import { AddLandingPageComponent } from '~/components'
 import { useWindowSize } from '~/composables/common/useWindowSize'
-import { ClientRoutes, PublicRoutes } from '~/enum'
+import { ClientRoutes, PublicRoutes, UserRequestUrl } from '~/enum'
 
 const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
@@ -11,7 +12,54 @@ const UBadge = resolveComponent('UBadge')
 const UDropdownMenu = resolveComponent('UDropdownMenu')
 
 const { data: LandingPageResponse } = await useLandingPageApi.getAll()
+
+interface DataType {
+  modal: {
+    currentData: LandingPageGetAllData
+  }
+}
+
+interface FeatureType {
+  modal: {
+    open: boolean
+  }
+}
+
+const state = ref<StateType<DataType, FeatureType>>({
+  data: {
+    modal: {
+      currentData: {
+        _id: '',
+        title: '',
+        isActive: false,
+        isCustom: false,
+        urlPathId: '',
+        updatedAt: '',
+        description: '',
+        isCustomId: '',
+        updatedBy: '',
+        lastEditVisited: '',
+        createdAt: '',
+        lastEditVisitedUser: '',
+        __v: 0,
+      },
+    },
+  },
+  feature: {
+    modal: {
+      open: false,
+    },
+  },
+})
 const { isMdSize } = useWindowSize()
+
+const urlBase = computed(() => window.location.origin)
+
+const openModal = (data: LandingPageGetAllData) => {
+  state.value.data.modal.currentData = data
+  state.value.feature.modal.open = true
+}
+
 const columns: TableColumn<LandingPageGetAllData>[] = [
   {
     accessorKey: 'isActive',
@@ -56,32 +104,63 @@ const columns: TableColumn<LandingPageGetAllData>[] = [
           label: 'Actions',
         },
         {
-          label: '前往編輯',
+          label: '文字編輯器',
           onSelect() {
             navigateTo(`${ClientRoutes.LandingPageEditor}/${row.original._id}`)
           },
         },
+        {
+          label: '編輯標題',
+          type: 'Actions',
+          onSelect: () => {
+            openModal(row.original)
+          },
+        },
       ]
 
-      return h('div', { class: 'text-right' }, h(UDropdownMenu, {
-        'content': { align: 'end' },
-        items,
-        'aria-label': 'Actions dropdown',
-      }, () => h(UButton, {
-        'icon': 'i-lucide-ellipsis-vertical',
-        'color': 'neutral',
-        'variant': 'ghost',
-        'class': 'ml-auto',
-        'aria-label': 'Actions dropdown',
-      })))
+      return h(
+        'div',
+        { class: 'text-right' },
+        h(UDropdownMenu, {
+          'content': { align: 'end' },
+          items,
+          'aria-label': 'Actions dropdown',
+        }, () => h(
+          UButton,
+          {
+            'icon': 'i-lucide-ellipsis-vertical',
+            'color': 'neutral',
+            'variant': 'ghost',
+            'class': 'ml-auto',
+            'aria-label': 'Actions dropdown',
+          },
+        )),
+      )
     },
   },
 ]
-const urlBase = computed(() => window.location.origin)
+
+const onSubmit = async () => {
+  const { execute } = await useLandingPageApi.editInfoById({
+    query: {
+      landingPageId: state.value.data.modal.currentData._id,
+    },
+    body: state.value.data.modal.currentData,
+  })
+  await execute()
+  refreshNuxtData(UserRequestUrl.LandingPageGetALL)
+  state.value.feature.modal.open = false
+}
 </script>
 
 <template>
-  <div class="flex-1 divide-y divide-(--ui-border-accented) w-full">
+  <div class="flex-1 w-full">
+    <div class="flex justify-between mb-3">
+      <p class="text-lg font-bold">
+        Landing Page
+      </p>
+      <AddLandingPageComponent />
+    </div>
     <UTable
       v-if="!isMdSize"
       ref="table"
@@ -97,14 +176,14 @@ const urlBase = computed(() => window.location.origin)
     <!-- 手機版 -->
     <div
       v-else
-      class="flex flex-col justify-center items-center"
+      class="flex flex-col w-full"
     >
       <UCard
         v-for="row in LandingPageResponse?.data"
         :key="row._id"
-        class="mb-3 max-h-48 max-w-[320px]"
+        class="mb-3 w-full"
       >
-        <div class="flex justify-between">
+        <div class="flex flex-wrap gap-2 mb-2">
           <UBadge
             :color="row.isActive ? 'success' : 'info'"
             variant="soft"
@@ -118,27 +197,72 @@ const urlBase = computed(() => window.location.origin)
             {{ row.isCustom ? '客製化' : '公版' }}
           </UBadge>
         </div>
-        <h2 class="text-lg font-bold">
+        <h2 class="text-lg font-bold mb-2">
           {{ row.title }}
         </h2>
-        <p>
+        <p class="mb-1">
           ID: {{ row.urlPathId }}
         </p>
-        <p class="text-sm break-words">
+        <p class="text-sm break-all mb-4">
           網址: {{ `${urlBase}${PublicRoutes.LandingPage}/${row._id}` }}
         </p>
 
-        <div class="flex gap-2">
+        <div class="flex flex-wrap gap-2 justify-center">
+          <!-- <EditLandingPageInfoComponent :data="row" /> -->
           <UButton
-            block
             variant="soft"
             size="sm"
+            class="sm:flex-none"
+            @click="openModal(row)"
+          >
+            編輯標題
+          </UButton>
+          <UButton
+            variant="soft"
+            size="sm"
+            class="sm:flex-none"
             @click="navigateTo(`${ClientRoutes.LandingPageEditor}/${row._id}`)"
           >
-            前往編輯
+            文字編輯器
           </UButton>
         </div>
       </UCard>
     </div>
+    <UModal
+      v-model:open="state.feature.modal.open"
+      title="編輯頁面資訊"
+      :ui="{ footer: 'justify-end' }"
+    >
+      <template #body>
+        <UForm
+          :state="state.data"
+          class="space-y-4 flex flex-col gap-4"
+        >
+          <UFormField
+            label="標題"
+            name="title"
+          >
+            <UInput
+              v-model="state.data.modal.currentData.title"
+              label="標題"
+              name="title"
+              :ui="{ root: 'w-full' }"
+            />
+          </UFormField>
+        </UForm>
+      </template>
+      <template #footer>
+        <UButton
+          label="取消"
+          color="neutral"
+          variant="outline"
+          @click="state.feature.modal.open = false"
+        />
+        <UButton
+          label="更新"
+          @click="onSubmit"
+        />
+      </template>
+    </UModal>
   </div>
 </template>

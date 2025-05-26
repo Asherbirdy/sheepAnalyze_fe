@@ -3,11 +3,12 @@ import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { ArrowRedo16Filled, ArrowUndo16Filled, Code24Filled, TextAlignJustify20Filled, TextAlignLeft16Filled, TextAlignRight16Filled, TextBold24Filled, TextBulletListLtr16Filled, TextHeader124Filled, TextHeader220Filled, TextHeader324Filled, TextItalic24Filled, TextNumberListLtr16Filled, TextParagraph16Filled, TextQuote20Filled, TextStrikethrough24Filled } from '@vicons/fluent'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
+import { useWindowSize } from '~/composables/common/useWindowSize'
 
 const route = useRoute('C-landingPage-editor-id')
-
+const router = useRouter()
 const editor = ref()
-
+const { isMdSize } = useWindowSize()
 const state = ref({
   data: {
     title: '',
@@ -215,6 +216,21 @@ onBeforeUnmount(leave)
 
 <template>
   <div>
+    <div class="flex justify-between">
+      <UButton
+        label="上一頁"
+        variant="outline"
+        size="sm"
+        @click="router.back()"
+      />
+      <UButton
+        :loading="EditStatus === 'pending'"
+        size="sm"
+        @click="onSave"
+      >
+        保存
+      </UButton>
+    </div>
     <p>Title: {{ landingPageResponse?.landingPage?.title }}</p>
     <div class="flex flex-wrap gap-[5px] p-[10px] bg-black rounded-t-md">
       <button
@@ -236,15 +252,14 @@ onBeforeUnmount(leave)
       </button>
     </div>
 
-    <EditorContent :editor="editor" />
-
-    <button
-      class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      :loading="EditStatus === 'pending'"
-      @click="onSave"
-    >
-      保存
-    </button>
+    <EditorContent
+      :editor="editor"
+      class="h-[500px] overflow-y-auto"
+      :class="{
+        'h-[500px]': isMdSize,
+        'h-[1000px]': !isMdSize,
+      }"
+    />
 
     <div class="mt-2 text-sm text-gray-300 whitespace-pre-wrap">
       {{ state.data.html }}
