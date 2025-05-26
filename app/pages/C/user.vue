@@ -1,15 +1,16 @@
 <script setup lang="ts">
+import type { LandingPageAccess } from '~/enum'
 import type { StateType } from '~/type'
 import { useUserApi } from '~/apis'
-import { Role } from '~/enum'
+import { landingPageAccessOptions, Role, roleOptions } from '~/enum'
 
 const { data: UserListResponse } = await useUserApi.getUserList()
 
 interface DataType {
   form: {
     id: string
-    role: string
-    landingPageAccess: string
+    role: Role
+    landingPageAccess: LandingPageAccess[]
   }
 }
 
@@ -23,8 +24,8 @@ const state = ref<StateType<DataType, FeatureType>>({
   data: {
     form: {
       id: '',
-      role: '',
-      landingPageAccess: '',
+      role: Role.user,
+      landingPageAccess: [],
     },
   },
   feature: {
@@ -69,15 +70,11 @@ const state = ref<StateType<DataType, FeatureType>>({
     </div>
     <UModal
       v-model:open="state.feature.modal.open"
-      title="Modal with footer"
-      description="This is useful when you want a form in a Modal."
+      title="編輯帳號"
       :ui="{ footer: 'justify-end' }"
     >
       <template #body>
-        <UForm
-          :state="state.data"
-          class="space-y-4 flex flex-col gap-4"
-        >
+        <UForm :state="state.data">
           <UFormField
             label="角色"
             name="role"
@@ -86,30 +83,31 @@ const state = ref<StateType<DataType, FeatureType>>({
               v-model="state.data.form.role"
               label="角色"
               name="role"
+              :items="roleOptions"
             />
           </UFormField>
           <UFormField
             label="首頁權限"
             name="landingPageAccess"
           >
-            <USelect
+            <USelectMenu
               v-model="state.data.form.landingPageAccess"
-              label="首頁權限"
-              name="landingPageAccess"
+              value-key="value"
+              multiple
+              :items="landingPageAccessOptions"
             />
           </UFormField>
         </UForm>
       </template>
-
       <template #footer>
         <UButton
-          label="Cancel"
+          label="取消"
           color="neutral"
           variant="outline"
           @click="state.feature.modal.open = false"
         />
         <UButton
-          label="Submit"
+          label="確認"
           color="neutral"
         />
       </template>
