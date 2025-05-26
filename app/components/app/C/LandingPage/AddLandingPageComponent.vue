@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import type { StateType } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
-import { UserRequestUrl } from '~/enum'
+import { LandingPageAccess, UserRequestUrl } from '~/enum'
 
 interface DataType {
   title: string
@@ -12,7 +12,7 @@ interface FeatureType {
     open: boolean
   }
 }
-
+const { data: UserInfoResponse } = useNuxtData(UserRequestUrl.UserShowMe)
 const state = ref<StateType<DataType, FeatureType>>({
   data: {
     title: '',
@@ -43,6 +43,7 @@ const handleSubmit = async () => {
 <template>
   <UButton
     label="新增頁面"
+    :disabled="!UserInfoResponse.user.landingPageAccess.includes(LandingPageAccess.create)"
     @click="state.feature.modal.open = true"
   />
   <UModal

@@ -66,8 +66,12 @@ export function useMenuStore() {
       icon: 'i-lucide-log-out',
       active: computed(() => route.path === PublicRoutes.Login),
       onSelect: async () => {
-        useCookie(CookieEnums.AccessToken).value = ''
-        useCookie(CookieEnums.RefreshToken).value = ''
+        useCookie(CookieEnums.AccessToken, {
+          maxAge: 0,
+        }).value = ''
+        useCookie(CookieEnums.RefreshToken, {
+          maxAge: 0,
+        }).value = ''
 
         clearNuxtState()
         clearNuxtData()

@@ -4,7 +4,7 @@ import type { LandingPageGetAllData, StateType } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 import { AddLandingPageComponent } from '~/components'
 import { useWindowSize } from '~/composables/common/useWindowSize'
-import { ClientRoutes, PublicRoutes, UserRequestUrl } from '~/enum'
+import { ClientRoutes, LandingPageAccess, PublicRoutes, UserRequestUrl } from '~/enum'
 
 const table = useTemplateRef<HTMLTableElement>('table')
 const UButton = resolveComponent('UButton')
@@ -52,6 +52,8 @@ const state = ref<StateType<DataType, FeatureType>>({
   },
 })
 const { isMdSize } = useWindowSize()
+
+const { data: UserInfoResponse } = useNuxtData(UserRequestUrl.UserShowMe)
 
 const urlBase = computed(() => window.location.origin)
 
@@ -212,6 +214,7 @@ const onSubmit = async () => {
             variant="soft"
             size="sm"
             class="sm:flex-none"
+            :disabled="!UserInfoResponse.user.landingPageAccess.includes(LandingPageAccess.edit_post)"
             @click="openModal(row)"
           >
             編輯標題
@@ -219,6 +222,7 @@ const onSubmit = async () => {
           <UButton
             variant="soft"
             size="sm"
+            :disabled="!UserInfoResponse.user.landingPageAccess.includes(LandingPageAccess.edit_post)"
             class="sm:flex-none"
             @click="navigateTo(`${ClientRoutes.LandingPageEditor}/${row._id}`)"
           >
