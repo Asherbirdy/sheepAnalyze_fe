@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { DropdownMenuItem } from '@nuxt/ui'
+import { Logo } from '~/components'
 import { PublicRoutes } from '~/enum'
 
 // 定義導航路由
@@ -53,8 +54,8 @@ const items = ref<DropdownMenuItem[][]>([
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <header class="bg-gray-100 p-4 flex justify-between">
-      <div>LOGO</div>
+    <header class="flex justify-between items-center">
+      <Logo />
       <div class="hidden md:block">
         <nav class="flex space-x-4">
           <NuxtLink
