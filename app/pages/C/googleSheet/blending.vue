@@ -1,5 +1,7 @@
 <script setup lang='ts'>
+import type { ShowMeResponse } from '~/type'
 import { useBlendingApi } from '~/apis'
+import { Role, UserRequestUrl } from '~/enum'
 
 enum AgeRange {
   Elder = '年長',
@@ -32,6 +34,9 @@ const handleUpdateData = async () => {
   await CreateFromSheetRequest()
   await BlendingRequest()
 }
+const {
+  data: UserInfoResponse,
+} = useNuxtData<ShowMeResponse>(UserRequestUrl.UserShowMe)
 
 // 過濾掉空值name
 const data = computed(() => BlendingResponse.value?.response.filter(item => item.name !== ''))
@@ -84,6 +89,7 @@ const tabs = [
         variant="soft"
         size="sm"
         :loading="CreateFromSheetStatus === 'pending'"
+        :disabled="!(UserInfoResponse?.user.role === Role.admin || UserInfoResponse?.user.role === Role.dev)"
         @click="handleUpdateData"
       >
         更新
