@@ -1,5 +1,7 @@
 <script setup lang='ts'>
+import type { ShowMeResponse } from '~/type'
 import { useMeetingCenterApi } from '~/apis'
+import { Role, UserRequestUrl } from '~/enum'
 
 enum GospelFriendIdentity {
   male = '男介朋友',
@@ -13,6 +15,10 @@ enum Journey {
   selfGo = '自行前往',
   notReturn = '不搭回程',
 }
+
+const {
+  data: UserInfoResponse,
+} = useNuxtData<ShowMeResponse>(UserRequestUrl.UserShowMe)
 
 const {
   data: MeetingCenterResponse,
@@ -79,6 +85,7 @@ const isGospelFriendString = (identity: string) => {
       size="sm"
       variant="soft"
       :loading="MeetingCenterCreateStatus === 'pending'"
+      :disabled="!(UserInfoResponse?.user.role === Role.admin || UserInfoResponse?.user.role === Role.dev)"
       @click="updateData"
     >
       更新數據
