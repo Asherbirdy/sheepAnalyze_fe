@@ -1,4 +1,5 @@
 import type { ShowMeUser } from '~/type/api/useUserApi/ShowMeApiType'
+import { Role } from '~/enum'
 
 export function useUserStore() {
   const user = useState<ShowMeUser>('user', () => ({
@@ -6,7 +7,7 @@ export function useUserStore() {
     name: '',
     email: '',
     emailVerified: false,
-    role: '',
+    role: Role.user,
     district: {
       _id: '',
       name: '',
