@@ -23,10 +23,13 @@ export interface GetUserList {
 
 export const useUserApi = {
   showMe: async () => {
+    const nuxtApp = useNuxtApp()
     return useRequestApi<ShowMeResponse, null>(UserRequestUrl.UserShowMe, {
       method: 'GET',
       server: false,
       lazy: true,
+      key: UserRequestUrl.UserShowMe,
+      getCachedData: key => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
     })
   },
   getUserList: async () => {
