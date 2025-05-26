@@ -208,7 +208,6 @@ const onSubmit = async () => {
         </p>
 
         <div class="flex flex-wrap gap-2 justify-center">
-          <!-- <EditLandingPageInfoComponent :data="row" /> -->
           <UButton
             variant="soft"
             size="sm"
