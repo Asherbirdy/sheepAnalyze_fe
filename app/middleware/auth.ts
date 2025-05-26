@@ -8,6 +8,7 @@ export default defineNuxtRouteMiddleware(async () => {
 
   if (error.value) {
     clearNuxtData() // 清掉 cache
+    clearNuxtState()
     return navigateTo(PublicRoutes.Login)
   }
 

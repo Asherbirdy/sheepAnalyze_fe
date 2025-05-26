@@ -1,5 +1,7 @@
 // * Response
 
+import type { Role } from '~/enum'
+
 export interface ShowMeResponse {
   msg: string
   user: ShowMeUser
@@ -10,7 +12,7 @@ export interface ShowMeUser {
   name: string
   email: string
   emailVerified: boolean
-  role: string
+  role: Role
   district: ShowMeDistrict
   leaderOfGroupIds: ShowMeLeaderOfGroupId[]
   groups: ShowMeGroup[]
