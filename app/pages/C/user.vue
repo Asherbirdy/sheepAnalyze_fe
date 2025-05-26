@@ -1,26 +1,8 @@
 <script setup lang="ts">
 import { useUserApi } from '~/apis'
+import { Role } from '~/enum'
 
 const { data: UserListResponse } = await useUserApi.getUserList()
-
-// interface DataType {
-//   modal: {
-//     currentData: LandingPageGetAllData
-//   }
-// }
-
-// interface FeatureType {
-//   modal: {
-//     open: boolean
-//   }
-// }
-
-// const state = ref<StateType<any, any>>({
-//   data: {
-//   },
-//   feature: {
-//   },
-// })
 </script>
 
 <template>
@@ -30,7 +12,6 @@ const { data: UserListResponse } = await useUserApi.getUserList()
         帳號管理
       </p>
     </div>
-    <!-- 手機版 -->
     <div
       class="flex flex-col w-full"
     >
@@ -39,25 +20,21 @@ const { data: UserListResponse } = await useUserApi.getUserList()
         :key="row._id"
         class="mb-3 w-full"
       >
-        <div class="flex flex-wrap gap-2 mb-2">
-          {{ row }}
-
-          <div class="flex flex-wrap gap-2 justify-center">
+        <div class="flex flex-col gap-2 mb-2">
+          <div class="flex justify-between">
+            <p>{{ row.name }}</p>
             <UButton
+              v-if="row.role !== Role.dev"
               variant="soft"
               size="sm"
               class="sm:flex-none"
             >
-              編輯標題
-            </UButton>
-            <UButton
-              variant="soft"
-              size="sm"
-              class="sm:flex-none"
-            >
-              文字編輯器
+              編輯
             </UButton>
           </div>
+          <p>電子信箱：{{ row.email }}</p>
+          <p>角色：{{ row.role }}</p>
+          <p>首頁權限：{{ row.landingPageAccess }}</p>
         </div>
       </UCard>
     </div>
