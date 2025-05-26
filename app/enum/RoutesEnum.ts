@@ -9,10 +9,14 @@ export const ClientBase = '/C'
 
 export enum ClientRoutes {
   Home = `${ClientBase}/`,
+  User = `${ClientBase}/user`,
+
   LandingPage = `${ClientBase}/landingPage`,
   LandingPageEditor = `${ClientBase}/landingPage/editor`,
-  Blending = `${ClientBase}/blending`,
+
   Sheet = `${ClientBase}/sheet`,
   SerialNumber = `${ClientBase}/serialNumber`,
-  MeetingCenter = `${ClientBase}/meetingCenter`,
+
+  MeetingCenter = `${ClientBase}/googleSheet/meetingCenter`,
+  Blending = `${ClientBase}/googleSheet/blending`,
 }

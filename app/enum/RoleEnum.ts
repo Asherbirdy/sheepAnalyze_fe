@@ -7,10 +7,6 @@ export enum Role {
 
 export const roleOptions = [
   {
-    label: '開發者',
-    value: Role.dev,
-  },
-  {
     label: '管理者',
     value: Role.admin,
   },

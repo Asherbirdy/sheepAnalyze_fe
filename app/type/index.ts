@@ -26,6 +26,8 @@ export * from './api/useSheetApi/EditSheetApiType'
 export * from './api/useSheetApi/GetAllSheetApiType'
 
 // useUserApi
+export * from './api/useUserApi/ChangeUserAccessType'
+export * from './api/useUserApi/GetUserListType'
 export * from './api/useUserApi/ShowMeApiType'
 
 // * COMMON
@@ -33,4 +35,5 @@ export * from './common/StateType'
 
 // * PAGE
 export * from './page/C/SheetPage'
+export * from './page/C/UserPage'
 export * from './page/home'
