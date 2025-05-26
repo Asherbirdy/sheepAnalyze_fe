@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { NavigationMenuItem } from '@nuxt/ui'
+import { Logo } from '~/components'
 import { useMenuStore } from '~/store'
 
 const menuStore = useMenuStore()
@@ -8,10 +9,8 @@ const { getMenu } = menuStore as unknown as { getMenu: NavigationMenuItem[] }
 
 <template>
   <div>
-    <header class="flex items-center justify-between bg-gray-100">
-      <h1 class="p-5">
-        LOGO
-      </h1>
+    <header class="flex items-center justify-between">
+      <Logo />
       <div class="md:hidden">
         <UDropdownMenu
           :items="getMenu"
