@@ -80,7 +80,7 @@ const isGospelFriendString = (identity: string) => {
 </script>
 
 <template>
-  <div>
+  <div class="pb-20">
     <UButton
       size="sm"
       variant="soft"
