@@ -11,8 +11,8 @@ export enum ClientRoutes {
   Home = `${ClientBase}/`,
   LandingPage = `${ClientBase}/landingPage`,
   LandingPageEditor = `${ClientBase}/landingPage/editor`,
-  Blending = `${ClientBase}/blending`,
   Sheet = `${ClientBase}/sheet`,
   SerialNumber = `${ClientBase}/serialNumber`,
-  MeetingCenter = `${ClientBase}/meetingCenter`,
+  MeetingCenter = `${ClientBase}/googleSheet/meetingCenter`,
+  Blending = `${ClientBase}/googleSheet/blending`,
 }
