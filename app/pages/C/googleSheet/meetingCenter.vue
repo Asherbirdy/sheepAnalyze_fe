@@ -151,12 +151,12 @@ const isGospelFriendString = (identity: string) => {
         <div>
           <p>6/8 港湖集中主日 要搭遊覽車人位</p>
           <p class="font-bold">
-            搭乘去程遊覽車(東湖->信基)
+            搭乘去程遊覽車(東湖->信基)({{ data?.filter(item => item.departure === Journey.departure).length }}人)
           </p>
           <p>一區:</p>
           <div class="flex flex-wrap gap-2">
             <UBadge
-              v-for="(item, index) in districtOne?.filter(item => item.departure === '搭乘去程')"
+              v-for="(item, index) in districtOne?.filter(item => item.departure === Journey.departure)"
               :key="index"
               color="info"
               variant="soft"
@@ -200,7 +200,7 @@ const isGospelFriendString = (identity: string) => {
         </div>
 
         <p class="font-bold">
-          搭乘回程遊覽車(信基->東湖)
+          搭乘回程遊覽車(信基->東湖)({{ data?.filter(item => item.returnRide === Journey.returnRide).length }}人)
         </p>
         <p>一區:</p>
         <div class="flex flex-wrap gap-2">
