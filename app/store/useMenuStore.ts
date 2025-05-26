@@ -1,4 +1,4 @@
-import { ClientRoutes, Role } from '~/enum'
+import { ClientRoutes, CookieEnums, PublicRoutes, Role } from '~/enum'
 import { useUserStore } from './useUserStore'
 
 export function useMenuStore() {
@@ -56,8 +56,25 @@ export function useMenuStore() {
       to: ClientRoutes.Home,
       active: computed(() => route.path === ClientRoutes.Home),
     },
-    ...([Role.admin, Role.dev].includes(userInfo.value.role) ? adminRoute : []),
+    ...(
+      [Role.admin, Role.dev].includes(userInfo.value.role)
+        ? adminRoute
+        : []),
     ...userRoute,
+    {
+      label: '登出',
+      icon: 'i-lucide-log-out',
+      active: computed(() => route.path === PublicRoutes.Login),
+      onSelect: async () => {
+        useCookie(CookieEnums.AccessToken).value = ''
+        useCookie(CookieEnums.RefreshToken).value = ''
+
+        clearNuxtState()
+        clearNuxtData()
+
+        navigateTo(PublicRoutes.Login)
+      },
+    },
   ])
 
   const getMenu = computed(() => menu.value)
