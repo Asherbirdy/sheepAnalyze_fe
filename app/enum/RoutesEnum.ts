@@ -19,4 +19,6 @@ export enum ClientRoutes {
 
   MeetingCenter = `${ClientBase}/googleSheet/meetingCenter`,
   Blending = `${ClientBase}/googleSheet/blending`,
+
+  District = `${ClientBase}/district`,
 }
