@@ -32,7 +32,7 @@ const {
 
 const data = computed(() => MeetingCenterResponse.value?.data)
 const kidData = computed(() => data.value?.filter(item => item.identity === GospelFriendIdentity.child))
-const adultData = computed(() => data.value?.filter(item => item.identity !== GospelFriendIdentity.child))
+// const adultData = computed(() => data.value?.filter(item => item.identity !== GospelFriendIdentity.child))
 const districtOne = computed(() => data.value?.filter(
   item => item.districtName === '一區',
 ))
@@ -97,11 +97,8 @@ const isGospelFriendString = (identity: string) => {
       :ui="{ trigger: 'flex-1' }"
     >
       <template #join>
-        <div>6/8 港湖集中主日 報名：{{ data?.length }}位</div>
-        <div>成人{{ adultData?.length }}位,兒童{{ kidData?.length }}位</div>
-        <p class="text-sm text-red-600">
-          請於5/27日前<br>協助調查是否搭乘遊覽車～謝謝
-        </p>
+        <div>6/8 港湖集中主日 報名：{{ data?.length }}位，其中兒童有{{ kidData?.length }}位</div>
+        <!-- <div>成人{{ adultData?.length }}位,兒童{{ kidData?.length }}位</div> -->
         <p>一區</p>
         <div class="flex flex-wrap gap-2">
           <UBadge
