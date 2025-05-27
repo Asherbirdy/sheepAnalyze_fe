@@ -1,14 +1,20 @@
+import type {
+  AttendanceAccountActivatePayload,
+  AttendanceAccountCreatePayload,
+  AttendanceAccountEditPayload,
+  AttendanceAccountGetAllResponse,
+} from '~/type'
 import { UserRequestUrl } from '~/enum'
 
 export const useAttendanceAccountApi = {
 
   getAll: async () =>
-    await useRequestApi(UserRequestUrl.AttendanceAccount, {
+    await useRequestApi<AttendanceAccountGetAllResponse, null>(UserRequestUrl.AttendanceAccount, {
       method: 'GET',
       server: false,
     }),
 
-  create: async (payload: any) =>
+  create: async (payload: AttendanceAccountCreatePayload) =>
     await useRequestApi(UserRequestUrl.AttendanceAccountCreate, {
       method: 'POST',
       body: payload,
@@ -18,7 +24,7 @@ export const useAttendanceAccountApi = {
       watch: false,
     }),
 
-  edit: async (payload: any) =>
+  edit: async (payload: AttendanceAccountEditPayload) =>
     await useRequestApi(UserRequestUrl.AttendanceAccountEdit, {
       method: 'PUT',
       body: payload,
@@ -28,7 +34,7 @@ export const useAttendanceAccountApi = {
       watch: false,
     }),
 
-  activate: async (payload: any) =>
+  activate: async (payload: AttendanceAccountActivatePayload) =>
     await useRequestApi(UserRequestUrl.AttendanceAccountActivate, {
       method: 'POST',
       body: payload,
