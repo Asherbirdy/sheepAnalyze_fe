@@ -47,6 +47,12 @@ export function useMenuStore() {
       to: ClientRoutes.SerialNumber,
       active: computed(() => route.path === ClientRoutes.SerialNumber),
     },
+    {
+      label: '區',
+      icon: 'pixelarticons:drop-area',
+      to: ClientRoutes.District,
+      active: computed(() => route.path === ClientRoutes.District),
+    },
   ]
 
   const menu = useState('menu', () => [
