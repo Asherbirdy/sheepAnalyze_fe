@@ -21,4 +21,6 @@ export enum ClientRoutes {
   Blending = `${ClientBase}/googleSheet/blending`,
 
   District = `${ClientBase}/district`,
+
+  AttendanceAccount = `${ClientBase}/attendanceAccount`,
 }
