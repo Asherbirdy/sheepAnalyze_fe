@@ -120,10 +120,15 @@ const onRegister = async () => {
   * ONMOUNTED
 */
 const init = async () => {
-  await CheckValidTokenRefresh()
+  const accessToken = useCookie(CookieEnums.AccessToken)
+  const refreshToken = useCookie(CookieEnums.RefreshToken)
 
-  if (CheckValidTokenResponse.value?.msg === 'Token is valid') {
-    navigateTo(ClientRoutes.Home)
+  if (accessToken.value && refreshToken.value) {
+    await CheckValidTokenRefresh()
+
+    if (CheckValidTokenResponse.value?.msg === 'Token is valid') {
+      navigateTo(ClientRoutes.Home)
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-import type { BindOTPEmailPayload, CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse, RegisterPayload, RegisterResponse } from '~/type'
+import type { BindOTPEmailError, BindOTPEmailPayload, CheckValidTokenResponse, LoginError, LoginPayload, LoginResponse, RegisterPayload, RegisterResponse } from '~/type'
 import { useRequestApi } from '~/composables'
 import { PublicRequestUrl, UserRequestUrl } from '~/enum'
 
@@ -57,7 +57,7 @@ export const useAuthApi = {
     * 綁定 OTP Email
   */
   bindOTPEmail: async (payload: BindOTPEmailPayload) =>
-    await useRequestApi<any, null>(UserRequestUrl.BindOTPEmail, {
+    await useRequestApi<any, BindOTPEmailError>(UserRequestUrl.BindOTPEmail, {
       method: 'POST',
       body: payload,
       server: false,
