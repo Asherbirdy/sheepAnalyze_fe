@@ -1,6 +1,6 @@
 export interface IndexStateData {
   emailVerifiedModal: {
-    otp: string
+    OTP: string
   }
 }
 

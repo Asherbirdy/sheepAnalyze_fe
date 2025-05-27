@@ -52,6 +52,7 @@ export default defineNuxtConfig({
 
   routeRules: {
     [`${ClientBase}/**`]: { ssr: false },
+    '/login': { ssr: false },
     '/lands/**': { isr: 60 * 30 },
   },
 

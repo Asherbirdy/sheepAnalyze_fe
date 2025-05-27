@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { IndexStateData, IndexStateFeature, StateType } from '~/type'
+import type { BindOTPEmailErrorType, IndexStateData, IndexStateFeature, StateType } from '~/type'
 import { useAuthApi, useUserApi } from '~/apis'
 
+const toast = useToast()
 const state = ref<StateType<IndexStateData, IndexStateFeature>>({
   data: {
     emailVerifiedModal: {
-      otp: '',
+      OTP: '',
     },
   },
   feature: {
@@ -17,9 +18,6 @@ const state = ref<StateType<IndexStateData, IndexStateFeature>>({
   },
 })
 
-interface Model {
-  otp: string
-}
 /*
   * USER API
 */
@@ -33,9 +31,11 @@ const { execute: executeEmailRequest } = await useAuthApi.sendOTP()
 /*
   * bindOTPEmail API
 */
-const { execute: emailVerifyRequest } = await useAuthApi.bindOTPEmail({
-  OTP: state.value.data.emailVerifiedModal.otp,
-})
+const {
+  execute: emailVerifyRequest,
+  error: emailVerifyError,
+  status: emailVerifyStatus,
+} = await useAuthApi.bindOTPEmail(state.value.data.emailVerifiedModal)
 
 /*
   * SEND EMAIL VERIFY
@@ -51,28 +51,63 @@ const onEmailRequest = async () => {
   * EMAIL VERIFY
 */
 const onEmailVerify = async () => {
+  const { data } = state.value
   await emailVerifyRequest()
+
+  if (emailVerifyError.value?.data.error === 'INVALID_OTP') {
+    toast.add({
+      title: '不正確的驗證碼',
+      color: 'error',
+    })
+    data.emailVerifiedModal.OTP = ''
+    return
+  }
+
+  const errorList: BindOTPEmailErrorType[] = [
+    'ACCOUNT_BLOCKED',
+    'OTP_EXPIRED',
+    'OTP_NOT_FOUND_OR_EXPIRED',
+  ]
+
+  if (errorList.includes(
+    emailVerifyError.value?.data.error as BindOTPEmailErrorType,
+  )) {
+    toast.add({
+      title: '帳號已停用驗證，請聯絡管理員',
+      color: 'error',
+    })
+    data.emailVerifiedModal.OTP = ''
+    return
+  }
+
+  toast.add({
+    title: '驗證成功 | 5秒後請重新登入',
+    color: 'success',
+  })
 }
 
 /*
   * EMAIL COUNT DOWN
 */
 watch(state.value.feature.emailCountdown, (value) => {
+  const { feature } = state.value
   if (value.countdown > 0) {
     setTimeout(() => {
-      state.value.feature.emailCountdown.countdown--
+      feature.emailCountdown.countdown--
     }, 1000)
     return
   }
-  state.value.feature.emailCountdown.status = false
-  state.value.feature.emailCountdown.countdown = state.value.feature.emailCountdown.time
+  feature.emailCountdown.status = false
+  feature.emailCountdown.countdown = feature.emailCountdown.time
 })
 
-const validate = (state: Partial<Model>) => {
+const validate = (state: Partial<{
+  OTP: string
+}>) => {
   const errors = []
-  if (!state.otp) {
+  if (!state.OTP) {
     errors.push({
-      name: 'otp',
+      name: 'OTP',
       message: '驗證碼不能為空',
     })
   }
@@ -113,14 +148,18 @@ const validate = (state: Partial<Model>) => {
               class="flex-1 justify-between w-full gap-4 mb-2"
             >
               <UInput
-                v-model="state.data.emailVerifiedModal.otp"
+                v-model="state.data.emailVerifiedModal.OTP"
                 label="驗證碼"
                 class="flex-1 w-[calc(100%-124px)] mr-1"
                 placeholder="請輸入驗證碼"
               />
               <UButton
                 :disabled="state.feature.emailCountdown.status"
-                :label="state.feature.emailCountdown.status ? `${state.feature.emailCountdown.countdown}秒` : '寄送 Email 驗證'"
+                :label="
+                  state.feature.emailCountdown.status
+                    ? `${state.feature.emailCountdown.countdown}秒`
+                    : '寄送 Email 驗證'
+                "
                 variant="soft"
                 class="inline-block"
                 @click="onEmailRequest"
@@ -131,15 +170,11 @@ const validate = (state: Partial<Model>) => {
         <UButton
           label="驗證 Email"
           block
+          :disabled="state.data.emailVerifiedModal.OTP.length < 4"
+          :loading="emailVerifyStatus === 'pending'"
           @click="onEmailVerify"
         />
       </template>
     </UModal>
   </div>
 </template>
-
-<!-- <style>
-* {
-  outline: 1px solid red;
-}
-</style> -->
