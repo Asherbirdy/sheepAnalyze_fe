@@ -1,3 +1,5 @@
+import { E } from 'vitest/dist/chunks/reporters.d.CqBhtcTq.js'
+
 // useAttendanceApi
 export * from './api/useAttendanceApi/AttendanceAccountActivate'
 export * from './api/useAttendanceApi/AttendanceAccountCreate'
@@ -41,6 +43,7 @@ export * from './api/useUserApi/ShowMeApiType'
 export * from './common/StateType'
 
 // * PAGE
+export * from './page/C/AttendanceAccountPage'
 export * from './page/C/SheetPage'
 export * from './page/C/UserPage'
 export * from './page/home'

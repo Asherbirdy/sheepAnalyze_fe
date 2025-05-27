@@ -1,25 +1,13 @@
 <script setup lang="ts">
 import type {
-  AttendanceAccountEditPayload,
+  AttendanceAccountDataType,
+  AttendanceAccountFeatureType,
   AttendanceAccountGetAll,
   StateType,
 } from '~/type'
 import { useAttendanceAccountApi } from '~/apis/useAttendanceAccountApi'
 
-interface DataType {
-  currentFormData: AttendanceAccountGetAll
-  payload: {
-    edit: AttendanceAccountEditPayload
-  }
-}
-
-interface FeatureType {
-  modal: {
-    open: boolean
-  }
-}
-
-const state = ref<StateType<DataType, FeatureType>>({
+const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureType>>({
   data: {
     currentFormData: {
       _id: '',
@@ -46,15 +34,24 @@ const state = ref<StateType<DataType, FeatureType>>({
   },
 })
 
+/*
+  * 取的資料 API
+*/
 const {
   data: AttendanceAccountResponse,
 } = await useAttendanceAccountApi.getAll()
 
+/*
+  * 編輯 API
+*/
 // const {
 //   execute: EditRequest,
 //   status: EditStatus,
 // } = await useAttendanceAccountApi.edit(state.value.data.payload.edit)
 
+/*
+  * 打開 Modal
+*/
 const handleOpenModal = (form: AttendanceAccountGetAll) => {
   const { feature, data } = state.value
   feature.modal.open = true
