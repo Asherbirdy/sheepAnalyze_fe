@@ -53,7 +53,7 @@ export const useAttendanceAccountApi = {
     }),
 
   delete: async (payload: AttendanceAccountDeletePayload) =>
-    await useRequestApi(`${UserRequestUrl.AttendanceAccount}?attendanceAccountId=${payload.attendanceAccountId}`, {
+    await useRequestApi(`${UserRequestUrl.AttendanceAccountDelete}?attendanceAccountId=${payload.attendanceAccountId}`, {
       method: 'DELETE',
       server: false,
       lazy: true,

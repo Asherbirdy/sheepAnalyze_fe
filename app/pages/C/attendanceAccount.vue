@@ -30,6 +30,9 @@ const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureT
     modal: {
       open: false,
     },
+    delete: {
+      isLoading: false,
+    },
   },
 })
 
@@ -43,16 +46,18 @@ const {
 /*
   * 刪除 API
 */
-const {
-  execute: DeleteAttendanceAccountRequest,
-  status: DeleteAttendanceAccountStatus,
-} = await useAttendanceAccountApi.delete(state.value.data.payload.delete)
-
 const handleDeleteAttendanceAccount = async () => {
-  const { data } = state.value
+  const { data, feature } = state.value
   data.payload.delete.attendanceAccountId = data.form._id
-  await DeleteAttendanceAccountRequest()
+
+  const { execute } = await useAttendanceAccountApi.delete(data.payload.delete)
+  feature.delete.isLoading = true
+
+  await execute()
+  feature.delete.isLoading = false
+
   await refreshNuxtData(UserRequestUrl.AttendanceAccount)
+  feature.modal.open = false
 }
 
 /*
@@ -100,7 +105,6 @@ const handleOpenModal = (form: AttendanceAccountGetAll) => {
             <UButton
               label="確認刪除"
               color="error"
-              :disabled="DeleteAttendanceAccountStatus === 'pending'"
               @click="handleDeleteAttendanceAccount"
             />
           </template>

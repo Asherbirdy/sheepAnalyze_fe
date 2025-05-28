@@ -11,4 +11,7 @@ export interface AttendanceAccountFeatureType {
   modal: {
     open: boolean
   }
+  delete: {
+    isLoading: boolean
+  }
 }
