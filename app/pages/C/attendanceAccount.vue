@@ -28,6 +28,9 @@ const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureT
     delete: {
       isLoading: false,
     },
+    create: {
+      isLoading: false,
+    },
   },
 })
 
@@ -57,9 +60,28 @@ const handleDeleteAttendanceAccount = async () => {
 }
 
 /*
-  * 打開 Modal
+  * 新增
 */
-const handleOpenModal = (form: AttendanceAccountGetAll) => {
+const handleCreateAttendanceAccount = async () => {
+  const { feature, data } = state.value
+
+  const { execute } = await useAttendanceAccountApi.create({
+    name: data.form.name,
+    serialNumber: data.form.serialNumber,
+  })
+
+  feature.create.isLoading = true
+  await execute()
+  feature.create.isLoading = false
+
+  await refreshNuxtData(UserRequestUrl.AttendanceAccount)
+  feature.modal.open = false
+}
+
+/*
+  * 打開 Info Modal
+*/
+const handleOpenInfoModal = (form: AttendanceAccountGetAll) => {
   const { feature, data } = state.value
   feature.modal.open = true
   data.form = form
@@ -68,13 +90,21 @@ const handleOpenModal = (form: AttendanceAccountGetAll) => {
 
 <template>
   <div>
-    <h1>Attendance Account</h1>
+    <div class="flex justify-between items-center">
+      <h1>Attendance Account</h1>
+      <UButton
+        label="新增"
+        color="primary"
+        :loading="state.feature.create.isLoading"
+        @click="handleCreateAttendanceAccount"
+      />
+    </div>
     <UBadge
       v-for="item in AttendanceAccountResponse?.data"
       :key="item._id"
       :label="`${item.name} ${item.active ? '' : '(未啟動)'}`"
       :color="item.active ? 'primary' : 'warning'"
-      @click="handleOpenModal(item)"
+      @click="handleOpenInfoModal(item)"
     />
     <UModal
       v-model:open="state.feature.modal.open"
