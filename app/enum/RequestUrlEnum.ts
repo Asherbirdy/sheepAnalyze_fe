@@ -58,4 +58,11 @@ export enum UserRequestUrl {
 
   // MEETING CENTER
   MeetingCenter = '/meetingCenter/',
+
+  // ATTENDANCE ACCOUNT
+  AttendanceAccount = '/attendanceAccount/getAll',
+  AttendanceAccountCreate = '/attendanceAccount/create',
+  AttendanceAccountActivate = '/attendanceAccount/activate',
+  AttendanceAccountEdit = '/attendanceAccount/edit',
+  AttendanceAccountDelete = '/attendanceAccount/delete',
 }

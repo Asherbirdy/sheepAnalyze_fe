@@ -53,6 +53,12 @@ export function useMenuStore() {
       to: ClientRoutes.District,
       active: computed(() => route.path === ClientRoutes.District),
     },
+    {
+      label: '點名者帳號管理',
+      icon: 'solar:pen-line-duotone',
+      to: ClientRoutes.AttendanceAccount,
+      active: computed(() => route.path === ClientRoutes.AttendanceAccount),
+    },
   ]
 
   const menu = useState('menu', () => [
