@@ -20,11 +20,6 @@ const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureT
       updatedAt: '',
       __v: 0,
     },
-    payload: {
-      delete: {
-        attendanceAccountId: '',
-      },
-    },
   },
   feature: {
     modal: {
@@ -48,11 +43,12 @@ const {
 */
 const handleDeleteAttendanceAccount = async () => {
   const { data, feature } = state.value
-  data.payload.delete.attendanceAccountId = data.form._id
 
-  const { execute } = await useAttendanceAccountApi.delete(data.payload.delete)
+  const { execute } = await useAttendanceAccountApi.delete({
+    attendanceAccountId: data.form._id,
+  })
+
   feature.delete.isLoading = true
-
   await execute()
   feature.delete.isLoading = false
 

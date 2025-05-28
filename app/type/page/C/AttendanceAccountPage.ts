@@ -2,9 +2,6 @@ import type { AttendanceAccountDeletePayload, AttendanceAccountGetAll } from '~/
 
 export interface AttendanceAccountDataType {
   form: AttendanceAccountGetAll
-  payload: {
-    delete: AttendanceAccountDeletePayload
-  }
 }
 
 export interface AttendanceAccountFeatureType {
