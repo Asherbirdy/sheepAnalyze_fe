@@ -1,10 +1,10 @@
-import type { AttendanceAccountEditPayload, AttendanceAccountGetAll } from '~/type'
+import type { AttendanceAccountGetAll } from '~/type'
 
 export interface AttendanceAccountDataType {
-  currentFormData: AttendanceAccountGetAll
-  payload: {
-    edit: AttendanceAccountEditPayload
-  }
+  form: AttendanceAccountGetAll
+  // payload: {
+  //   edit: AttendanceAccountEditPayload
+  // }
 }
 
 export interface AttendanceAccountFeatureType {

@@ -9,7 +9,7 @@ import { useAttendanceAccountApi } from '~/apis/useAttendanceAccountApi'
 
 const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureType>>({
   data: {
-    currentFormData: {
+    form: {
       _id: '',
       name: '',
       serialNumber: '',
@@ -18,13 +18,6 @@ const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureT
       createdAt: '',
       updatedAt: '',
       __v: 0,
-    },
-    payload: {
-      edit: {
-        _id: '',
-        name: '',
-        serialNumber: '',
-      },
     },
   },
   feature: {
@@ -42,20 +35,12 @@ const {
 } = await useAttendanceAccountApi.getAll()
 
 /*
-  * 編輯 API
-*/
-// const {
-//   execute: EditRequest,
-//   status: EditStatus,
-// } = await useAttendanceAccountApi.edit(state.value.data.payload.edit)
-
-/*
   * 打開 Modal
 */
 const handleOpenModal = (form: AttendanceAccountGetAll) => {
   const { feature, data } = state.value
   feature.modal.open = true
-  data.currentFormData = form
+  data.form = form
 }
 </script>
 
@@ -71,37 +56,16 @@ const handleOpenModal = (form: AttendanceAccountGetAll) => {
     />
     <UModal
       v-model:open="state.feature.modal.open"
-      title="創建序號"
+      title="帳號資訊"
       :ui="{ footer: 'justify-end' }"
     >
       <template #body>
-        <UForm
-          :state="state.data"
-          class="space-y-4 flex flex-col gap-4"
-        >
-          <div class="flex gap-4">
-            <UFormField
-              label="角色"
-              name="role"
-            >
-              <USelect
-                v-model="state.data.currentFormData.name"
-                label="名稱"
-                name="name"
-              />
-            </UFormField>
-            <UFormField
-              label="區域"
-              name="districtId"
-            >
-              <USelect
-                v-model="state.data.currentFormData.serialNumber"
-                label="序號"
-                name="serialNumber"
-              />
-            </UFormField>
-          </div>
-        </UForm>
+        <div>
+          <p>名字： {{ state.data.form.name }}</p>
+          <p>序號： {{ state.data.form.serialNumber }}</p>
+          <p>序號到期日： {{ state.data.form.serialNumberExpiredDate }}</p>
+          <p>啟用： {{ state.data.form.active ? '是' : '否' }}</p>
+        </div>
       </template>
       <template #footer>
         <UButton
@@ -113,6 +77,7 @@ const handleOpenModal = (form: AttendanceAccountGetAll) => {
         <UButton
           label="確認"
           variant="outline"
+          @click="state.feature.modal.open = false"
         />
       </template>
     </UModal>
