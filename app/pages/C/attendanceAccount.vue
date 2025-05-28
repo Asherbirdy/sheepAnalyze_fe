@@ -6,6 +6,7 @@ import type {
   StateType,
 } from '~/type'
 import { useAttendanceAccountApi } from '~/apis/useAttendanceAccountApi'
+import { CreateAttendanceAccountComponent } from '~/components'
 import { UserRequestUrl } from '~/enum'
 
 const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureType>>({
@@ -60,25 +61,6 @@ const handleDeleteAttendanceAccount = async () => {
 }
 
 /*
-  * 新增
-*/
-const handleCreateAttendanceAccount = async () => {
-  const { feature, data } = state.value
-
-  const { execute } = await useAttendanceAccountApi.create({
-    name: data.form.name,
-    serialNumber: data.form.serialNumber,
-  })
-
-  feature.create.isLoading = true
-  await execute()
-  feature.create.isLoading = false
-
-  await refreshNuxtData(UserRequestUrl.AttendanceAccount)
-  feature.modal.open = false
-}
-
-/*
   * 打開 Info Modal
 */
 const handleOpenInfoModal = (form: AttendanceAccountGetAll) => {
@@ -92,12 +74,7 @@ const handleOpenInfoModal = (form: AttendanceAccountGetAll) => {
   <div>
     <div class="flex justify-between items-center">
       <h1>Attendance Account</h1>
-      <UButton
-        label="新增"
-        color="primary"
-        :loading="state.feature.create.isLoading"
-        @click="handleCreateAttendanceAccount"
-      />
+      <CreateAttendanceAccountComponent />
     </div>
     <UBadge
       v-for="item in AttendanceAccountResponse?.data"
