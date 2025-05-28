@@ -6,6 +6,10 @@ import type {
 } from '~/type'
 import { UserRequestUrl } from '~/enum'
 
+interface AttendanceAccountDeletePayload {
+  attendanceAccountId: string
+}
+
 export const useAttendanceAccountApi = {
 
   getAll: async () =>
@@ -38,6 +42,15 @@ export const useAttendanceAccountApi = {
     await useRequestApi(UserRequestUrl.AttendanceAccountActivate, {
       method: 'POST',
       body: payload,
+      server: false,
+      lazy: true,
+      immediate: false,
+      watch: false,
+    }),
+
+  delete: async (payload: AttendanceAccountDeletePayload) =>
+    await useRequestApi(`${UserRequestUrl.AttendanceAccount}?attendanceAccountId=${payload.attendanceAccountId}`, {
+      method: 'DELETE',
       server: false,
       lazy: true,
       immediate: false,

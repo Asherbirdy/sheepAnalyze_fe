@@ -64,4 +64,5 @@ export enum UserRequestUrl {
   AttendanceAccountCreate = '/attendanceAccount/create',
   AttendanceAccountActivate = '/attendanceAccount/activate',
   AttendanceAccountEdit = '/attendanceAccount/edit',
+  AttendanceAccountDelete = '/attendanceAccount/delete',
 }
