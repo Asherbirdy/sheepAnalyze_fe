@@ -1,10 +1,10 @@
-import type { AttendanceAccountGetAll } from '~/type'
+import type { AttendanceAccountDeletePayload, AttendanceAccountGetAll } from '~/type'
 
 export interface AttendanceAccountDataType {
   form: AttendanceAccountGetAll
-  // payload: {
-  //   edit: AttendanceAccountEditPayload
-  // }
+  payload: {
+    delete: AttendanceAccountDeletePayload
+  }
 }
 
 export interface AttendanceAccountFeatureType {

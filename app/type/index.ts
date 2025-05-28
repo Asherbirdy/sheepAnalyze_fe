@@ -1,8 +1,7 @@
-import { E } from 'vitest/dist/chunks/reporters.d.CqBhtcTq.js'
-
 // useAttendanceApi
 export * from './api/useAttendanceApi/AttendanceAccountActivate'
 export * from './api/useAttendanceApi/AttendanceAccountCreate'
+export * from './api/useAttendanceApi/AttendanceAccountDelete'
 export * from './api/useAttendanceApi/AttendanceAccountEdit'
 export * from './api/useAttendanceApi/AttendanceAccountGetAll'
 

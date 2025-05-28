@@ -6,6 +6,7 @@ import type {
   StateType,
 } from '~/type'
 import { useAttendanceAccountApi } from '~/apis/useAttendanceAccountApi'
+import { UserRequestUrl } from '~/enum'
 
 const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureType>>({
   data: {
@@ -18,6 +19,11 @@ const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureT
       createdAt: '',
       updatedAt: '',
       __v: 0,
+    },
+    payload: {
+      delete: {
+        attendanceAccountId: '',
+      },
     },
   },
   feature: {
@@ -33,6 +39,21 @@ const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureT
 const {
   data: AttendanceAccountResponse,
 } = await useAttendanceAccountApi.getAll()
+
+/*
+  * 刪除 API
+*/
+const {
+  execute: DeleteAttendanceAccountRequest,
+  status: DeleteAttendanceAccountStatus,
+} = await useAttendanceAccountApi.delete(state.value.data.payload.delete)
+
+const handleDeleteAttendanceAccount = async () => {
+  const { data } = state.value
+  data.payload.delete.attendanceAccountId = data.form._id
+  await DeleteAttendanceAccountRequest()
+  await refreshNuxtData(UserRequestUrl.AttendanceAccount)
+}
 
 /*
   * 打開 Modal
@@ -68,12 +89,22 @@ const handleOpenModal = (form: AttendanceAccountGetAll) => {
         </div>
       </template>
       <template #footer>
-        <UButton
-          label="取消"
-          color="neutral"
-          variant="outline"
-          @click="state.feature.modal.open = false"
-        />
+        <UPopover>
+          <UButton
+            label="刪除"
+            color="neutral"
+            variant="subtle"
+          />
+
+          <template #content>
+            <UButton
+              label="確認刪除"
+              color="error"
+              :disabled="DeleteAttendanceAccountStatus === 'pending'"
+              @click="handleDeleteAttendanceAccount"
+            />
+          </template>
+        </UPopover>
         <UButton
           label="確認"
           variant="outline"

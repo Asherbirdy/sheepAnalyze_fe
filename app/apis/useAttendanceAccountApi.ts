@@ -12,11 +12,15 @@ interface AttendanceAccountDeletePayload {
 
 export const useAttendanceAccountApi = {
 
-  getAll: async () =>
-    await useRequestApi<AttendanceAccountGetAllResponse, null>(UserRequestUrl.AttendanceAccount, {
+  getAll: async () => {
+    const nuxtApp = useNuxtApp()
+    return await useRequestApi<AttendanceAccountGetAllResponse, null>(UserRequestUrl.AttendanceAccount, {
       method: 'GET',
       server: false,
-    }),
+      key: UserRequestUrl.AttendanceAccount,
+      getCachedData: key => nuxtApp.payload.data[key] || nuxtApp.static.data[key],
+    })
+  },
 
   create: async (payload: AttendanceAccountCreatePayload) =>
     await useRequestApi(UserRequestUrl.AttendanceAccountCreate, {
