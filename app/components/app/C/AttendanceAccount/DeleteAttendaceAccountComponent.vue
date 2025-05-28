@@ -1,9 +1,0 @@
-<template>
-  <div>
-    <UButton
-      label="刪除"
-      color="neutral"
-      variant="subtle"
-    />
-  </div>
-</template>
