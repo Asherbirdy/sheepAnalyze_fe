@@ -53,15 +53,18 @@ const handleBindAccount = async () => {
   execute()
   feature.submit.isLoading = false
 
-  const errorMessages = {
-    LINE_PROFILE_ID_ALREADY_EXISTS: '已綁定過',
-    ATTENDANCE_ACCOUNT_NOT_FOUND: '序號錯誤',
+  if (error.value?.data?.error === 'LINE_PROFILE_ID_ALREADY_EXISTS') {
+    toast.add({
+      title: '已綁定過',
+      color: 'error',
+    })
+    data.form[FormKey.SerialNumber] = ''
+    return
   }
 
-  const errorType = error.value?.data?.error
-  if (errorMessages[errorType]) {
+  if (error.value?.data.error === 'ATTENDANCE_ACCOUNT_NOT_FOUND') {
     toast.add({
-      title: errorMessages[errorType],
+      title: '序號錯誤',
       color: 'error',
     })
     data.form[FormKey.SerialNumber] = ''
