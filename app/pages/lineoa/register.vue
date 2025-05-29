@@ -1,4 +1,26 @@
 <script setup lang='ts'>
+import type { FormError } from '@nuxt/ui'
+import type { StateType } from '~/type'
+import { useAttendanceAccountApi } from '~/apis'
+
+interface DataType {
+  form: FormType
+}
+
+interface FormType {
+  serialNumber: string
+}
+
+interface FeatureType {
+  submit: {
+    isLoading: boolean
+  }
+}
+
+enum FormKey {
+  SerialNumber = 'serialNumber',
+}
+
 const { LineProfile } = useLiff({
   liffId: {
     dev: '2007494898-BJjV7nbe',
@@ -7,6 +29,40 @@ const { LineProfile } = useLiff({
   liffInit: true,
   login: true,
 })
+
+const state = ref<StateType<DataType, FeatureType>>({
+  data: {
+    form: {
+      [FormKey.SerialNumber]: '',
+    },
+  },
+  feature: {
+    submit: {
+      isLoading: false,
+    },
+  },
+})
+
+const validate = (state: any): FormError[] => {
+  const errors = []
+  if (!state[FormKey.SerialNumber])
+    errors.push({ name: FormKey.SerialNumber, message: '請輸入序號' })
+
+  return errors
+}
+
+const handleBindAccount = async () => {
+  const { feature } = state.value
+
+  const { execute } = await useAttendanceAccountApi.create({
+    lineProfileId: LineProfile?.value?.userId || '',
+    serialNumber: state.value.data.form[FormKey.SerialNumber],
+  })
+
+  feature.submit.isLoading = true
+  execute()
+  feature.submit.isLoading = false
+}
 </script>
 
 <template>
@@ -22,16 +78,31 @@ const { LineProfile } = useLiff({
     <p class="text-lg mt-2">
       {{ LineProfile?.displayName }}
     </p>
-
-    <UInput
-      label="序號"
-      :ui="{ root: 'w-full bg-white rounded-md shadow-sm' }"
-      class="mt-4"
-    />
-
+    <p class="text-sm text-gray-500">
+      Id: {{ LineProfile?.userId }}
+    </p>
+    <UForm
+      :validate="validate"
+      :ui="{ root: 'space-y-4' }"
+      :state="state.data.form"
+    >
+      <UFormField
+        label="序號"
+        :name="FormKey.SerialNumber"
+      >
+        <UInput
+          v-model="state.data.form.serialNumber"
+          label="序號"
+          :ui="{ root: 'w-full bg-white rounded-md shadow-sm' }"
+        />
+      </UFormField>
+    </UForm>
     <UButton
       label="註冊"
       block
+      :disabled="state.data.form.serialNumber.length !== 8"
+      :loading="state.feature.submit.isLoading"
+      @click="handleBindAccount"
     />
   </div>
 </template>

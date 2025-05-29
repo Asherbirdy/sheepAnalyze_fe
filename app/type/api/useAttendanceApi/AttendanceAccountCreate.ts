@@ -1,4 +1,4 @@
 export interface AttendanceAccountCreatePayload {
-  name: string
+  lineProfileId: string
   serialNumber: string
 }
