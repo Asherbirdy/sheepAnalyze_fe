@@ -6,6 +6,7 @@ import { useAttendanceAccountApi } from '~/apis'
 enum FormKey {
   SerialNumber = 'serialNumber',
 }
+const toast = useToast()
 
 const { LineProfile } = useLiff({
   liffId: {
@@ -43,7 +44,7 @@ const validate = (state: any): FormError[] => {
 const handleBindAccount = async () => {
   const { feature, data } = state.value
 
-  const { execute } = await useAttendanceAccountApi.activate({
+  const { execute, error, status } = await useAttendanceAccountApi.activate({
     lineProfileId: LineProfile?.value?.userId || '',
     serialNumber: data.form[FormKey.SerialNumber],
   })
@@ -51,6 +52,31 @@ const handleBindAccount = async () => {
   feature.submit.isLoading = true
   execute()
   feature.submit.isLoading = false
+
+  if (error.value?.data?.error === 'LINE_PROFILE_ID_ALREADY_EXISTS') {
+    toast.add({
+      title: '已綁定過',
+      color: 'error',
+    })
+    state.value.data.form[FormKey.SerialNumber] = ''
+    return
+  }
+
+  if (error.value?.data.error === 'ATTENDANCE_ACCOUNT_NOT_FOUND') {
+    toast.add({
+      title: '序號錯誤',
+      color: 'error',
+    })
+    state.value.data.form[FormKey.SerialNumber] = ''
+    return
+  }
+
+  if (status.value === 'success') {
+    toast.add({
+      title: '綁定成功',
+      color: 'success',
+    })
+  }
 }
 </script>
 
