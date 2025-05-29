@@ -1,6 +1,4 @@
 export interface AttendanceAccountActivatePayload {
-  id: string
-  name: string
+  lineProfileId: string
   serialNumber: string
-  active: boolean
 }

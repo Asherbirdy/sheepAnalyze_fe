@@ -4,7 +4,7 @@ import type {
   AttendanceAccountEditPayload,
   AttendanceAccountGetAllResponse,
 } from '~/type'
-import { UserRequestUrl } from '~/enum'
+import { PublicRequestUrl, UserRequestUrl } from '~/enum'
 
 interface AttendanceAccountDeletePayload {
   attendanceAccountId: string
@@ -43,7 +43,7 @@ export const useAttendanceAccountApi = {
     }),
 
   activate: async (payload: AttendanceAccountActivatePayload) =>
-    await useRequestApi(UserRequestUrl.AttendanceAccountActivate, {
+    await useRequestApi(PublicRequestUrl.AttendanceAccountActivate, {
       method: 'POST',
       body: payload,
       server: false,

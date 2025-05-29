@@ -43,7 +43,7 @@ const validate = (state: any): FormError[] => {
 const handleBindAccount = async () => {
   const { feature, data } = state.value
 
-  const { execute } = await useAttendanceAccountApi.create({
+  const { execute } = await useAttendanceAccountApi.activate({
     lineProfileId: LineProfile?.value?.userId || '',
     serialNumber: data.form[FormKey.SerialNumber],
   })
@@ -88,7 +88,6 @@ const handleBindAccount = async () => {
     </UForm>
     <UButton
       label="註冊"
-      :disabled="state.data.form.serialNumber.length !== 8"
       :loading="state.feature.submit.isLoading"
       @click="handleBindAccount"
     />

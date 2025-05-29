@@ -11,6 +11,9 @@ export enum PublicRequestUrl {
 
   // LANDING PAGE
   LandingPageGetInfoById = '/landingPage/getLandingPageInfoById',
+
+  // ATTENDANCE ACCOUNT
+  AttendanceAccountActivate = '/attendanceAccount/activate',
 }
 
 /*
@@ -62,7 +65,6 @@ export enum UserRequestUrl {
   // ATTENDANCE ACCOUNT
   AttendanceAccount = '/attendanceAccount/getAll',
   AttendanceAccountCreate = '/attendanceAccount/create',
-  AttendanceAccountActivate = '/attendanceAccount/activate',
   AttendanceAccountEdit = '/attendanceAccount/edit',
   AttendanceAccountDelete = '/attendanceAccount/delete',
 }

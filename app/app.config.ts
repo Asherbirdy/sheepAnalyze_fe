@@ -3,5 +3,10 @@ export default defineAppConfig({
     colors: {
       primary: 'blue',
     },
+    button: {
+      variant: {
+        solid: 'disabled:bg-gray-400',
+      },
+    },
   },
 })
