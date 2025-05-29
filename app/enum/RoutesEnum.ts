@@ -1,9 +1,11 @@
 /* eslint-disable ts/prefer-literal-enum-member */
+
 export enum PublicRoutes {
   Home = '/',
   Login = '/login',
   LandingPage = '/lands',
 
+  LineOa = '/lineoa',
   LineOaRegister = '/lineoa/register',
 }
 

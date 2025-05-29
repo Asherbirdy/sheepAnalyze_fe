@@ -2,7 +2,7 @@ import process from 'node:process'
 import { defineNuxtConfig } from 'nuxt/config'
 import { pwa } from './app/config/pwa'
 import { appDescription } from './app/constants/index'
-import { ClientBase } from './app/enum'
+import { ClientBase, PublicRoutes } from './app/enum'
 
 export default defineNuxtConfig({
   modules: [
@@ -51,9 +51,10 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    [PublicRoutes.Login]: { ssr: false },
     [`${ClientBase}/**`]: { ssr: false },
-    '/login': { ssr: false },
-    '/lands/**': { isr: 60 * 30 },
+    [`${PublicRoutes.LandingPage}/**`]: { isr: 60 * 30 },
+    [`${PublicRoutes.LineOa}/**`]: { ssr: false },
   },
 
   future: {
@@ -74,17 +75,22 @@ export default defineNuxtConfig({
         target: 'esnext',
       },
     },
-    prerender: {
-      crawlLinks: false,
-      // routes: ['/'],
-      ignore: ['/hi'],
+    // prerender: {
+    //   crawlLinks: false,
+    //   ignore: ['/hi'],
+    // },
+  },
+  vite: {
+    // build: {
+    //   sourcemap: false,
+    // },
+    server: {
+      allowedHosts: [
+        // 測試 LineOA 的 ngrok
+        String(process.env.NUXT_PUBLIC_WHITELIST_NGROK),
+      ],
     },
   },
-  // vite: {
-  //   build: {
-  //     sourcemap: false,
-  //   },
-  // },
 
   eslint: {
     config: {
