@@ -18,6 +18,7 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@line/liff": "^2.26.1",
     "@nuxt/ui": "^3.0.1",
     "@vicons/fluent": "^0.13.0"
   },

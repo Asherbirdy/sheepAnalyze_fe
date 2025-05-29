@@ -14,6 +14,7 @@ export default defineNuxtConfig({
     '@nuxt/test-utils/module',
     '@nuxt/ui',
   ],
+
   components: false, // 不使用自動引入
 
   app: {
@@ -33,7 +34,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+
   css: ['./app/assets/css/main.css'],
+
   colorMode: {
     preference: 'light', // default value of $colorMode.preference
     fallback: 'light', // fallback value if not system preference found
@@ -75,15 +78,9 @@ export default defineNuxtConfig({
         target: 'esnext',
       },
     },
-    // prerender: {
-    //   crawlLinks: false,
-    //   ignore: ['/hi'],
-    // },
   },
+
   vite: {
-    // build: {
-    //   sourcemap: false,
-    // },
     server: {
       allowedHosts: [
         // 測試 LineOA 的 ngrok
