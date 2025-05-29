@@ -31,8 +31,12 @@ const state = ref<StateType<LineoaRegisterDataType, LineoaRegisterFeatureType>>(
 
 const validate = (state: any): FormError[] => {
   const errors = []
-  if (!state[FormKey.SerialNumber])
-    errors.push({ name: FormKey.SerialNumber, message: '請輸入序號' })
+  if (!state[FormKey.SerialNumber]) {
+    errors.push({
+      name: FormKey.SerialNumber,
+      message: '請輸入序號',
+    })
+  }
   return errors
 }
 
