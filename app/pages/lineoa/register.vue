@@ -53,21 +53,18 @@ const handleBindAccount = async () => {
   execute()
   feature.submit.isLoading = false
 
-  if (error.value?.data?.error === 'LINE_PROFILE_ID_ALREADY_EXISTS') {
-    toast.add({
-      title: '已綁定過',
-      color: 'error',
-    })
-    state.value.data.form[FormKey.SerialNumber] = ''
-    return
+  const errorMessages = {
+    LINE_PROFILE_ID_ALREADY_EXISTS: '已綁定過',
+    ATTENDANCE_ACCOUNT_NOT_FOUND: '序號錯誤',
   }
 
-  if (error.value?.data.error === 'ATTENDANCE_ACCOUNT_NOT_FOUND') {
+  const errorType = error.value?.data?.error
+  if (errorMessages[errorType]) {
     toast.add({
-      title: '序號錯誤',
+      title: errorMessages[errorType],
       color: 'error',
     })
-    state.value.data.form[FormKey.SerialNumber] = ''
+    data.form[FormKey.SerialNumber] = ''
     return
   }
 
@@ -76,6 +73,7 @@ const handleBindAccount = async () => {
       title: '綁定成功',
       color: 'success',
     })
+    data.form[FormKey.SerialNumber] = ''
   }
 }
 </script>
