@@ -1,5 +1,11 @@
+<script setup lang="ts">
+import { useSheepApi } from '~/apis'
+
+const { data } = await useSheepApi.list()
+</script>
+
 <template>
   <div>
-    <h1>asda</h1>
+    <pre>{{ data }}</pre>
   </div>
 </template>

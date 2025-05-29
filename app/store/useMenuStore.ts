@@ -75,6 +75,12 @@ export function useMenuStore() {
           to: ClientRoutes.HomeMeeting,
           active: computed(() => route.path === ClientRoutes.HomeMeeting),
         },
+        {
+          label: '人位',
+          icon: 'material-symbols:person-outline-rounded',
+          to: ClientRoutes.HomeMeetingSheep,
+          active: computed(() => route.path === ClientRoutes.HomeMeetingSheep),
+        },
       ],
     },
   ]
@@ -86,18 +92,22 @@ export function useMenuStore() {
       to: ClientRoutes.Home,
       active: computed(() => route.path === ClientRoutes.Home),
     },
+
     // 管理者
     ...(
       [Role.admin, Role.dev].includes(userInfo.value.role)
         ? adminRoute
         : []),
+
     // 區負責人
     ...(
       [Role.admin, Role.dev, Role.districtLeader].includes(userInfo.value.role)
         ? diistrictLeaderRoute
         : []),
+
     // 使用者
     ...userRoute,
+
     {
       label: '登出',
       icon: 'i-lucide-log-out',
