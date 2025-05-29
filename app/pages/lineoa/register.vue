@@ -47,16 +47,15 @@ const validate = (state: any): FormError[] => {
   const errors = []
   if (!state[FormKey.SerialNumber])
     errors.push({ name: FormKey.SerialNumber, message: '請輸入序號' })
-
   return errors
 }
 
 const handleBindAccount = async () => {
-  const { feature } = state.value
+  const { feature, data } = state.value
 
   const { execute } = await useAttendanceAccountApi.create({
     lineProfileId: LineProfile?.value?.userId || '',
-    serialNumber: state.value.data.form[FormKey.SerialNumber],
+    serialNumber: data.form[FormKey.SerialNumber],
   })
 
   feature.submit.isLoading = true
@@ -66,7 +65,7 @@ const handleBindAccount = async () => {
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center h-screen p-6 rounded-lg shadow-lg">
+  <div class="flex flex-col items-center justify-center">
     <h2 class="text-2xl font-extrabol mb-4">
       點名者帳號綁定
     </h2>
@@ -93,13 +92,12 @@ const handleBindAccount = async () => {
         <UInput
           v-model="state.data.form.serialNumber"
           label="序號"
-          :ui="{ root: 'w-full bg-white rounded-md shadow-sm' }"
+          :ui="{ root: 'w-full' }"
         />
       </UFormField>
     </UForm>
     <UButton
       label="註冊"
-      block
       :disabled="state.data.form.serialNumber.length !== 8"
       :loading="state.feature.submit.isLoading"
       @click="handleBindAccount"
