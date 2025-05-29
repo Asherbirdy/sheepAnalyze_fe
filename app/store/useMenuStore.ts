@@ -7,6 +7,9 @@ export function useMenuStore() {
   const userStore = useUserStore()
   const { userInfo } = userStore
 
+  /*
+    * 使用者
+  */
   const userRoute = [
     {
       label: '首頁編輯器',
@@ -34,6 +37,9 @@ export function useMenuStore() {
     },
   ]
 
+  /*
+    * 管理者
+  */
   const adminRoute = [
     {
       label: '帳號管理',
@@ -53,11 +59,23 @@ export function useMenuStore() {
       to: ClientRoutes.District,
       active: computed(() => route.path === ClientRoutes.District),
     },
+  ]
+
+  /*
+    * 區負責人
+  */
+  const diistrictLeaderRoute = [
     {
-      label: '點名者帳號管理',
+      label: '家聚會點名',
       icon: 'solar:pen-line-duotone',
-      to: ClientRoutes.AttendanceAccount,
-      active: computed(() => route.path === ClientRoutes.AttendanceAccount),
+      children: [
+        {
+          label: '點名者管理',
+          icon: 'material-symbols-light:blender',
+          to: ClientRoutes.HomeMeeting,
+          active: computed(() => route.path === ClientRoutes.HomeMeeting),
+        },
+      ],
     },
   ]
 
@@ -68,22 +86,25 @@ export function useMenuStore() {
       to: ClientRoutes.Home,
       active: computed(() => route.path === ClientRoutes.Home),
     },
+    // 管理者
     ...(
       [Role.admin, Role.dev].includes(userInfo.value.role)
         ? adminRoute
         : []),
+    // 區負責人
+    ...(
+      [Role.admin, Role.dev, Role.districtLeader].includes(userInfo.value.role)
+        ? diistrictLeaderRoute
+        : []),
+    // 使用者
     ...userRoute,
     {
       label: '登出',
       icon: 'i-lucide-log-out',
       active: computed(() => route.path === PublicRoutes.Login),
       onSelect: async () => {
-        useCookie(CookieEnums.AccessToken, {
-          maxAge: 0,
-        }).value = ''
-        useCookie(CookieEnums.RefreshToken, {
-          maxAge: 0,
-        }).value = ''
+        useCookie(CookieEnums.AccessToken, { maxAge: 0 }).value = ''
+        useCookie(CookieEnums.RefreshToken, { maxAge: 0 }).value = ''
 
         clearNuxtState()
         clearNuxtData()

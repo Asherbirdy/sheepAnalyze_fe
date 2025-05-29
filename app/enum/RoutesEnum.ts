@@ -26,5 +26,7 @@ export enum ClientRoutes {
 
   District = `${ClientBase}/district`,
 
-  AttendanceAccount = `${ClientBase}/attendanceAccount`,
+  // AttendanceAccount = `${ClientBase}/attendanceAccount`,
+
+  HomeMeeting = `${ClientBase}/homeMeeting`,
 }
