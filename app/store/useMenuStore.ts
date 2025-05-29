@@ -64,7 +64,28 @@ export function useMenuStore() {
   /*
     * 區負責人
   */
-  const diistrictLeaderRoute = [
+  // const diistrictLeaderRoute = [
+  //   {
+  //     label: '家聚會點名',
+  //     icon: 'solar:pen-line-duotone',
+  //     children: [
+  //       {
+  //         label: '點名者管理',
+  //         icon: 'material-symbols-light:blender',
+  //         to: ClientRoutes.HomeMeeting,
+  //         active: computed(() => route.path === ClientRoutes.HomeMeeting),
+  //       },
+  //       {
+  //         label: '人位',
+  //         icon: 'material-symbols:person-outline-rounded',
+  //         to: ClientRoutes.HomeMeetingSheep,
+  //         active: computed(() => route.path === ClientRoutes.HomeMeetingSheep),
+  //       },
+  //     ],
+  //   },
+  // ]
+
+  const devRoute = [
     {
       label: '家聚會點名',
       icon: 'solar:pen-line-duotone',
@@ -100,9 +121,15 @@ export function useMenuStore() {
         : []),
 
     // 區負責人
+    // ...(
+    //   [Role.admin, Role.dev, Role.districtLeader].includes(userInfo.value.role)
+    //     ? diistrictLeaderRoute
+    //     : []),
+
+    // 開發者
     ...(
-      [Role.admin, Role.dev, Role.districtLeader].includes(userInfo.value.role)
-        ? diistrictLeaderRoute
+      [Role.dev].includes(userInfo.value.role)
+        ? devRoute
         : []),
 
     // 使用者
