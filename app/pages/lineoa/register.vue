@@ -1,21 +1,7 @@
 <script setup lang='ts'>
 import type { FormError } from '@nuxt/ui'
-import type { StateType } from '~/type'
+import type { LineoaRegisterDataType, LineoaRegisterFeatureType, StateType } from '~/type'
 import { useAttendanceAccountApi } from '~/apis'
-
-interface DataType {
-  form: FormType
-}
-
-interface FormType {
-  serialNumber: string
-}
-
-interface FeatureType {
-  submit: {
-    isLoading: boolean
-  }
-}
 
 enum FormKey {
   SerialNumber = 'serialNumber',
@@ -30,7 +16,7 @@ const { LineProfile } = useLiff({
   login: true,
 })
 
-const state = ref<StateType<DataType, FeatureType>>({
+const state = ref<StateType<LineoaRegisterDataType, LineoaRegisterFeatureType>>({
   data: {
     form: {
       [FormKey.SerialNumber]: '',
