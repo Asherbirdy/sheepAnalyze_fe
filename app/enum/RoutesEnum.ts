@@ -3,6 +3,8 @@ export enum PublicRoutes {
   Home = '/',
   Login = '/login',
   LandingPage = '/lands',
+
+  LineOaRegister = '/lineoa/register',
 }
 
 export const ClientBase = '/C'
