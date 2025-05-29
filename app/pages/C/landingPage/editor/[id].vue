@@ -3,7 +3,7 @@ import StarterKit from '@tiptap/starter-kit'
 import { Editor, EditorContent } from '@tiptap/vue-3'
 import { ArrowRedo16Filled, ArrowUndo16Filled, Code24Filled, TextAlignJustify20Filled, TextAlignLeft16Filled, TextAlignRight16Filled, TextBold24Filled, TextBulletListLtr16Filled, TextHeader124Filled, TextHeader220Filled, TextHeader324Filled, TextItalic24Filled, TextNumberListLtr16Filled, TextParagraph16Filled, TextQuote20Filled, TextStrikethrough24Filled } from '@vicons/fluent'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
-import { useWindowSize } from '~/composables/common/useWindowSize'
+import { useWindowSize } from '~/composables/useWindowSize'
 
 const route = useRoute('C-landingPage-editor-id')
 const router = useRouter()

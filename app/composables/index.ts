@@ -1,3 +1,3 @@
 // COMMON
-export * from './common/useRequestApi'
-export * from './common/useWindowSize'
+export * from './useRequestApi'
+export * from './useWindowSize'
