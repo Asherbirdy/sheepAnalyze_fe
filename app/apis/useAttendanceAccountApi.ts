@@ -1,14 +1,12 @@
 import type {
+  AttendanceAccountActivateError,
   AttendanceAccountActivatePayload,
   AttendanceAccountCreatePayload,
+  AttendanceAccountDeletePayload,
   AttendanceAccountEditPayload,
   AttendanceAccountGetAllResponse,
 } from '~/type'
-import { UserRequestUrl } from '~/enum'
-
-interface AttendanceAccountDeletePayload {
-  attendanceAccountId: string
-}
+import { PublicRequestUrl, UserRequestUrl } from '~/enum'
 
 export const useAttendanceAccountApi = {
 
@@ -43,7 +41,7 @@ export const useAttendanceAccountApi = {
     }),
 
   activate: async (payload: AttendanceAccountActivatePayload) =>
-    await useRequestApi(UserRequestUrl.AttendanceAccountActivate, {
+    await useRequestApi<any, AttendanceAccountActivateError>(PublicRequestUrl.AttendanceAccountActivate, {
       method: 'POST',
       body: payload,
       server: false,

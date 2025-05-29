@@ -1,6 +1,11 @@
 export interface AttendanceAccountActivatePayload {
-  id: string
-  name: string
+  lineProfileId: string
   serialNumber: string
-  active: boolean
+}
+
+export interface AttendanceAccountActivateError {
+  data: {
+    success: boolean
+    error: 'LINE_PROFILE_ID_ALREADY_EXISTS' | 'ATTENDANCE_ACCOUNT_NOT_FOUND'
+  }
 }

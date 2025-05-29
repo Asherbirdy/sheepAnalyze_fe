@@ -3,7 +3,7 @@ import type { TableColumn } from '@nuxt/ui'
 import type { LandingPageGetAllData, StateType } from '~/type'
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 import { AddLandingPageComponent } from '~/components'
-import { useWindowSize } from '~/composables/common/useWindowSize'
+import { useWindowSize } from '~/composables/useWindowSize'
 import { ClientRoutes, LandingPageAccess, PublicRoutes, UserRequestUrl } from '~/enum'
 
 const table = useTemplateRef<HTMLTableElement>('table')
