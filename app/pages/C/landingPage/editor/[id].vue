@@ -37,7 +37,7 @@ const onSave = async () => {
 
   const {
     execute: EditRequest,
-    status: EditStatus,
+    error: EditError,
   } = await useLandingPageApi.editHtmlById({
     landingPageId: route.params.id,
     html: editor?.value?.getHTML(),
@@ -45,27 +45,23 @@ const onSave = async () => {
 
   data.html = editor?.value?.getHTML()
 
-  await nextTick(() => {
-    feature.edit.isLoading = true
-    EditRequest()
-    landingPageRequset()
-    feature.edit.isLoading = false
-  })
+  feature.edit.isLoading = true
+  EditRequest()
+  landingPageRequset()
+  feature.edit.isLoading = false
 
-  if (EditStatus.value === 'success') {
-    toast.add({
-      title: '保存成功',
-      color: 'success',
-    })
-    return
-  }
-
-  if (EditStatus.value === 'error') {
+  if (EditError.value) {
     toast.add({
       title: '保存失败',
       color: 'error',
     })
+    return
   }
+
+  toast.add({
+    title: '保存成功',
+    color: 'success',
+  })
 }
 
 const feature = [
