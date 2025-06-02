@@ -8,6 +8,11 @@ import type {
 import { useRequestApi } from '~/composables'
 import { PublicRequestUrl, UserRequestUrl } from '~/enum'
 
+interface EditHtmlByIdPayload {
+  landingPageId: string
+  html: string
+}
+
 export const useLandingPageApi = {
   /*
     * CREATE
@@ -63,9 +68,17 @@ export const useLandingPageApi = {
   /*
     * EDIT
   */
-  editHtmlById: async (payload: GetInfoByIdPayload) =>
-    await useRequestApi<GetInfoByILandingPageResponse, null>(
-      `${UserRequestUrl.LandingPageEditHtmlById}/?landingPageId=${payload.query.landingPageId}`,
+  editHtmlById: async (payload: EditHtmlByIdPayload) =>
+    await useRequestApi(
+      `${UserRequestUrl.LandingPageEditHtmlById}`,
+      {
+        method: 'PUT',
+        server: false,
+        lazy: true,
+        immediate: false,
+        watch: false,
+        body: payload,
+      },
     ),
   /*
     * DELETE

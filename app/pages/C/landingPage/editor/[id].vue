@@ -5,20 +5,20 @@ import { ArrowRedo16Filled, ArrowUndo16Filled, Code24Filled, TextAlignJustify20F
 import { useLandingPageApi } from '~/apis/useLandingPageApi'
 import { useWindowSize } from '~/composables/useWindowSize'
 
+const toast = useToast()
 const route = useRoute('C-landingPage-editor-id')
 const router = useRouter()
 const editor = ref()
 const { isMdSize } = useWindowSize()
+
 const state = ref({
   data: {
-    title: '',
-    description: '',
-    isCustom: false,
-    isCustomId: '',
-    isActive: false,
-    updatedBy: '',
-    lastEditVisited: '',
     html: '',
+  },
+  feature: {
+    edit: {
+      isLoading: false,
+    },
   },
 })
 
@@ -32,32 +32,39 @@ const {
   ssr: false,
 })
 
-const {
-  execute: EditRequest,
-  status: EditStatus,
-} = await useLandingPageApi.editInfoById({
-  query: {
-    landingPageId: route.params.id,
-  },
-  body: state.value.data,
-})
-
 const onSave = async () => {
-  state.value.data.html = editor?.value?.getHTML()
+  const { data, feature } = state.value
+
+  const {
+    execute: EditRequest,
+    status: EditStatus,
+  } = await useLandingPageApi.editHtmlById({
+    landingPageId: route.params.id,
+    html: editor?.value?.getHTML(),
+  })
+
+  data.html = editor?.value?.getHTML()
+
   await nextTick(() => {
+    feature.edit.isLoading = true
     EditRequest()
     landingPageRequset()
+    feature.edit.isLoading = false
   })
 
   if (EditStatus.value === 'success') {
-    // eslint-disable-next-line no-alert
-    alert('保存成功')
+    toast.add({
+      title: '保存成功',
+      color: 'success',
+    })
     return
   }
 
   if (EditStatus.value === 'error') {
-    // eslint-disable-next-line no-alert
-    alert('保存失败')
+    toast.add({
+      title: '保存失败',
+      color: 'error',
+    })
   }
 }
 
@@ -194,14 +201,6 @@ const feature = [
 ]
 
 const init = () => {
-  const { data } = state.value
-  data.title = landingPageResponse?.value?.landingPage?.title || ''
-  data.description = landingPageResponse?.value?.landingPage?.description || ''
-  data.isCustom = landingPageResponse?.value?.landingPage?.isCustom || false
-  data.isCustomId = landingPageResponse?.value?.landingPage?.isCustomId || ''
-  data.isActive = landingPageResponse?.value?.landingPage?.isActive || false
-  data.updatedBy = landingPageResponse?.value?.landingPage?.updatedBy || ''
-  data.lastEditVisited = landingPageResponse?.value?.landingPage?.lastEditVisited || ''
   editor.value = new Editor({
     content: landingPageResponse?.value?.landingPage?.html || '',
     extensions: [StarterKit],
@@ -224,7 +223,7 @@ onBeforeUnmount(leave)
         @click="router.back()"
       />
       <UButton
-        :loading="EditStatus === 'pending'"
+        :loading="state.feature.edit.isLoading"
         size="sm"
         @click="onSave"
       >
