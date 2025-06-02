@@ -18,10 +18,11 @@ const state = ref<StateType<SheetStateData, SheetStateFeature>>({
   },
 })
 
-const openModal = (data: GoogleSheet) => {
-  state.value.data.modalForm.name = data.name
-  state.value.data.modalForm.api = data.api
-  state.value.feature.modal.status = true
+const openModal = (googleSheet: GoogleSheet) => {
+  const { data, feature } = state.value
+  data.modalForm.name = googleSheet.name
+  data.modalForm.api = googleSheet.api
+  feature.modal.status = true
 }
 </script>
 
