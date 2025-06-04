@@ -15,6 +15,7 @@ const state = ref<StateType<AttendanceAccountDataType, AttendanceAccountFeatureT
       _id: '',
       name: '',
       serialNumber: '',
+      lineProfileId: '',
       serialNumberExpiredDate: '',
       active: false,
       createdAt: '',
@@ -80,6 +81,7 @@ const handleOpenInfoModal = (form: AttendanceAccountGetAll) => {
       v-for="item in AttendanceAccountResponse?.data"
       :key="item._id"
       :label="`${item.name} ${item.active ? '' : '(未啟動)'}`"
+      variant="soft"
       :color="item.active ? 'primary' : 'warning'"
       @click="handleOpenInfoModal(item)"
     />
@@ -93,6 +95,7 @@ const handleOpenInfoModal = (form: AttendanceAccountGetAll) => {
           <p>名字： {{ state.data.form.name }}</p>
           <p>序號： {{ state.data.form.serialNumber }}</p>
           <p>序號到期日： {{ state.data.form.serialNumberExpiredDate }}</p>
+          <p>LineProfile： {{ state.data.form.lineProfileId }}</p>
           <p>啟用： {{ state.data.form.active ? '是' : '否' }}</p>
         </div>
       </template>
@@ -101,9 +104,9 @@ const handleOpenInfoModal = (form: AttendanceAccountGetAll) => {
           <UButton
             label="刪除"
             color="neutral"
+            :disabled="state.data.form.active"
             variant="subtle"
           />
-
           <template #content>
             <UButton
               label="確認刪除"
