@@ -1,8 +1,9 @@
+import type { GetSheepListResponse } from '~/type'
 import { UserRequestUrl } from '~/enum'
 
 export const useSheepApi = {
   list: async () => {
-    return await useRequestApi(UserRequestUrl.SheepList, {
+    return await useRequestApi<GetSheepListResponse, null>(UserRequestUrl.SheepList, {
       method: 'GET',
       server: false,
     })
