@@ -8,6 +8,7 @@ export interface AttendanceAccountGetAll {
   name: string
   serialNumber: string
   serialNumberExpiredDate: string
+  lineProfileId: string
   active: boolean
   createdAt: string
   updatedAt: string
