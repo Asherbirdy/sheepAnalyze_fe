@@ -1,16 +1,6 @@
 <script setup lang="ts">
 import { useSheepApi } from '~/apis'
 
-// const state = ref({
-//   data: {
-//     form: {
-//       name: '',
-//       district: '',
-//     },
-//   },
-//   feature: {},
-// })
-
 const {
   data: SheepListResponse,
 } = await useSheepApi.list()
