@@ -30,4 +30,7 @@ export enum ClientRoutes {
 
   HomeMeeting = `${ClientBase}/homeMeeting`,
   HomeMeetingSheep = `${ClientBase}/homeMeeting/sheep`,
+
+  FellowshipCounting = `${ClientBase}/fellowshipCounting`,
+  FellowshipCountingLineAccount = `${ClientBase}/fellowshipCounting/lineAccount`,
 }

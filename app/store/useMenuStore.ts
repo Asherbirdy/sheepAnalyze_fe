@@ -64,30 +64,24 @@ export function useMenuStore() {
   /*
     * 區負責人
   */
-  // const diistrictLeaderRoute = [
-  //   {
-  //     label: '家聚會點名',
-  //     icon: 'solar:pen-line-duotone',
-  //     children: [
-  //       {
-  //         label: '點名者管理',
-  //         icon: 'material-symbols-light:blender',
-  //         to: ClientRoutes.HomeMeeting,
-  //         active: computed(() => route.path === ClientRoutes.HomeMeeting),
-  //       },
-  //       {
-  //         label: '人位',
-  //         icon: 'material-symbols:person-outline-rounded',
-  //         to: ClientRoutes.HomeMeetingSheep,
-  //         active: computed(() => route.path === ClientRoutes.HomeMeetingSheep),
-  //       },
-  //     ],
-  //   },
-  // ]
+  const diistrictLeaderRoute = [
+    {
+      label: 'Line聚會統計',
+      icon: 'i-lucide-file-spreadsheet',
+      children: [
+        {
+          label: 'Line帳號管理',
+          icon: 'material-symbols-light:blender',
+          to: ClientRoutes.FellowshipCountingLineAccount,
+          active: computed(() => route.path === ClientRoutes.FellowshipCountingLineAccount),
+        },
+      ],
+    },
+  ]
 
   const devRoute = [
     {
-      label: '家聚會點名',
+      label: 'DEMO測試專用',
       icon: 'solar:pen-line-duotone',
       children: [
         {
@@ -121,10 +115,10 @@ export function useMenuStore() {
         : []),
 
     // 區負責人
-    // ...(
-    //   [Role.admin, Role.dev, Role.districtLeader].includes(userInfo.value.role)
-    //     ? diistrictLeaderRoute
-    //     : []),
+    ...(
+      [Role.admin, Role.dev, Role.districtLeader].includes(userInfo.value.role)
+        ? diistrictLeaderRoute
+        : []),
 
     // 開發者
     ...(
