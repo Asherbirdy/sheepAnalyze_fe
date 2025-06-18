@@ -89,7 +89,7 @@ watch(LineProfile, async (newVal) => {
       </UButton>
     </div>
     <div v-if="state.feature.page === Page.AccountReviewing">
-      <h2>Account Reviewing</h2>
+      <h2>審核中</h2>
     </div>
     <div v-if="state.feature.page === Page.Attendance">
       aa
