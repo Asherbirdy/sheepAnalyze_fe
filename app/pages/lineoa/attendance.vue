@@ -63,9 +63,11 @@ const validate = (): FormError[] => {
 watch(LineProfile, async (newVal) => {
   const { feature, data } = state.value
   if (newVal) {
-    const { error } = await useLineAccountMemberApi.checkAccountStatus({
+    const { error, execute } = await useLineAccountMemberApi.checkAccountStatus({
       lineProfileId: newVal.userId,
     })
+
+    await execute()
 
     // 未有帳號 去註冊綁定
     if (error.value?.data.error === 'LINE_ACCOUNT_MEMBER_NOT_FOUND') {
