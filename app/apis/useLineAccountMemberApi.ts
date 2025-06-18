@@ -1,6 +1,12 @@
 import type { LineAccountMemberCheckAccountStatusError, LineAccountMemberCheckAccountStatusPayload } from '~/type'
 import { UserRequestUrl } from '~/enum'
 
+interface LineAccountMemberCreatePayload {
+  name: string
+  lineProfileId: string
+  districtId: string
+}
+
 export const useLineAccountMemberApi = {
   getAll: async () =>
     await useRequestApi(UserRequestUrl.LineAccountMemberGetAll, {
@@ -20,7 +26,7 @@ export const useLineAccountMemberApi = {
         body: payload,
       },
     ),
-  create: async (payload: any) =>
+  create: async (payload: LineAccountMemberCreatePayload) =>
     await useRequestApi(UserRequestUrl.LineAccountMemberCreate, {
       method: 'POST',
       server: false,
