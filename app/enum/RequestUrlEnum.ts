@@ -73,4 +73,12 @@ export enum UserRequestUrl {
   SheepList = '/sheep/list',
   SheepEdit = '/sheep/edit',
   SheepDelete = '/sheep/delete',
+
+  // LINE ACCOUNT MEMBER
+  LineAccountMemberGetAll = '/lineAccountMember/getAll',
+  LineAccountMemberCheck = '/lineAccountMember/check',
+  LineAccountMemberCreate = '/lineAccountMember/create',
+  LineAccountMemberEditActivate = '/lineAccountMember/edit',
+  LineAccountMemberDelete = '/lineAccountMember/delete',
+
 }
