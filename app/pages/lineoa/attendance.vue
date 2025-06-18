@@ -36,12 +36,14 @@ const state = ref({
 })
 
 const {
-  // execute: RegisterRequest,
+  execute: RegisterRequest,
   status: RegisterStatus,
 } = await useLineAccountMemberApi.create(state.value.data.register)
 
 const handleRegister = async () => {
-  console.log('state.data.register', state.value.data.register)
+  const { feature } = state.value
+  await RegisterRequest()
+  feature.page = Page.AccountReviewing
 }
 
 watch(LineProfile, async (newVal) => {

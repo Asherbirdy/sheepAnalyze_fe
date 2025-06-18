@@ -1,5 +1,6 @@
 <script setup lang='ts'>
 import type { FormError } from '@nuxt/ui'
+import { useDistrictApi } from '~/apis'
 
 interface ModelType {
   name: string
@@ -24,20 +25,12 @@ const validate = (): FormError[] => {
   return errors
 }
 
-const items = ref([
-  {
-    label: 'Backlog',
-    value: 'backlog',
-  },
-  {
-    label: 'Todo',
-    value: 'todo',
-  },
-  {
-    label: 'In Progress',
-    value: 'in_progress',
-  },
-])
+const { data } = await useDistrictApi.getAll()
+
+const districts = computed(() => data.value?.districts.map(item => ({
+  label: item.name,
+  value: item._id,
+})) ?? [])
 </script>
 
 <template>
@@ -59,7 +52,7 @@ const items = ref([
     >
       <USelect
         v-model="model.districtId"
-        :items="items"
+        :items="districts"
         class="w-48"
       />
     </UFormField>
