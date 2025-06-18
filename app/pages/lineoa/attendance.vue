@@ -1,17 +1,12 @@
 <script setup lang="ts">
-import type { FormError } from '@nuxt/ui'
 import { useLineAccountMemberApi } from '~/apis'
+import { RegisterLineFormComponent } from '~/components'
 
 enum Page {
   Loading = 'loading',
   Register = 'register',
   AccountReviewing = 'account-reviewing',
   Attendance = 'attendance',
-}
-
-enum FormKey {
-  Name = 'name',
-  DistrictId = 'districtId',
 }
 
 const { LineProfile } = useLiff({
@@ -26,8 +21,8 @@ const { LineProfile } = useLiff({
 const state = ref({
   data: {
     register: {
-      [FormKey.Name]: '',
-      [FormKey.DistrictId]: '',
+      name: '',
+      districtId: '',
       lineProfileId: '',
     },
     attendance: {
@@ -41,23 +36,12 @@ const state = ref({
 })
 
 const {
-  execute: RegisterRequest,
+  // execute: RegisterRequest,
   status: RegisterStatus,
 } = await useLineAccountMemberApi.create(state.value.data.register)
 
 const handleRegister = async () => {
-  await RegisterRequest()
-}
-
-const validate = (): FormError[] => {
-  const { data } = state.value
-  const errors = []
-  if (!data.register[FormKey.Name])
-    errors.push({ name: FormKey.Name, message: 'Required' })
-
-  if (!data.register[FormKey.DistrictId])
-    errors.push({ name: FormKey.DistrictId, message: 'Required' })
-  return errors
+  console.log('state.data.register', state.value.data.register)
 }
 
 watch(LineProfile, async (newVal) => {
@@ -66,6 +50,7 @@ watch(LineProfile, async (newVal) => {
     const { error, execute } = await useLineAccountMemberApi.checkAccountStatus({
       lineProfileId: newVal.userId,
     })
+    data.register.lineProfileId = newVal.userId
 
     await execute()
 
@@ -81,25 +66,9 @@ watch(LineProfile, async (newVal) => {
       return
     }
 
-    data.register.lineProfileId = newVal.userId
     feature.page = Page.Attendance
   }
 })
-
-const items = ref([
-  {
-    label: 'Backlog',
-    value: 'backlog',
-  },
-  {
-    label: 'Todo',
-    value: 'todo',
-  },
-  {
-    label: 'In Progress',
-    value: 'in_progress',
-  },
-])
 </script>
 
 <template>
@@ -109,38 +78,15 @@ const items = ref([
     </div>
     <div v-if="state.feature.page === Page.Register">
       <h2>Register</h2>
-      <UForm
-        :validate="validate"
-        :state="state"
-        class="space-y-4"
+      <RegisterLineFormComponent v-model:state="state.data.register" />
+      <UButton
+        type="submit"
+        :disabled="!state.data.register.name || !state.data.register.districtId"
+        :loading="RegisterStatus === 'pending'"
+        @click="handleRegister"
       >
-        <UFormField
-          label="姓名"
-          :name="FormKey.Name"
-        >
-          <UInput v-model="state.data.register.name" />
-        </UFormField>
-
-        <UFormField
-          label="區"
-          :name="FormKey.DistrictId"
-        >
-          <USelect
-            v-model="state.data.register.districtId"
-            :items="items"
-            class="w-48"
-          />
-        </UFormField>
-
-        <UButton
-          type="submit"
-          :disabled="!state.data.register.name || !state.data.register.districtId"
-          :loading="RegisterStatus === 'pending'"
-          @click="handleRegister"
-        >
-          Submit
-        </UButton>
-      </UForm>
+        Submit
+      </UButton>
     </div>
     <div v-if="state.feature.page === Page.AccountReviewing">
       <h2>Account Reviewing</h2>
