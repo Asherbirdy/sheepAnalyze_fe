@@ -30,6 +30,10 @@ const state = ref({
       [FormKey.DistrictId]: '',
       lineProfileId: '',
     },
+    attendance: {
+      date: '',
+      time: '',
+    },
   },
   feature: {
     page: Page.Loading,
@@ -92,10 +96,6 @@ const items = ref([
   {
     label: 'In Progress',
     value: 'in_progress',
-  },
-  {
-    label: 'Done',
-    value: 'done',
   },
 ])
 </script>
