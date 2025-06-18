@@ -1,3 +1,4 @@
+import type { LineAccountMemberCheckAccountStatusError, LineAccountMemberCheckAccountStatusPayload } from '~/type'
 import { UserRequestUrl } from '~/enum'
 
 export const useLineAccountMemberApi = {
@@ -7,24 +8,18 @@ export const useLineAccountMemberApi = {
       server: false,
       lazy: true,
     }),
-  creasssste: async (payload: any) =>
-    await useRequestApi(UserRequestUrl.LineAccountMemberCreate, {
-      method: 'POST',
-      server: false,
-      lazy: true,
-      immediate: false,
-      watch: false,
-      body: payload,
-    }),
-  checkAccountStatus: async (payload: any) =>
-    await useRequestApi(UserRequestUrl.LineAccountMemberCheck, {
-      method: 'POST',
-      server: false,
-      lazy: true,
-      immediate: false,
-      watch: false,
-      body: payload,
-    }),
+  checkAccountStatus: async (payload: LineAccountMemberCheckAccountStatusPayload) =>
+    await useRequestApi<any, LineAccountMemberCheckAccountStatusError>(
+      UserRequestUrl.LineAccountMemberCheck,
+      {
+        method: 'POST',
+        server: false,
+        lazy: true,
+        immediate: false,
+        watch: false,
+        body: payload,
+      },
+    ),
   create: async (payload: any) =>
     await useRequestApi(UserRequestUrl.LineAccountMemberCreate, {
       method: 'POST',
