@@ -1,6 +1,11 @@
 import type { LineAccountMemberCheckAccountStatusError, LineAccountMemberCheckAccountStatusPayload, LineAccountMemberCreatePayload, LineAccountMemberGetAllResponse } from '~/type'
 import { UserRequestUrl } from '~/enum'
 
+interface LineAccountMemberEditActivatePayload {
+  lineAccountMemberId: string
+  active: boolean
+}
+
 export const useLineAccountMemberApi = {
   getAll: async () =>
     await useRequestApi<LineAccountMemberGetAllResponse, any>(
@@ -32,9 +37,9 @@ export const useLineAccountMemberApi = {
       watch: false,
       body: payload,
     }),
-  editActivate: async (payload: any) =>
+  editActivate: async (payload: LineAccountMemberEditActivatePayload) =>
     await useRequestApi(UserRequestUrl.LineAccountMemberEditActivate, {
-      method: 'POST',
+      method: 'PUT',
       server: false,
       lazy: true,
       immediate: false,
