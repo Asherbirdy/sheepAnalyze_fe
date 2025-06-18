@@ -25,6 +25,8 @@ export * from './api/useLandingPageApi/GetInfoByILandingPage'
 
 // useLineAccountMemberApi
 export * from './api/useLineAccountMemberApi/LineAccountMemberCheckAccountStatusApiType'
+export * from './api/useLineAccountMemberApi/LineAccountMemberCreateApiType'
+export * from './api/useLineAccountMemberApi/LineAccountMemberGetAllTypeApi'
 
 // useSerialNumberApi
 export * from './api/useSerialNumberApi/SerialNumberCreateType'

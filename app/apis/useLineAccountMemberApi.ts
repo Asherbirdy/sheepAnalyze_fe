@@ -1,19 +1,16 @@
-import type { LineAccountMemberCheckAccountStatusError, LineAccountMemberCheckAccountStatusPayload } from '~/type'
+import type { LineAccountMemberCheckAccountStatusError, LineAccountMemberCheckAccountStatusPayload, LineAccountMemberCreatePayload, LineAccountMemberGetAllResponse } from '~/type'
 import { UserRequestUrl } from '~/enum'
-
-interface LineAccountMemberCreatePayload {
-  name: string
-  lineProfileId: string
-  districtId: string
-}
 
 export const useLineAccountMemberApi = {
   getAll: async () =>
-    await useRequestApi(UserRequestUrl.LineAccountMemberGetAll, {
-      method: 'GET',
-      server: false,
-      lazy: true,
-    }),
+    await useRequestApi<LineAccountMemberGetAllResponse, any>(
+      UserRequestUrl.LineAccountMemberGetAll,
+      {
+        method: 'GET',
+        server: false,
+        lazy: true,
+      },
+    ),
   checkAccountStatus: async (payload: LineAccountMemberCheckAccountStatusPayload) =>
     await useRequestApi<any, LineAccountMemberCheckAccountStatusError>(
       UserRequestUrl.LineAccountMemberCheck,
