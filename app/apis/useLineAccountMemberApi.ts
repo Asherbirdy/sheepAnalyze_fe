@@ -6,6 +6,22 @@ interface LineAccountMemberEditActivatePayload {
   active: boolean
 }
 
+export interface LineAccountMemberCheckAccountStatusResponse {
+  msg: string
+  lineAccountMember: LineAccountMemberCheck
+}
+
+export interface LineAccountMemberCheck {
+  _id: string
+  name: string
+  lineProfileId: string
+  districtId: string
+  active: boolean
+  createdAt: string
+  updatedAt: string
+  __v: number
+}
+
 export const useLineAccountMemberApi = {
   getAll: async () =>
     await useRequestApi<LineAccountMemberGetAllResponse, any>(
@@ -17,14 +33,13 @@ export const useLineAccountMemberApi = {
       },
     ),
   checkAccountStatus: async (payload: LineAccountMemberCheckAccountStatusPayload) =>
-    await useRequestApi<any, LineAccountMemberCheckAccountStatusError>(
+    await useRequestApi<LineAccountMemberCheckAccountStatusResponse, LineAccountMemberCheckAccountStatusError>(
       UserRequestUrl.LineAccountMemberCheck,
       {
         method: 'POST',
         server: false,
         lazy: true,
         immediate: false,
-        watch: false,
         body: payload,
       },
     ),

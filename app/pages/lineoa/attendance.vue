@@ -71,6 +71,12 @@ watch(LineProfile, async (newVal) => {
     feature.page = Page.Attendance
   }
 })
+
+const init = async () => {
+  console.log('init')
+}
+
+onMounted(init)
 </script>
 
 <template>
