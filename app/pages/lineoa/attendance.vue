@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useLineAccountMemberApi } from '~/apis'
 import { RegisterLineFormComponent } from '~/components'
+import { liffStateFromUrl } from '~/composables'
+import { CookieEnums } from '~/enum'
 
 enum Page {
   Loading = 'loading',
@@ -8,6 +10,8 @@ enum Page {
   AccountReviewing = 'account-reviewing',
   Attendance = 'attendance',
 }
+
+const toast = useToast()
 
 const { LineProfile } = useLiff({
   liffId: {
@@ -35,6 +39,7 @@ const state = ref({
   },
 })
 
+// 註冊 api
 const {
   execute: RegisterRequest,
   status: RegisterStatus,
@@ -48,6 +53,19 @@ const handleRegister = async () => {
 
 watch(LineProfile, async (newVal) => {
   const { feature, data } = state.value
+
+  const { lineFellowshipReportId } = liffStateFromUrl.getFromCookie({
+    cookieName: CookieEnums.LineOAAttendance,
+  })
+
+  if (!lineFellowshipReportId) {
+    toast.add({
+      title: '無lineFellowshipReportId',
+      color: 'error',
+    })
+    return
+  }
+
   if (newVal) {
     const { error, execute } = await useLineAccountMemberApi.checkAccountStatus({
       lineProfileId: newVal.userId,
@@ -73,8 +91,10 @@ watch(LineProfile, async (newVal) => {
 })
 
 const init = async () => {
-  // eslint-disable-next-line no-console
-  console.log('init')
+  liffStateFromUrl.setToCookie({
+    cookieName: CookieEnums.LineOAAttendance,
+    expires: 1000 * 60 * 10,
+  })
 }
 
 onMounted(init)
