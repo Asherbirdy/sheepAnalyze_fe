@@ -33,4 +33,5 @@ export enum ClientRoutes {
 
   FellowshipCounting = `${ClientBase}/fellowshipCounting`,
   FellowshipCountingLineAccount = `${ClientBase}/fellowshipCounting/lineAccount`,
+  FellowshipCountingReportGroup = `${ClientBase}/fellowshipCounting/reportGroup`,
 }

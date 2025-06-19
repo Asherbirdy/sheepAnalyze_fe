@@ -81,4 +81,6 @@ export enum UserRequestUrl {
   LineAccountMemberEditActivate = '/lineAccountMember/edit',
   LineAccountMemberDelete = '/lineAccountMember/delete',
 
+  // LINE FELLOWSHIP REPORT
+  LineFellowshipReport = '/lineFellowshipReport',
 }

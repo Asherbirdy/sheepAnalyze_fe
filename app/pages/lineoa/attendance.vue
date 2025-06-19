@@ -73,6 +73,7 @@ watch(LineProfile, async (newVal) => {
 })
 
 const init = async () => {
+  // eslint-disable-next-line no-console
   console.log('init')
 }
 

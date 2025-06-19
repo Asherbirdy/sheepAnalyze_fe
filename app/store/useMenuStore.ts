@@ -75,6 +75,12 @@ export function useMenuStore() {
           to: ClientRoutes.FellowshipCountingLineAccount,
           active: computed(() => route.path === ClientRoutes.FellowshipCountingLineAccount),
         },
+        {
+          label: '聚會統計回報',
+          icon: 'material-symbols-light:blender',
+          to: ClientRoutes.FellowshipCountingReportGroup,
+          active: computed(() => route.path === ClientRoutes.FellowshipCountingReportGroup),
+        },
       ],
     },
   ]
