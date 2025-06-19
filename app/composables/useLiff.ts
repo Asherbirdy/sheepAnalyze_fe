@@ -1,5 +1,6 @@
 import type { Liff } from '@line/liff'
 import type { Ref } from 'vue'
+import type { CookieEnums } from '~/enum'
 
 export interface LineProfile {
   displayName: string
@@ -20,6 +21,15 @@ export interface LiffConfig {
   login: boolean // 是否需要登入
   liffInit: boolean // 是否需要初始化
   redirectUrl?: string // 重定向的 url
+}
+
+interface SetLiffStateToCookie {
+  cookieName: CookieEnums
+  expires: number
+}
+
+interface GetLiffFromCookie {
+  cookieName: string
 }
 
 /**
@@ -88,4 +98,40 @@ export const useLiff = (payload: LiffConfig): LiffReturn => {
 
   onMounted(initLiff)
   return { LIFF, LineProfile }
+}
+
+// 因為 liff 的 state 是 url 的 query string(會打亂網址)，所以需要設定 cookie 的值
+export const liffStateFromUrl = {
+  setToCookie: setLiffStateToCookie,
+  getFromCookie: getLiffFromCookie,
+}
+
+/*
+  * 將網址的 query string 傳到 cookie 的值
+*/
+function setLiffStateToCookie(payload: SetLiffStateToCookie) {
+  const urlParams = new URLSearchParams(window.location.search)
+  const liffState = urlParams.get('liff.state')
+  if (!liffState) {
+    return
+  }
+  const cookie = useCookie(`${payload.cookieName}`, { expires: new Date(Date.now() + payload.expires) })
+  cookie.value = liffState
+}
+
+/*
+* 取得 cookie 的值
+cookieName = ?domainName=xxxx.xxxx.com&sysUserId=3709&shareToGoLineId=U774567032dba185066e4da0b51b166b0
+* 使用方式
+const {
+  domainName,
+  sysUserId,
+  shareToGoLineId,
+} = liffStateCookie.get({ cookieName: CookieEnums.binding_index })
+*/
+function getLiffFromCookie(payload: GetLiffFromCookie) {
+  const cookie = useCookie(`${payload.cookieName}`)
+  const liffStateFromCookie = cookie.value?.replace(/^\?/, '')
+  // 將 query string 轉成 object
+  return Object.fromEntries(new URLSearchParams(liffStateFromCookie))
 }
