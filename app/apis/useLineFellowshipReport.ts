@@ -1,30 +1,5 @@
+import type { GetAllLineFellowshipReportResponse, LineFellowshipReportIdCreatePayload, LineFellowshipReportIdEditPayload } from '~/type'
 import { UserRequestUrl } from '../enum'
-
-export interface GetAllLineFellowshipReportResponse {
-  msg: string
-  lineFellowshipReportIds: LineFellowshipReportId[]
-}
-
-export interface LineFellowshipReportId {
-  _id: string
-  name: string
-  createBy: string
-  recordWeekSundayDate: string
-  expiredTime: string
-  createdAt: string
-  updatedAt: string
-  __v: number
-}
-
-export interface LineFellowshipReportIdCreatePayload {
-  name: string
-  recordWeekSundayDate: Date
-}
-
-export interface LineFellowshipReportIdEditPayload {
-  name: string
-  lineFellowshipReportId: Date
-}
 
 export const useLineFellowshipReportApi = {
   getAll: async () =>
@@ -48,12 +23,15 @@ export const useLineFellowshipReportApi = {
       },
     ),
   edit: async (payload: LineFellowshipReportIdEditPayload) =>
-    await useRequestApi(UserRequestUrl.LineFellowshipReport, {
-      method: 'PUT',
-      server: false,
-      body: payload,
-      lazy: true,
-      immediate: false,
-      watch: false,
-    }),
+    await useRequestApi(
+      UserRequestUrl.LineFellowshipReport,
+      {
+        method: 'PUT',
+        server: false,
+        body: payload,
+        lazy: true,
+        immediate: false,
+        watch: false,
+      },
+    ),
 }
