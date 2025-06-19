@@ -14,6 +14,10 @@ export enum PublicRequestUrl {
 
   // ATTENDANCE ACCOUNT
   AttendanceAccountActivate = '/attendanceAccount/activate',
+
+  // FELLOWSHIP RECORD
+  FellowshipRecord = '/fellowshipRecord/checkOrCreate',
+  FellowshipRecordEdit = '/fellowshipRecord/edit',
 }
 
 /*
